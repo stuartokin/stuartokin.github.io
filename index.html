@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#070B14" />
+    <title>Stuart Okin — observatories</title>
+    <meta
+      name="description"
+      content="Public research boards by Stuart Okin: quantum readiness and Q-Day, recorded cyber incidents, security patch cadence, AI-assisted vulnerability discovery, UK AI governance. Written in a personal capacity."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* The Quantum Observatory's palette, so the boards and this page read as
+         one hand. Teal is the O III emission line at 500.7 nm. */
+      :root {
+        --ground: #070b14;
+        --ground-raised: #0d1421;
+        --ground-panel: #131c2c;
+        --hairline: #1e2a3e;
+        --ink: #e6edf7;
+        --ink-muted: #8697b0;
+        --ink-faint: #55647c;
+        --accent: #3de0c0;
+        --amber: #ff9e3d;
+        --display: 'Archivo', 'Helvetica Neue', sans-serif;
+        --body: 'Newsreader', Georgia, serif;
+        --mono: 'IBM Plex Mono', ui-monospace, monospace;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--ground);
+        color: var(--ink);
+        font-family: var(--body);
+        line-height: 1.6;
+        background-image:
+          radial-gradient(58% 46% at 12% 0%, rgb(61 224 192 / 0.08), transparent 70%),
+          radial-gradient(48% 42% at 90% 6%, rgb(255 158 61 / 0.05), transparent 70%);
+        background-repeat: no-repeat;
+      }
+
+      .wrap {
+        max-width: 64rem;
+        margin: 0 auto;
+        padding: clamp(2.5rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 2.5rem) 4rem;
+      }
+
+      header { border-bottom: 1px solid var(--hairline); padding-bottom: 2.2rem; }
+      .kicker {
+        font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.2em;
+        text-transform: uppercase; color: var(--accent); margin: 0 0 1rem;
+      }
+      h1 {
+        font-family: var(--display); font-weight: 700; letter-spacing: -0.025em;
+        font-size: clamp(2.1rem, 6vw, 3.1rem); margin: 0 0 0.75rem;
+      }
+      .standfirst { font-size: 1.06rem; color: var(--ink-muted); max-width: 44rem; margin: 0; }
+      .standfirst b { color: var(--ink); font-weight: 400; }
+
+      h2 {
+        font-family: var(--mono); font-size: 0.64rem; font-weight: 500;
+        letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint);
+        margin: 3.2rem 0 1.25rem;
+      }
+
+      .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+
+      .card {
+        display: flex; flex-direction: column;
+        padding: 1.4rem 1.5rem 1.4rem;
+        background: var(--ground-panel);
+        border: 1px solid var(--hairline);
+        border-radius: 10px;
+        text-decoration: none; color: inherit;
+        transition: border-color 0.15s, transform 0.15s;
+      }
+      .card:hover, .card:focus-visible {
+        border-color: color-mix(in oklab, var(--accent) 45%, var(--hairline));
+        transform: translateY(-2px); outline: none;
+      }
+      .card:focus-visible { box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 60%, transparent); }
+      .card--lead { border-color: color-mix(in oklab, var(--accent) 32%, var(--hairline)); }
+
+      .card h3 {
+        font-family: var(--display); font-size: 1.16rem; font-weight: 700;
+        letter-spacing: -0.01em; margin: 0 0 0.5rem;
+      }
+      .card p { margin: 0; color: var(--ink-muted); font-size: 0.9rem; flex: 1; }
+      .meta {
+        display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;
+        margin-bottom: 0.7rem;
+        font-family: var(--mono); font-size: 0.58rem;
+        letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint);
+      }
+      .tag { color: var(--accent); }
+      .tag--live {
+        color: var(--ground); background: var(--accent);
+        padding: 0.1rem 0.45rem; border-radius: 3px; font-weight: 500;
+      }
+      .go {
+        margin-top: 1.1rem; font-family: var(--mono); font-size: 0.62rem;
+        letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+      }
+
+      .talk {
+        display: grid; grid-template-columns: 6.5rem 1fr; gap: 0.2rem 1.2rem;
+        padding: 0.9rem 0; border-bottom: 1px solid var(--hairline);
+      }
+      .talk__when { font-family: var(--mono); font-size: 0.66rem; color: var(--ink-faint); }
+      .talk__what { font-size: 0.94rem; }
+      .talk__where { grid-column: 2; font-size: 0.82rem; color: var(--ink-faint); }
+
+      .links { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+      .links a {
+        display: inline-flex; align-items: center; gap: 0.45rem;
+        padding: 0.55rem 1rem;
+        border: 1px solid var(--hairline); border-radius: 999px;
+        font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em;
+        color: var(--ink-muted); text-decoration: none;
+      }
+      .links a:hover { color: var(--accent); border-color: color-mix(in oklab, var(--accent) 45%, var(--hairline)); }
+      .links svg { width: 15px; height: 15px; fill: currentColor; }
+
+      footer {
+        margin-top: 3.5rem; padding-top: 1.5rem;
+        border-top: 1px solid var(--hairline);
+        color: var(--ink-faint); font-size: 0.82rem; max-width: 44rem;
+      }
+
+      @media (max-width: 30rem) {
+        .talk { grid-template-columns: 1fr; }
+        .talk__where { grid-column: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <p class="kicker">Stuart Okin</p>
+        <h1>Observatories</h1>
+        <p class="standfirst">
+          Research boards on quantum computing, cryptography, cyber incidents and AI —
+          each built to show its working. <b>Every claim carries its source, its date, and
+          whether anyone has actually checked it.</b>
+        </p>
+      </header>
+
+      <h2>Current</h2>
+      <div class="grid">
+        <a class="card card--lead" href="https://stuartokin.github.io/quantum-observatory/">
+          <p class="meta"><span class="tag--live">Live</span> <span>Quantum · cryptography</span></p>
+          <h3>Quantum Observatory</h3>
+          <p>
+            How close quantum computing, sensing, communications and post-quantum
+            cryptography are to being real, graded by evidence. Includes Q-Day: what a
+            machine capable of breaking RSA still needs, every regulator's migration
+            deadline against it, and a Mosca self-assessment. Maintained by six research
+            agents whose work is marked as unreviewed until a human reads it.
+          </p>
+          <span class="go">Open ↗</span>
+        </a>
+
+        <a class="card" href="https://stuartokin.github.io/cyber-attack-earth/">
+          <p class="meta"><span class="tag">July 2026</span> <span>Cyber · energy</span></p>
+          <h3>Cyber Attack Earth</h3>
+          <p>
+            Publicly documented cyber incidents from 2000 onwards, drawn from five
+            independent sources and shown on a globe you can play through time. Disclosed
+            incidents are a small and uneven fraction of what occurred, and the map says
+            so throughout.
+          </p>
+          <span class="go">Open ↗</span>
+        </a>
+
+        <a class="card" href="https://stuartokin.github.io/PatchPulse/">
+          <p class="meta"><span class="tag">April 2026</span> <span>Cyber</span></p>
+          <h3>Patch Pulse</h3>
+          <p>
+            Fifteen years of security patch cadence across thirty-nine vendors, in eight
+            chapters, with a confidence badge on every series.
+          </p>
+          <span class="go">Open ↗</span>
+        </a>
+
+        <a class="card" href="https://stuartokin.github.io/AI-Model-Cortex/">
+          <p class="meta"><span class="tag">April 2026</span> <span>AI</span></p>
+          <h3>AI Model Cortex</h3>
+          <p>A visualisation of frontier model architectures and how they relate.</p>
+          <span class="go">Open ↗</span>
+        </a>
+
+        <a class="card" href="https://stuartokin.github.io/uk-ai-landscape/">
+          <p class="meta"><span class="tag">March 2026</span> <span>AI · governance</span></p>
+          <h3>UK AI Governance Map</h3>
+          <p>
+            A force-directed view of the UK's AI governance landscape — the bodies, the
+            frameworks, and the relationships between them.
+          </p>
+          <span class="go">Open ↗</span>
+        </a>
+
+        <a class="card" href="https://stuartokin.github.io/AI-vulnerability-research/">
+          <p class="meta"><span class="tag">February 2026</span> <span>AI · cyber</span></p>
+          <h3>Zero-Day AI-Assisted Observatory</h3>
+          <p>
+            A catalogue of programmes using AI to find software vulnerabilities, and what
+            their published results actually show.
+          </p>
+          <span class="go">Open ↗</span>
+        </a>
+      </div>
+
+      <h2>Talks and evidence</h2>
+      <div class="talk">
+        <span class="talk__when">Jun 2026</span>
+        <span class="talk__what">Oral evidence to the Energy Security and Net Zero Select Committee</span>
+        <span class="talk__where">Cyber resilience in the energy sector</span>
+      </div>
+      <div class="talk">
+        <span class="talk__when">May 2026</span>
+        <span class="talk__what">Panel: AI's two-way impact on energy</span>
+        <span class="talk__where">All-Energy, Glasgow</span>
+      </div>
+
+      <h2>Elsewhere</h2>
+      <div class="links">
+        <a href="https://github.com/stuartokin">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+          github.com/stuartokin
+        </a>
+        <a href="https://www.linkedin.com/in/YOUR-PROFILE/">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+
+      <footer>
+        <p>
+          Written in a personal capacity. Views expressed are my own and do not represent
+          the position of Ofgem or any organisation I advise.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
