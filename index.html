@@ -54,20 +54,23 @@
         color-scheme: dark;
       }
       :root[data-theme="light"] {
-        --ground: #f4f6fa;
-        --ground-raised: #e8edf4;
-        --ground-panel: #ffffff;
-        --hairline: #d3dbe7;
-        --ink: #0e1a2b;
-        --ink-muted: #44546b;
-        --ink-faint: #5f6e84;
-        --accent: #0a7c6a;
+        /* Warm paper: stone ground, cream cards, ink-dark shading. */
+        --ground: #ebe6dc;
+        --ground-raised: #dfd8cb;
+        --ground-panel: #f8f5ef;
+        --hairline: #cfc5b3;
+        --ink: #1d1a16;
+        --ink-muted: #4f4840;
+        --ink-faint: #6b6257;
+        --accent: #0b6e60;
         --on-accent: #ffffff;
-        --amber: #a85300;
-        --glow-a: rgb(10 124 106 / 0.08);
-        --glow-b: rgb(168 83 0 / 0.05);
-        --shadow: 0 18px 40px rgb(14 26 43 / 0.16);
-        --bar-shadow: 0 10px 28px rgb(14 26 43 / 0.14);
+        --amber: #9a4a00;
+        --glow-a: rgb(11 110 96 / 0.10);
+        --glow-b: rgb(154 74 0 / 0.10);
+        --shadow: 0 20px 44px rgb(40 30 15 / 0.20);
+        --bar-shadow: 0 10px 30px rgb(40 30 15 / 0.16);
+        --dim-col: #2b2620;
+        --floor-glow: radial-gradient(closest-side, rgb(11 110 96 / 0.18), rgb(43 38 32 / 0.07) 62%, transparent 100%);
         color-scheme: light;
       }
       * { box-sizing: border-box; }
@@ -332,7 +335,7 @@
         position: absolute; left: 0; top: 0; width: calc(var(--R) * 2.5); height: calc(var(--R) * 2.5);
         border-radius: 50%; pointer-events: none;
         transform: translate(-50%, -50%) translateY(calc(var(--ch) / 2 + 14px)) rotateX(90deg);
-        background: radial-gradient(closest-side, color-mix(in oklab, var(--accent) 16%, transparent), color-mix(in oklab, var(--accent) 5%, transparent) 62%, transparent 100%);
+        background: var(--floor-glow, radial-gradient(closest-side, color-mix(in oklab, var(--accent) 16%, transparent), color-mix(in oklab, var(--accent) 5%, transparent) 62%, transparent 100%));
         border: 1px solid color-mix(in oklab, var(--accent) 22%, transparent);
       }
       .oring > .card {
@@ -360,7 +363,7 @@
       .ostage.dragging .oring > .card, .ostage.dragging .oring > .card::before { transition: none; }
       .oring > .card::before {
         content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
-        background: var(--ground); opacity: var(--dim, 0); transition: opacity 0.8s;
+        background: var(--dim-col, var(--ground)); opacity: var(--dim, 0); transition: opacity 0.8s;
       }
       .oring > .card:not(.ofront) .desc, .oring > .card:not(.ofront) .go, .oring > .card:not(.ofront) .watch { opacity: 0; }
       .oring > .card:not(.ofront) * { cursor: pointer; }
@@ -823,7 +826,7 @@
         const themeBtns = document.querySelectorAll('[data-theme-set]');
         const setTheme = (t, save) => {
           root.dataset.theme = t;
-          document.querySelector('meta[name="theme-color"]').content = t === 'light' ? '#F4F6FA' : '#070B14';
+          document.querySelector('meta[name="theme-color"]').content = t === 'light' ? '#EBE6DC' : '#070B14';
           themeBtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeSet === t)));
           if (save) store.set('obs.theme', t);
         };
