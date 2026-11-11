@@ -7,8 +7,11 @@
     <title>Stuart Okin — observatories</title>
     <meta
       name="description"
-      content="Public research boards by Stuart Okin: quantum readiness and Q-Day, recorded cyber incidents, security patch cadence, AI-assisted vulnerability discovery, UK AI governance. Written in a personal capacity."
+      content="Public research boards by Stuart Okin: quantum readiness and Q-Day, recorded cyber incidents, the shrinking gap from research to change, security patch cadence, AI-assisted vulnerability discovery and UK AI governance — each with a video demo. Written in a personal capacity."
     />
+    <meta property="og:title" content="Stuart Okin — observatories" />
+    <meta property="og:description" content="Research boards on quantum computing, cryptography, cyber incidents and AI — each built to show its working." />
+    <meta property="og:image" content="https://stuartokin.github.io/media/quantum-observatory.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -49,9 +52,9 @@
       }
 
       .wrap {
-        max-width: 64rem;
+        max-width: 72rem;
         margin: 0 auto;
-        padding: clamp(2.5rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 2.5rem) 4rem;
+        padding: clamp(2.5rem, 7vw, 5.5rem) clamp(1rem, 5vw, 2.5rem) 4rem;
       }
 
       header { border-bottom: 1px solid var(--hairline); padding-bottom: 2.2rem; }
@@ -65,36 +68,86 @@
       }
       .standfirst { font-size: 1.06rem; color: var(--ink-muted); max-width: 44rem; margin: 0; }
       .standfirst b { color: var(--ink); font-weight: 400; }
+      .pulse-line {
+        margin: 1.2rem 0 0; font-family: var(--mono); font-size: 0.66rem;
+        letter-spacing: 0.08em; color: var(--ink-faint);
+      }
+      .pulse-line b { color: var(--ink-muted); font-weight: 500; }
 
       h2 {
         font-family: var(--mono); font-size: 0.64rem; font-weight: 500;
         letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint);
-        margin: 3.2rem 0 1.25rem;
+        margin: 3.2rem 0 0.4rem;
+      }
+      .section-note { margin: 0 0 1.25rem; font-size: 0.88rem; color: var(--ink-faint); max-width: 44rem; }
+
+      .grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+      @media (min-width: 40rem) { .grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (min-width: 60rem) {
+        .grid--3 { grid-template-columns: repeat(3, 1fr); }
+        .grid--4 { grid-template-columns: repeat(4, 1fr); }
+        .grid--4 .card p.desc { font-size: 0.86rem; }
+      }
+      /* A lone card lies on its side: video left, words right. */
+      @media (min-width: 40rem) {
+        .card.card--wide { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+        .card.card--wide .media { aspect-ratio: 16 / 9; height: 100%; border-bottom: 0; border-right: 1px solid var(--hairline); }
       }
 
-      .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
-
+      /* Card: media on top (opens the demo), body below (opens the board). */
       .card {
-        display: flex; flex-direction: column;
-        padding: 1.4rem 1.5rem 1.4rem;
+        position: relative; display: flex; flex-direction: column; overflow: hidden;
         background: var(--ground-panel);
         border: 1px solid var(--hairline);
         border-radius: 10px;
-        text-decoration: none; color: inherit;
         transition: border-color 0.15s, transform 0.15s;
       }
-      .card:hover, .card:focus-visible {
+      .card:hover, .card:focus-within {
         border-color: color-mix(in oklab, var(--accent) 45%, var(--hairline));
-        transform: translateY(-2px); outline: none;
+        transform: translateY(-2px);
       }
-      .card:focus-visible { box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 60%, transparent); }
       .card--lead { border-color: color-mix(in oklab, var(--accent) 32%, var(--hairline)); }
 
+      .media {
+        position: relative; display: block; width: 100%; aspect-ratio: 16 / 9;
+        padding: 0; border: 0; border-bottom: 1px solid var(--hairline);
+        background: var(--ground-raised) center / cover no-repeat;
+        cursor: pointer; overflow: hidden; color: inherit;
+      }
+      .media img, .media video {
+        position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+      }
+      .media video { opacity: 0; transition: opacity 0.25s; }
+      .media.playing video { opacity: 1; }
+      .media::after {
+        content: ''; position: absolute; inset: 0;
+        background: linear-gradient(180deg, transparent 55%, rgb(7 11 20 / 0.75));
+        pointer-events: none;
+      }
+      .watch {
+        position: absolute; left: 0.8rem; bottom: 0.7rem; z-index: 1;
+        display: inline-flex; align-items: center; gap: 0.45rem;
+        padding: 0.32rem 0.7rem 0.32rem 0.5rem; border-radius: 999px;
+        background: rgb(7 11 20 / 0.72); border: 1px solid rgb(230 237 247 / 0.18);
+        font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+        color: var(--ink); backdrop-filter: blur(4px);
+      }
+      .watch svg { width: 14px; height: 14px; fill: var(--accent); }
+      .media:hover .watch, .media:focus-visible .watch { border-color: var(--accent); }
+      .media:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+      .body {
+        display: flex; flex-direction: column; flex: 1;
+        padding: 1.15rem 1.4rem 1.3rem;
+        text-decoration: none; color: inherit;
+      }
+      .body:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 0 0 10px 10px; }
       .card h3 {
         font-family: var(--display); font-size: 1.16rem; font-weight: 700;
         letter-spacing: -0.01em; margin: 0 0 0.5rem;
       }
-      .card p { margin: 0; color: var(--ink-muted); font-size: 0.9rem; flex: 1; }
+      .card p { margin: 0; color: var(--ink-muted); font-size: 0.9rem; }
+      .card .desc { flex: 1; }
       .meta {
         display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;
         margin-bottom: 0.7rem;
@@ -103,13 +156,46 @@
       }
       .tag { color: var(--accent); }
       .tag--live {
+        display: inline-flex; align-items: center; gap: 0.35rem;
         color: var(--ground); background: var(--accent);
         padding: 0.1rem 0.45rem; border-radius: 3px; font-weight: 500;
       }
+      .tag--live::before {
+        content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--ground);
+        animation: blink 2s ease-in-out infinite;
+      }
+      .tag--fun { color: var(--amber); }
+      @keyframes blink { 50% { opacity: 0.25; } }
+      .upd { flex-basis: 100%; color: var(--ink-muted); letter-spacing: 0.08em; }
       .go {
         margin-top: 1.1rem; font-family: var(--mono); font-size: 0.62rem;
         letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
       }
+
+      /* Demo player */
+      dialog.player {
+        width: min(72rem, 100vw - 2rem); max-height: calc(100vh - 2rem);
+        padding: 0; border: 1px solid var(--hairline); border-radius: 12px;
+        background: var(--ground-raised); color: var(--ink);
+      }
+      dialog.player::backdrop { background: rgb(3 5 10 / 0.82); backdrop-filter: blur(3px); }
+      .player__bar {
+        display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+        padding: 0.7rem 0.9rem 0.7rem 1.1rem; border-bottom: 1px solid var(--hairline);
+      }
+      .player__title { font-family: var(--display); font-weight: 700; font-size: 1rem; margin: 0; flex: 1; min-width: 10rem; }
+      .player__tabs { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+      .player__tabs button, .player__close, .player__open {
+        font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+        padding: 0.4rem 0.75rem; border-radius: 999px; cursor: pointer;
+        background: transparent; color: var(--ink-muted); border: 1px solid var(--hairline);
+        text-decoration: none;
+      }
+      .player__tabs button[aria-pressed="true"] { color: var(--ground); background: var(--accent); border-color: var(--accent); }
+      .player__open { color: var(--accent); }
+      .player__close:hover, .player__tabs button:hover, .player__open:hover { border-color: var(--accent); }
+      .player video { display: block; width: 100%; max-height: calc(100vh - 8rem); background: #000; }
+      .player__note { margin: 0; padding: 0.6rem 1.1rem 0.8rem; font-size: 0.8rem; color: var(--ink-faint); }
 
       .talk {
         display: grid; grid-template-columns: 6.5rem 1fr; gap: 0.2rem 1.2rem;
@@ -140,6 +226,11 @@
         .talk { grid-template-columns: 1fr; }
         .talk__where { grid-column: 1; }
       }
+      @media (prefers-reduced-motion: reduce) {
+        .card, .media video { transition: none; }
+        .card:hover, .card:focus-within { transform: none; }
+        .tag--live::before { animation: none; }
+      }
     </style>
   </head>
   <body>
@@ -152,71 +243,177 @@
           each built to show its working. <b>Every claim carries its source, its date, and
           whether anyone has actually checked it.</b>
         </p>
+        <p class="pulse-line" id="pulse">8 boards · 3 maintained by agents · every one has a demo video</p>
       </header>
 
-      <h2>Current</h2>
+      <h2>Live · maintained by agents</h2>
+      <p class="section-note">These change week to week. Research agents gather and check the evidence; each board says what has and hasn't been reviewed.</p>
+      <div class="grid grid--3">
+        <article class="card card--lead" data-repo="quantum-observatory">
+          <button class="media" type="button" data-title="Quantum Observatory"
+            data-videos='[["Walkthrough","media/quantum-observatory.mp4"],["Q-Day intro","media/qday-intro.mp4"]]'
+            aria-label="Watch the Quantum Observatory demo">
+            <img src="media/quantum-observatory.jpg" alt="" loading="lazy" width="1280" height="720" />
+            <video muted loop playsinline preload="none" data-src="media/quantum-observatory-preview.mp4"></video>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+          </button>
+          <a class="body" href="https://stuartokin.github.io/quantum-observatory/">
+            <p class="meta"><span class="tag--live">Live</span> <span>Quantum · cryptography</span> <span class="upd" data-fallback="2026-11-09"></span></p>
+            <h3>Quantum Observatory</h3>
+            <p class="desc">
+              How close quantum computing, sensing, communications and post-quantum
+              cryptography are to being real, graded by evidence. Includes Q-Day: what a
+              machine capable of breaking RSA still needs, every regulator's migration
+              deadline against it, and a Mosca self-assessment. Maintained by six research
+              agents whose work is marked as unreviewed until a human reads it.
+            </p>
+            <span class="go">Open ↗</span>
+          </a>
+        </article>
+
+        <article class="card" data-repo="cyber-attack-earth">
+          <button class="media" type="button" data-title="Cyber Attack Earth"
+            data-videos='[["Twenty-five years in 28 seconds","media/cyber-attack-earth.mp4"]]'
+            aria-label="Watch the Cyber Attack Earth demo">
+            <img src="media/cyber-attack-earth.jpg" alt="" loading="lazy" width="1280" height="720" />
+            <video muted loop playsinline preload="none" data-src="media/cyber-attack-earth-preview.mp4"></video>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+          </button>
+          <a class="body" href="https://stuartokin.github.io/cyber-attack-earth/">
+            <p class="meta"><span class="tag--live">Live</span> <span>Cyber · energy</span> <span class="upd" data-fallback="2026-11-10"></span></p>
+            <h3>Cyber Attack Earth</h3>
+            <p class="desc">
+              Publicly documented cyber incidents from 2000 onwards, drawn from five
+              independent sources and shown on a globe you can play through time. Disclosed
+              incidents are a small and uneven fraction of what occurred, and the map says
+              so throughout.
+            </p>
+            <span class="go">Open ↗</span>
+          </a>
+        </article>
+
+        <article class="card" data-repo="ResearchGap">
+          <button class="media" type="button" data-title="The Shrinking Gap from Research to Change"
+            data-videos='[["Walkthrough","media/shrinking-gap.mp4"]]'
+            aria-label="Watch The Shrinking Gap demo">
+            <img src="media/shrinking-gap.jpg" alt="" loading="lazy" width="1280" height="720" />
+            <video muted loop playsinline preload="none" data-src="media/shrinking-gap-preview.mp4"></video>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+          </button>
+          <a class="body" href="https://stuartokin.github.io/ResearchGap/">
+            <p class="meta"><span class="tag--live">Live</span> <span>Research · innovation</span> <span class="upd" data-fallback="2026-11-09"></span></p>
+            <h3>The Shrinking Gap</h3>
+            <p class="desc">
+              How long research takes to become real-world change, across eleven fields
+              from 1925 to ten years ahead, as an interactive 3D model. Two AI agents
+              research and independently check new breakthroughs every week, with automated
+              guardrails instead of human review — and the board says so.
+            </p>
+            <span class="go">Open ↗</span>
+          </a>
+        </article>
+      </div>
+
+      <h2>Studies</h2>
+      <p class="section-note">Point-in-time deep dives. Dated to when the evidence was last gathered.</p>
+      <div class="grid grid--4">
+        <article class="card" data-repo="PatchPulse">
+          <button class="media" type="button" data-title="Patch Pulse"
+            data-videos='[["Walkthrough","media/patch-pulse.mp4"]]'
+            aria-label="Watch the Patch Pulse demo">
+            <img src="media/patch-pulse.jpg" alt="" loading="lazy" width="1280" height="720" />
+            <video muted loop playsinline preload="none" data-src="media/patch-pulse-preview.mp4"></video>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+          </button>
+          <a class="body" href="https://stuartokin.github.io/PatchPulse/">
+            <p class="meta"><span class="tag">Study</span> <span>Cyber</span> <span class="upd" data-fallback="2026-07-19"></span></p>
+            <h3>Patch Pulse</h3>
+            <p class="desc">
+              Fifteen years of security patch cadence across thirty-nine vendors, in eight
+              chapters, with a confidence badge on every series.
+            </p>
+            <span class="go">Open ↗</span>
+          </a>
+        </article>
+
+        <article class="card" data-repo="AI-Model-Cortex">
+          <button class="media" type="button" data-title="AI Model Cortex"
+            data-videos='[["Guided demo","media/ai-model-cortex.mp4"]]'
+            aria-label="Watch the AI Model Cortex demo">
+            <img src="media/ai-model-cortex.jpg" alt="" loading="lazy" width="1280" height="720" />
+            <video muted loop playsinline preload="none" data-src="media/ai-model-cortex-preview.mp4"></video>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+          </button>
+          <a class="body" href="https://stuartokin.github.io/AI-Model-Cortex/">
+            <p class="meta"><span class="tag">Study</span> <span>AI</span> <span class="upd" data-fallback="2026-07-13"></span></p>
+            <h3>AI Model Cortex</h3>
+            <p class="desc">An interactive field guide to AI model architectures — how they relate, what they cost to run, and the known weaknesses and best practice for securing each.</p>
+            <span class="go">Open ↗</span>
+          </a>
+        </article>
+
+        <article class="card" data-repo="uk-ai-landscape">
+          <button class="media" type="button" data-title="UK AI Governance Map"
+            data-videos='[["Walkthrough","media/uk-ai-landscape.mp4"]]'
+            aria-label="Watch the UK AI Governance Map demo">
+            <img src="media/uk-ai-landscape.jpg" alt="" loading="lazy" width="1280" height="720" />
+            <video muted loop playsinline preload="none" data-src="media/uk-ai-landscape-preview.mp4"></video>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+          </button>
+          <a class="body" href="https://stuartokin.github.io/uk-ai-landscape/">
+            <p class="meta"><span class="tag">Study</span> <span>AI · governance</span> <span class="upd" data-fallback="2026-06-21"></span></p>
+            <h3>UK AI Governance Map</h3>
+            <p class="desc">
+              A force-directed view of the UK's AI governance landscape — the bodies, the
+              frameworks, and the relationships between them — with the international
+              standards layer alongside.
+            </p>
+            <span class="go">Open ↗</span>
+          </a>
+        </article>
+
+        <article class="card" data-repo="AI-vulnerability-research">
+          <button class="media" type="button" data-title="Zero-Day AI-Assisted Observatory"
+            data-videos='[["Walkthrough","media/zero-day-ai.mp4"]]'
+            aria-label="Watch the Zero-Day AI-Assisted Observatory demo">
+            <img src="media/zero-day-ai.jpg" alt="" loading="lazy" width="1280" height="720" />
+            <video muted loop playsinline preload="none" data-src="media/zero-day-ai-preview.mp4"></video>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+          </button>
+          <a class="body" href="https://stuartokin.github.io/AI-vulnerability-research/">
+            <p class="meta"><span class="tag">Study</span> <span>AI · cyber</span> <span class="upd" data-fallback="2026-06-26"></span></p>
+            <h3>Zero-Day AI-Assisted Observatory</h3>
+            <p class="desc">
+              A catalogue of programmes using AI to find software vulnerabilities, and what
+              their published results actually show.
+            </p>
+            <span class="go">Open ↗</span>
+          </a>
+        </article>
+      </div>
+
+      <h2>Just for fun</h2>
+      <p class="section-note">Side projects. Less evidence grading, more football.</p>
       <div class="grid">
-        <a class="card card--lead" href="https://stuartokin.github.io/quantum-observatory/">
-          <p class="meta"><span class="tag--live">Live</span> <span>Quantum · cryptography</span></p>
-          <h3>Quantum Observatory</h3>
-          <p>
-            How close quantum computing, sensing, communications and post-quantum
-            cryptography are to being real, graded by evidence. Includes Q-Day: what a
-            machine capable of breaking RSA still needs, every regulator's migration
-            deadline against it, and a Mosca self-assessment. Maintained by six research
-            agents whose work is marked as unreviewed until a human reads it.
-          </p>
-          <span class="go">Open ↗</span>
-        </a>
-
-        <a class="card" href="https://stuartokin.github.io/cyber-attack-earth/">
-          <p class="meta"><span class="tag">July 2026</span> <span>Cyber · energy</span></p>
-          <h3>Cyber Attack Earth</h3>
-          <p>
-            Publicly documented cyber incidents from 2000 onwards, drawn from five
-            independent sources and shown on a globe you can play through time. Disclosed
-            incidents are a small and uneven fraction of what occurred, and the map says
-            so throughout.
-          </p>
-          <span class="go">Open ↗</span>
-        </a>
-
-        <a class="card" href="https://stuartokin.github.io/PatchPulse/">
-          <p class="meta"><span class="tag">April 2026</span> <span>Cyber</span></p>
-          <h3>Patch Pulse</h3>
-          <p>
-            Fifteen years of security patch cadence across thirty-nine vendors, in eight
-            chapters, with a confidence badge on every series.
-          </p>
-          <span class="go">Open ↗</span>
-        </a>
-
-        <a class="card" href="https://stuartokin.github.io/AI-Model-Cortex/">
-          <p class="meta"><span class="tag">April 2026</span> <span>AI</span></p>
-          <h3>AI Model Cortex</h3>
-          <p>A visualisation of frontier model architectures and how they relate.</p>
-          <span class="go">Open ↗</span>
-        </a>
-
-        <a class="card" href="https://stuartokin.github.io/uk-ai-landscape/">
-          <p class="meta"><span class="tag">March 2026</span> <span>AI · governance</span></p>
-          <h3>UK AI Governance Map</h3>
-          <p>
-            A force-directed view of the UK's AI governance landscape — the bodies, the
-            frameworks, and the relationships between them.
-          </p>
-          <span class="go">Open ↗</span>
-        </a>
-
-        <a class="card" href="https://stuartokin.github.io/AI-vulnerability-research/">
-          <p class="meta"><span class="tag">February 2026</span> <span>AI · cyber</span></p>
-          <h3>Zero-Day AI-Assisted Observatory</h3>
-          <p>
-            A catalogue of programmes using AI to find software vulnerabilities, and what
-            their published results actually show.
-          </p>
-          <span class="go">Open ↗</span>
-        </a>
+        <article class="card card--wide" data-repo="ApolloMaths">
+          <button class="media" type="button" data-title="Apollo's Maths Missions"
+            data-videos='[["Walkthrough","media/apollo-maths.mp4"]]'
+            aria-label="Watch the Apollo's Maths Missions demo">
+            <img src="media/apollo-maths.jpg" alt="" loading="lazy" width="1280" height="720" />
+            <video muted loop playsinline preload="none" data-src="media/apollo-maths-preview.mp4"></video>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+          </button>
+          <a class="body" href="https://stuartokin.github.io/ApolloMaths/">
+            <p class="meta"><span class="tag--fun">For fun</span> <span>Maths · learning</span> <span class="upd" data-fallback="2026-11-08"></span></p>
+            <h3>Apollo's Maths Missions</h3>
+            <p class="desc">
+              A football-mad maths game built for my son's 11+ preparation: hundreds of
+              questions, step-by-step hints, mock exams and a kit shop to spend the points in.
+              Any family can set it up for their own child and exam.
+            </p>
+            <span class="go">Play ↗</span>
+          </a>
+        </article>
       </div>
 
       <h2>Talks and evidence</h2>
@@ -237,7 +434,7 @@
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
           github.com/stuartokin
         </a>
-        <a href="https://www.linkedin.com/in/YOUR-PROFILE/">
+        <a href="https://www.linkedin.com/in/stuart-okin-b37ab69/">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg>
           LinkedIn
         </a>
@@ -246,9 +443,117 @@
       <footer>
         <p>
           Written in a personal capacity. Views expressed are my own and do not represent
-          the position of Ofgem or any organisation I advise.
+          the position of Ofgem or any organisation I advise. Demo videos are screen
+          recordings of each board and may lag behind the live versions.
         </p>
       </footer>
     </div>
+
+    <dialog class="player" id="player" aria-labelledby="playerTitle">
+      <div class="player__bar">
+        <p class="player__title" id="playerTitle"></p>
+        <div class="player__tabs" id="playerTabs"></div>
+        <a class="player__open" id="playerOpen" href="#">Open board ↗</a>
+        <button class="player__close" type="button" id="playerClose">Close ✕</button>
+      </div>
+      <video id="playerVideo" controls playsinline preload="metadata"></video>
+    </dialog>
+
+    <script>
+      (() => {
+        const OWNER = 'stuartokin';
+        const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+        /* ---------- "Updated N days ago" from each repo's latest commit ---------- */
+        const ago = d => {
+          const days = Math.floor((Date.now() - d.getTime()) / 864e5);
+          if (days <= 0) return 'Updated today';
+          if (days === 1) return 'Updated yesterday';
+          if (days < 45) return `Updated ${days} days ago`;
+          return 'Updated ' + d.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
+        };
+        const CACHE_KEY = 'obs-updated-v1', TTL = 60 * 60 * 1000;
+        let cache = {};
+        try { cache = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}'); } catch (e) {}
+        const cards = [...document.querySelectorAll('.card[data-repo]')];
+        const dates = {};
+
+        const paint = () => {
+          for (const c of cards) {
+            const el = c.querySelector('.upd'); if (!el) continue;
+            const d = dates[c.dataset.repo] || new Date(el.dataset.fallback);
+            el.textContent = ago(d);
+            el.title = d.toLocaleString('en-GB');
+          }
+          const all = cards.map(c => dates[c.dataset.repo] || new Date(c.querySelector('.upd').dataset.fallback));
+          const latest = new Date(Math.max(...all));
+          const live = document.querySelectorAll('.tag--live').length;
+          document.getElementById('pulse').innerHTML =
+            `<b>${cards.length}</b> boards · <b>${live}</b> maintained by agents · last change <b>${ago(latest).replace('Updated ', '')}</b>`;
+        };
+
+        const fetchOne = async repo => {
+          const hit = cache[repo];
+          if (hit && Date.now() - hit.t < TTL) return new Date(hit.d);
+          const r = await fetch(`https://api.github.com/repos/${OWNER}/${repo}/commits?per_page=1`, { headers: { Accept: 'application/vnd.github+json' } });
+          if (!r.ok) throw new Error(r.status);
+          const [c] = await r.json();
+          const d = c.commit.committer.date;
+          cache[repo] = { d, t: Date.now() };
+          return new Date(d);
+        };
+
+        paint();
+        Promise.allSettled(cards.map(c => fetchOne(c.dataset.repo).then(d => (dates[c.dataset.repo] = d))))
+          .then(() => { try { localStorage.setItem(CACHE_KEY, JSON.stringify(cache)); } catch (e) {} paint(); });
+
+        /* ---------- Hover previews (desktop only, motion permitting) ---------- */
+        if (canHover && !reduce) {
+          for (const m of document.querySelectorAll('.media')) {
+            const v = m.querySelector('video');
+            const card = m.closest('.card');
+            const start = () => {
+              if (!v.src) v.src = v.dataset.src;
+              v.play().then(() => m.classList.add('playing')).catch(() => {});
+            };
+            const stop = () => { m.classList.remove('playing'); v.pause(); };
+            card.addEventListener('mouseenter', start);
+            card.addEventListener('mouseleave', stop);
+          }
+        }
+
+        /* ---------- Demo player ---------- */
+        const dlg = document.getElementById('player');
+        const pv = document.getElementById('playerVideo');
+        const tabs = document.getElementById('playerTabs');
+        const openLink = document.getElementById('playerOpen');
+        const load = (src, btn) => {
+          pv.src = src; pv.play().catch(() => {});
+          for (const b of tabs.children) b.setAttribute('aria-pressed', String(b === btn));
+        };
+        for (const m of document.querySelectorAll('.media')) {
+          m.addEventListener('click', () => {
+            const vids = JSON.parse(m.dataset.videos);
+            document.getElementById('playerTitle').textContent = m.dataset.title;
+            openLink.href = m.closest('.card').querySelector('a.body').href;
+            tabs.innerHTML = '';
+            vids.forEach(([label, src], i) => {
+              const b = document.createElement('button');
+              b.type = 'button'; b.textContent = label;
+              b.addEventListener('click', () => load(src, b));
+              tabs.appendChild(b);
+            });
+            tabs.hidden = vids.length < 2;
+            dlg.showModal();
+            load(vids[0][1], tabs.children[0]);
+          });
+        }
+        const close = () => { pv.pause(); pv.removeAttribute('src'); pv.load(); dlg.close(); };
+        document.getElementById('playerClose').addEventListener('click', close);
+        dlg.addEventListener('click', e => { if (e.target === dlg) close(); });
+        dlg.addEventListener('cancel', e => { e.preventDefault(); close(); });
+      })();
+    </script>
   </body>
 </html>
