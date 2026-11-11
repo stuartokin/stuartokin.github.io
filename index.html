@@ -111,6 +111,43 @@
       h1 .q { color: var(--accent); }
       .standfirst { font-size: 1.06rem; color: var(--ink-muted); max-width: 46rem; margin: 0; }
       .standfirst b { color: var(--ink); font-weight: 400; }
+      .titlerow { position: relative; display: flex; align-items: center; gap: 0.6rem; margin: 0 0 0.85rem; }
+      .titlerow h1 { margin: 0; }
+      .infobtn {
+        appearance: none; cursor: pointer; flex: none; display: inline-flex; align-items: center; justify-content: center;
+        width: 1.9rem; height: 1.9rem; padding: 0; border-radius: 50%;
+        color: var(--accent); background: var(--ground-raised); border: 1px solid var(--hairline);
+      }
+      .infobtn svg { width: 60%; height: 60%; }
+      .infobtn:hover, .infobtn[aria-expanded="true"] { border-color: var(--accent); background: color-mix(in oklab, var(--accent) 14%, var(--ground-raised)); }
+      .infobtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      .infobtn--title { width: 2.2rem; height: 2.2rem; }
+      .infobtn--sec { width: 1.5rem; height: 1.5rem; margin-left: 0.5rem; vertical-align: middle; display: none; }
+      .hinfo {
+        position: absolute; left: 0; top: calc(100% + 0.6rem); z-index: 40;
+        width: min(30rem, calc(100vw - 2rem)); padding: 1rem 1.1rem;
+        background: var(--ground-panel); border: 1px solid color-mix(in oklab, var(--accent) 45%, var(--hairline));
+        border-radius: 14px; box-shadow: var(--bar-shadow);
+      }
+      .hinfo[hidden] { display: none; }
+      .hinfo p { margin: 0 0 0.7rem; color: var(--ink); font-size: 0.95rem; }
+      .hinfo .hinfo__pulse { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; color: var(--ink-muted); }
+      .hinfo__links { display: flex; flex-direction: column; gap: 0.5rem; }
+      .hinfo__links a {
+        display: inline-flex; align-items: center; gap: 0.55rem; color: var(--ink-muted); text-decoration: none;
+        font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.03em; word-break: break-all;
+      }
+      .hinfo__links a:hover { color: var(--accent); }
+      .hinfo__links svg { width: 16px; height: 16px; fill: currentColor; flex: none; }
+      .small-only { display: none; }
+      /* Tablets and phones: the longer lines move behind the info icons. */
+      @media (max-width: 63.99rem) {
+        .big-only { display: none; }
+        .small-only { display: block; }
+        .infobtn--sec { display: inline-flex; }
+        .group .section-note { display: none; }
+        .group .section-note.open { display: block; }
+      }
       .pulse-line {
         margin: 1.1rem 0 0; font-family: var(--mono); font-size: 0.66rem;
         letter-spacing: 0.08em; color: var(--ink-faint);
@@ -151,6 +188,11 @@
       }
       .ico { font-size: 1.05em; line-height: 1; }
       .toolbar .spacer { flex: 1; }
+      .toolbar.compact .seg__label, .toolbar.compact .seg .long { display: none; }
+      .toolbar.compact { gap: 0.4rem; padding: 0.45rem; }
+      .toolbar.compact .seg button { padding: 0.3rem 0.6rem; }
+      .toolbar.tight .seg output { display: none; }
+      .toolbar.tight .seg button { min-width: 2.2rem; padding: 0.25rem 0.45rem; }
       @media (max-width: 47.99rem) {
         .seg__label, .seg .long { display: none; }
         .toolbar { gap: 0.4rem; justify-content: center; padding: 0.45rem; top: 0.35rem; }
@@ -308,8 +350,9 @@
       .oring > .card .desc + .go { margin-top: auto; }
       /* The carousel is meant to sit on one screen: trim the page chrome around it. */
       body.view-carousel .wrap { padding-top: clamp(1rem, 3vh, 2.5rem); padding-bottom: 1rem; }
-      body.view-carousel .orbit__label, body.view-carousel .ohint, body.view-carousel .kicker { display: none; }
-      body.view-carousel h1 { font-size: clamp(1.6rem, 3.4vw, 2.5rem); margin-bottom: 0.4rem; }
+      body.view-carousel .orbit__label, body.view-carousel .ohint { display: none; }
+      body.view-carousel h1 { font-size: clamp(1.6rem, 3.4vw, 2.5rem); }
+      body.view-carousel .titlerow { margin-bottom: 0.4rem; }
       body.view-carousel .standfirst { font-size: 0.98rem; }
       body.view-carousel .pulse-line { margin-top: 0.5rem; }
       body.view-carousel .orbit { margin-top: 0.6rem; }
@@ -404,27 +447,24 @@
       .links svg { width: 15px; height: 15px; fill: currentColor; }
 
       .foot {
-        display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem 1.5rem;
+        display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.8rem 1.5rem; text-align: center;
         margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--hairline);
       }
       .foot__label {
         font-family: var(--mono); font-size: 0.64rem; font-weight: 500;
         letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin-right: 0.2rem;
       }
-      .links { align-items: center; }
-      .foot__note { margin: 0 0 0 auto; color: var(--ink-faint); font-size: 0.82rem; max-width: 40rem; }
-      @media (max-width: 47.99rem) { .foot__note { margin-left: 0; } }
+      .links { align-items: center; justify-content: center; }
+      .foot__note { margin: 0; color: var(--ink-faint); font-size: 0.82rem; max-width: 40rem; }
 
       /* ---------- Fit to screen: everything on one display ---------- */
       .fitgrid[hidden] { display: none; }
       body.fit { height: 100vh; height: 100dvh; overflow: hidden; }
-      /* A fixed, clipped frame: the page inside can be laid out wider than the screen and scaled
-         down without phones zooming the whole page out. */
-      body.fit .fitbox { position: fixed; inset: 0; overflow: hidden; }
       body.fit .wrap { padding-top: 0.9rem; padding-bottom: 0.9rem; max-width: none; margin: 0; transform-origin: 0 0; }
-      body.fit .kicker, body.fit .pulse-line, body.fit .orbit__label, body.fit .ohint { display: none; }
+      body.fit .pulse-line, body.fit .orbit__label, body.fit .ohint { display: none; }
       body.fit header { padding-bottom: 0.2rem; }
-      body.fit h1 { font-size: clamp(1.35rem, 2.6vw, 2.1rem); margin-bottom: 0.25rem; }
+      body.fit h1 { font-size: clamp(1.35rem, 2.6vw, 2.1rem); }
+      body.fit .titlerow { margin-bottom: 0.25rem; }
       body.fit .standfirst { font-size: 0.9rem; max-width: none; }
       body.fit .toolbar { position: relative; top: 0; margin-top: 0.5rem; }
       body.fit .fitgrid { margin-top: 0.8rem; gap: 0.6rem; grid-template-columns: repeat(var(--fitcols, 3), minmax(0, 1fr)); }
@@ -459,13 +499,23 @@
     <div class="fitbox">
     <div class="wrap">
       <header>
-        <p class="kicker">Stuart Okin</p>
-        <h1>Horizon<span class="q">Q</span> Observatories</h1>
+        <div class="titlerow">
+          <h1>Horizon<span class="q">Q</span> Observatories</h1>
+          <button type="button" class="infobtn infobtn--title" id="hinfoBtn" aria-expanded="false" aria-controls="hinfo" title="About and links" aria-label="About this site and links"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="4.6" r="1" fill="currentColor"/><path d="M8 7v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+          <div class="hinfo" id="hinfo" hidden>
+            <p class="hinfo__claim small-only">Every claim carries its source, its date, and whether anyone has actually checked it.</p>
+            <p class="hinfo__pulse small-only" data-pulse>10 boards · 3 maintained by agents</p>
+            <div class="hinfo__links">
+              <a href="https://github.com/stuartokin"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>github.com/stuartokin</a>
+              <a href="https://www.linkedin.com/in/stuart-okin-b37ab69/"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg>linkedin.com/in/stuart-okin-b37ab69</a>
+            </div>
+          </div>
+        </div>
         <p class="standfirst">
-          Research boards on cyber, quantum, cryptography, and AI. <b>Every claim carries its
+          Research boards on cyber, quantum, cryptography, and AI. <b class="big-only">Every claim carries its
           source, its date, and whether anyone has actually checked it.</b>
         </p>
-        <p class="pulse-line" id="pulse">10 boards · 3 maintained by agents · every one has a demo video</p>
+        <p class="pulse-line big-only" data-pulse>10 boards · 3 maintained by agents · every one has a demo video</p>
       </header>
 
       <div class="toolbar" role="toolbar" aria-label="Display options">
@@ -495,8 +545,8 @@
       </div>
 
       <section class="group" data-group="live">
-        <h2>Live · maintained by agents</h2>
-        <p class="section-note">These change week to week. Research agents gather and check the evidence; each board says what has and hasn't been reviewed.</p>
+        <h2>Live · maintained by agents<button type="button" class="infobtn infobtn--sec" aria-expanded="false" aria-controls="note-live" title="About this section" aria-label="About Live · maintained by agents"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="4.6" r="1" fill="currentColor"/><path d="M8 7v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></h2>
+        <p class="section-note" id="note-live">These change week to week. Research agents gather and check the evidence; each board says what has and hasn't been reviewed.</p>
         <div class="grid">
         <article class="card card--lead" data-repo="quantum-observatory" data-section="Live">
           <button class="media" type="button" data-title="Quantum Observatory" data-videos='[[&quot;Walkthrough&quot;, &quot;media/quantum-observatory.mp4&quot;]]' aria-label="Watch the Quantum Observatory demo">
@@ -544,8 +594,8 @@
       </section>
 
       <section class="group" data-group="studies">
-        <h2>Studies</h2>
-        <p class="section-note">Point-in-time deep dives. Dated to when the evidence was last gathered.</p>
+        <h2>Studies<button type="button" class="infobtn infobtn--sec" aria-expanded="false" aria-controls="note-studies" title="About this section" aria-label="About Studies"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="4.6" r="1" fill="currentColor"/><path d="M8 7v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></h2>
+        <p class="section-note" id="note-studies">Point-in-time deep dives. Dated to when the evidence was last gathered.</p>
         <div class="grid">
         <article class="card" data-repo="qday-research" data-section="Study">
           <button class="media" type="button" data-title="Q-Day Research" data-videos='[[&quot;Full demo&quot;, &quot;media/qday-research.mp4&quot;], [&quot;Intro&quot;, &quot;media/qday-intro.mp4&quot;]]' aria-label="Watch the Q-Day Research demo">
@@ -621,8 +671,8 @@
       </section>
 
       <section class="group" data-group="fun">
-        <h2>Just for fun</h2>
-        <p class="section-note">Side projects. Less evidence grading, more football and starships.</p>
+        <h2>Just for fun<button type="button" class="infobtn infobtn--sec" aria-expanded="false" aria-controls="note-fun" title="About this section" aria-label="About Just for fun"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="4.6" r="1" fill="currentColor"/><path d="M8 7v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></h2>
+        <p class="section-note" id="note-fun">Side projects. Less evidence grading, more football and starships.</p>
         <div class="grid">
         <article class="card" data-repo="ApolloMaths" data-section="For fun">
           <button class="media" type="button" data-title="Apollo&#x27;s Maths Missions" data-videos='[[&quot;Walkthrough&quot;, &quot;media/apollo-maths.mp4&quot;]]' aria-label="Watch the Apollo&#x27;s Maths Missions demo">
@@ -673,7 +723,6 @@
 
       <footer class="foot">
         <div class="links">
-          <span class="foot__label">Elsewhere</span>
         <a href="https://github.com/stuartokin">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
           github.com/stuartokin
@@ -729,8 +778,9 @@
           for (const c of cards) { const el = c.querySelector('.upd'), d = dateOf(c); el.textContent = ago(d); el.title = d.toLocaleString('en-GB'); }
           const latest = new Date(Math.max(...cards.map(dateOf)));
           const live = document.querySelectorAll('.card .tag--live').length;
-          document.getElementById('pulse').innerHTML =
+          const pulseHtml =
             `<b>${cards.length}</b> boards · <b>${live}</b> maintained by agents · last change <b>${ago(latest).replace('Updated ', '')}</b>`;
+          document.querySelectorAll('[data-pulse]').forEach(el => (el.innerHTML = pulseHtml));
         };
         const fetchOne = async repo => {
           const hit = cache[repo];
@@ -744,6 +794,30 @@
         paint();
         Promise.allSettled(cards.map(c => fetchOne(c.dataset.repo).then(d => (dates[c.dataset.repo] = d))))
           .then(() => { store.set(CACHE_KEY, JSON.stringify(cache)); paint(); });
+
+        /* ---------- Info icons: title (about + links) and each section's note ---------- */
+        const hBtn = document.getElementById('hinfoBtn'), hPanel = document.getElementById('hinfo');
+        const setH = open => { hPanel.hidden = !open; hBtn.setAttribute('aria-expanded', String(open)); };
+        hBtn.addEventListener('click', e => { e.stopPropagation(); setH(hPanel.hidden); });
+        document.addEventListener('click', e => { if (!hPanel.hidden && !hPanel.contains(e.target)) setH(false); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && !hPanel.hidden) { setH(false); hBtn.focus(); } });
+        document.querySelectorAll('.infobtn--sec').forEach(b => b.addEventListener('click', () => {
+          const n = document.getElementById(b.getAttribute('aria-controls'));
+          const open = !n.classList.contains('open');
+          n.classList.toggle('open', open); b.setAttribute('aria-expanded', String(open));
+          if (fit) refresh();
+        }));
+
+        /* ---------- Toolbar: words where they fit on one line, icons where they don't ---------- */
+        const bar = document.querySelector('.toolbar');
+        const wraps = () => { const k = [...bar.children].filter(el => el.offsetWidth && el.offsetHeight); return k.some(el => el.offsetTop > k[0].offsetTop + 4); };
+        function fitBar() {
+          bar.classList.remove('compact', 'tight');
+          if (wraps()) bar.classList.add('compact');
+          if (wraps()) bar.classList.add('tight');
+        }
+        fitBar();
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitBar);
 
         /* ---------- Theme ---------- */
         const themeBtns = document.querySelectorAll('[data-theme-set]');
@@ -827,9 +901,9 @@
           stage.style.setProperty('--ringtop', top + 'px');
           for (let pass = 0; pass < 2; pass++) {
             layoutOrbit(true);
-            const st = stage.getBoundingClientRect().top;
+            const sr = stage.getBoundingClientRect(), st = sr.top, zr = (sr.height / stage.offsetHeight) || 1;
             let t = Infinity, b = -Infinity;
-            cards.forEach(c => { const r = c.getBoundingClientRect(); t = Math.min(t, r.top - st); b = Math.max(b, r.bottom - st); });
+            cards.forEach(c => { const r = c.getBoundingClientRect(); t = Math.min(t, (r.top - st) / zr); b = Math.max(b, (r.bottom - st) / zr); });
             top = Math.round(top - t + 12);
             stage.style.setProperty('--ringtop', top + 'px');
             stage.style.height = Math.round(b - t + 30) + 'px';
@@ -946,7 +1020,7 @@
         });
         orbit.querySelectorAll('.navbtn').forEach(b => b.addEventListener('click', () => stepBy(+b.dataset.dir)));
         orbit.querySelector('.odots').addEventListener('click', e => { const d = e.target.closest('.odot'); if (d) turnTo(+d.dataset.i); });
-        let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(refresh, 120); });
+        let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { fitBar(); refresh(); }, 120); });
 
         const viewBtns = document.querySelectorAll('[data-view]');
         const fitgrid = document.getElementById('fitgrid');
@@ -980,33 +1054,38 @@
            largest cards with nothing below the fold, then shrink the whole page if still needed. */
         /* Shrink the page to the window when fit is on, but widen it first by the same factor, so
            the result still fills the whole screen width (large screens included). */
+        /* Fit: find the largest zoom at which the whole page fits the window height. CSS zoom keeps
+           the page exactly as wide as the screen (it re-lays itself out at the new size), so nothing
+           ever sits off-screen; on big screens it can go above 1 to use the spare room. Browsers
+           without zoom fall back to scaling. */
+        const canZoom = CSS.supports && CSS.supports('zoom', '2');
+        const viewH = () => Math.floor(window.visualViewport ? visualViewport.height : innerHeight);
         function scaleToFit(prep) {
-          /* Find the largest scale at which the page fits the window height. The page is laid out
-             at window width ÷ scale first, so after scaling it still spans the full width; on big
-             screens the scale can go above 1 to use the spare room. */
-          const box = document.querySelector('.fitbox'), VW = box.clientWidth, VH = box.clientHeight;
-          const test = z => {
-            wrap.style.width = Math.abs(z - 1) < 0.002 ? '' : (VW / z) + 'px';
-            if (prep) prep(z, VH);
-            return wrap.offsetHeight * z <= VH - 2;
+          const VW = document.documentElement.clientWidth, VH = viewH();
+          const apply = z => {
+            const one = Math.abs(z - 1) < 0.002;
+            if (canZoom) wrap.style.zoom = one ? '' : z.toFixed(4);
+            else wrap.style.width = one ? '' : (VW / z) + 'px';
           };
+          const visH = z => canZoom ? wrap.getBoundingClientRect().height : wrap.offsetHeight * z;
+          const test = z => { apply(z); if (prep) prep(z, VH); return visH(z) <= VH - 2; };
           let lo = 0.15, hi = 2.2;
           if (test(1)) lo = 1; else hi = 1;
           for (let k = 0; k < 9; k++) { const mid = (lo + hi) / 2; if (test(mid)) lo = mid; else hi = mid; }
           test(lo);
-          wrap.style.transform = Math.abs(lo - 1) < 0.002 ? '' : `scale(${lo.toFixed(4)})`;
+          if (!canZoom) wrap.style.transform = Math.abs(lo - 1) < 0.002 ? '' : `scale(${lo.toFixed(4)})`;
           return lo;
         }
         function refresh() {
           if (typeof focusFront === 'function') focusFront(false);
-          wrap.style.transform = ''; wrap.style.width = '';
+          wrap.style.transform = ''; wrap.style.width = ''; wrap.style.zoom = '';
           if (!fit) {
-            if (view === 'carousel') { sizeOrbit(innerHeight); layoutOrbit(true); requestAnimationFrame(() => layoutOrbit()); }
+            if (view === 'carousel') { sizeOrbit(viewH()); layoutOrbit(true); requestAnimationFrame(() => layoutOrbit()); }
             return;
           }
           if (view === 'tiles') {
             let best = null;
-            const VW = document.querySelector('.fitbox').clientWidth;
+            const VW = document.documentElement.clientWidth;
             const maxN = Math.min(cards.length, Math.max(1, Math.floor(VW / 150)));
             for (let n = 1; n <= maxN; n++) {
               fitgrid.style.setProperty('--fitcols', n);
