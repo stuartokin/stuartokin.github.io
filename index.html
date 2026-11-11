@@ -370,6 +370,16 @@
       }
       .player__title { font-family: var(--display); font-weight: 700; font-size: 1rem; margin: 0; flex: 1; min-width: 10rem; }
       .player__tabs { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+      .player__about { margin: 0; padding: 0.9rem 1.2rem 1.1rem; color: var(--ink-muted); font-size: 0.95rem; max-width: 62rem; }
+      .card .note {
+        display: block; margin-top: 0.7em; padding: 0.55em 0.75em; border-radius: 8px;
+        border: 1px dashed color-mix(in oklab, var(--amber) 55%, var(--hairline));
+        color: var(--ink); font-size: 0.8em; line-height: 1.45;
+      }
+      .card .note::before { content: "🔒 "; }
+      .card .note + .go { margin-top: 0.9em; }
+      body.fit .fitgrid .note { display: none; }
+      .oring > .card:not(.ofocus) .note { display: none; }
       .player__tabs button, .player__close, .player__open {
         font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
         padding: 0.45rem 0.8rem; border-radius: 999px; cursor: pointer;
@@ -379,7 +389,7 @@
       .player__tabs button[aria-pressed="true"] { color: var(--on-accent); background: var(--accent); border-color: var(--accent); }
       .player__open { color: var(--accent); }
       .player__close:hover, .player__tabs button:hover, .player__open:hover { border-color: var(--accent); }
-      .player video { display: block; width: 100%; max-height: calc(100vh - 8rem); background: #000; }
+      .player video { display: block; width: 100%; max-height: calc(100vh - 12rem); background: #000; }
 
 
       .links { display: flex; flex-wrap: wrap; gap: 0.6rem; }
@@ -455,7 +465,7 @@
           Research boards on cyber, quantum, cryptography, and AI. <b>Every claim carries its
           source, its date, and whether anyone has actually checked it.</b>
         </p>
-        <p class="pulse-line" id="pulse">9 boards · 3 maintained by agents · every one has a demo video</p>
+        <p class="pulse-line" id="pulse">10 boards · 3 maintained by agents · every one has a demo video</p>
       </header>
 
       <div class="toolbar" role="toolbar" aria-label="Display options">
@@ -612,9 +622,9 @@
 
       <section class="group" data-group="fun">
         <h2>Just for fun</h2>
-        <p class="section-note">Side projects. Less evidence grading, more football.</p>
+        <p class="section-note">Side projects. Less evidence grading, more football and starships.</p>
         <div class="grid">
-        <article class="card card--wide" data-repo="ApolloMaths" data-section="For fun">
+        <article class="card" data-repo="ApolloMaths" data-section="For fun">
           <button class="media" type="button" data-title="Apollo&#x27;s Maths Missions" data-videos='[[&quot;Walkthrough&quot;, &quot;media/apollo-maths.mp4&quot;]]' aria-label="Watch the Apollo&#x27;s Maths Missions demo">
             <img src="media/apollo-maths.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/apollo-maths-preview.mp4"></video>
@@ -625,6 +635,21 @@
             <span class="upd" data-fallback="2026-11-08"></span>
             <h3>Apollo&#x27;s Maths Missions</h3>
             <span class="desc">A football-mad maths game built for my son&#x27;s 11+ preparation: hundreds of questions, step-by-step hints, mock exams and a kit shop to spend the points in. Any family can set it up for their own child and exam.</span>
+            <span class="go">Play ↗</span>
+          </a>
+        </article>
+        <article class="card" data-repo="ApolloMaths" data-section="For fun">
+          <button class="media" type="button" data-title="Starlane Trader" data-videos='[[&quot;Trailer&quot;, &quot;media/starlane-trader.mp4&quot;]]' data-about="Starlane Trader is a space trading and exploration game in the spirit of the classic Elite. You command your own starship across a galaxy of worlds: buying low and selling high, taking on missions, fighting off pirates and upgrading your ship. Along the way you meet strange factions, from peaceful explorers to crystalline aliens, and stumble into adventures such as alien signals, nebula storms and black holes. Each adventure is a puzzle of maths, science and logic. Nova, your ship&#x27;s computer, guides you with training tours, and the game plays on laptop, tablet or phone in a sleek 3D style or two retro looks. It&#x27;s hidden inside Apollo&#x27;s Maths Missions behind a secret code — message me for it." aria-label="Watch the Starlane Trader demo">
+            <img src="media/starlane-trader.jpg" alt="" loading="lazy" width="1280" height="720" />
+            <video muted loop playsinline preload="none" data-src="media/starlane-trader-preview.mp4"></video>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
+          </button>
+          <a class="body" href="https://stuartokin.github.io/ApolloMaths/">
+            <span class="meta"><span class="tag--fun">For fun</span> <span>Games · space</span></span>
+            <span class="upd" data-fallback="2026-11-08"></span>
+            <h3>Starlane Trader</h3>
+            <span class="desc">Command your own starship in Starlane Trader: fly, trade, explore… and learn. Battle pirates, meet alien civilisations and solve the puzzles hidden among the stars, with your ship&#x27;s computer Nova by your side.</span>
+            <span class="note">Hidden inside Apollo&#x27;s Maths Missions behind a secret code, alongside other arcade games. Message me for the code.</span>
             <span class="go">Play ↗</span>
           </a>
         </article>
@@ -671,6 +696,7 @@
         <button class="player__close" type="button" id="playerClose">Close ✕</button>
       </div>
       <video id="playerVideo" controls playsinline preload="metadata"></video>
+      <p class="player__about" id="playerAbout" hidden></p>
     </dialog>
 
     <script>
@@ -1053,6 +1079,8 @@
           m.addEventListener('click', () => {
             const vids = JSON.parse(m.dataset.videos);
             document.getElementById('playerTitle').textContent = m.dataset.title;
+            const about = document.getElementById('playerAbout');
+            about.textContent = m.dataset.about || ''; about.hidden = !m.dataset.about;
             openLink.href = m.closest('.card').querySelector('a.body').href;
             tabs.innerHTML = '';
             vids.forEach(([label, src]) => {
