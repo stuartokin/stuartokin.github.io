@@ -10,7 +10,7 @@
       content="HorizonQ Observatories: public research boards by Stuart Okin on quantum readiness and Q-Day, recorded cyber incidents, the shrinking gap from research to change, security patch cadence, AI-assisted vulnerability discovery and the UK AI landscape — each with a video demo. Written in a personal capacity."
     />
     <meta property="og:title" content="HorizonQ Observatories" />
-    <meta property="og:description" content="Research boards on quantum computing, cryptography, cyber incidents and AI — each built to show its working." />
+    <meta property="og:description" content="Research boards on cyber, quantum, cryptography, and AI. Every claim carries its source, its date, and whether anyone has actually checked it." />
     <meta property="og:image" content="https://stuartokin.github.io/media/quantum-observatory.jpg" />
     <script>
       /* Apply the saved theme and text size before first paint, so nothing flashes. */
@@ -44,6 +44,7 @@
         --glow-a: rgb(61 224 192 / 0.08);
         --glow-b: rgb(255 158 61 / 0.05);
         --shadow: 0 22px 50px rgb(0 0 0 / 0.5);
+        --bar-shadow: 0 12px 34px rgb(0 0 0 / 0.5), 0 0 24px rgb(61 224 192 / 0.08);
         --display: 'Archivo', 'Helvetica Neue', sans-serif;
         --body: 'Newsreader', Georgia, serif;
         --mono: 'IBM Plex Mono', ui-monospace, monospace;
@@ -66,6 +67,7 @@
         --glow-a: rgb(10 124 106 / 0.08);
         --glow-b: rgb(168 83 0 / 0.05);
         --shadow: 0 18px 40px rgb(14 26 43 / 0.16);
+        --bar-shadow: 0 10px 28px rgb(14 26 43 / 0.14);
         color-scheme: light;
       }
       * { box-sizing: border-box; }
@@ -114,42 +116,45 @@
       }
       .pulse-line b { color: var(--ink-muted); font-weight: 500; }
 
-      /* ---------- Toolbar: view, text size, theme ---------- */
+      /* ---------- Toolbar: view, fit, text size, music, theme ---------- */
       .toolbar {
-        position: sticky; top: 0; z-index: 20;
-        display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem;
-        margin: 0 calc(-1 * clamp(1rem, 4vw, 2.5rem));
-        padding: 0.65rem clamp(1rem, 4vw, 2.5rem);
-        background: color-mix(in oklab, var(--ground) 86%, transparent);
-        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-        border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline);
+        position: sticky; top: 0.6rem; z-index: 20;
+        display: flex; flex-wrap: wrap; align-items: center; gap: 0.55rem 0.7rem;
+        margin: 0.6rem 0 0; padding: 0.6rem 0.7rem;
+        background: color-mix(in oklab, var(--ground-panel) 94%, transparent);
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        border: 1px solid color-mix(in oklab, var(--accent) 45%, var(--hairline));
+        border-radius: 16px; box-shadow: var(--bar-shadow);
       }
       .seg {
-        display: inline-flex; align-items: center; gap: 2px; padding: 3px;
+        display: inline-flex; align-items: center; gap: 3px; padding: 3px;
         border: 1px solid var(--hairline); border-radius: 999px; background: var(--ground-raised);
       }
       .seg__label {
-        font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
-        color: var(--ink-faint); padding: 0 0.45rem 0 0.6rem;
+        font-family: var(--mono); font-size: 0.62rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+        color: var(--ink-muted); padding: 0 0.45rem 0 0.7rem;
       }
       .seg button {
-        appearance: none; border: 0; cursor: pointer; background: transparent; color: var(--ink-muted);
-        font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em;
-        min-height: 2rem; min-width: 2rem; padding: 0.3rem 0.75rem; border-radius: 999px;
+        appearance: none; border: 0; cursor: pointer; background: transparent; color: var(--ink);
+        font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.04em;
+        min-height: 2.4rem; min-width: 2.4rem; padding: 0.35rem 0.9rem; border-radius: 999px;
+        display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
       }
-      .seg button:hover { color: var(--ink); }
+      .seg button:hover { background: color-mix(in oklab, var(--accent) 14%, transparent); }
       .seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); font-weight: 500; }
-      .seg button:disabled { opacity: 0.35; cursor: default; }
+      .seg button:disabled { opacity: 0.35; cursor: default; background: transparent; }
       .seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
       .seg output {
-        font-family: var(--mono); font-size: 0.62rem; color: var(--ink-muted);
-        min-width: 3.2em; text-align: center;
+        font-family: var(--mono); font-size: 0.7rem; color: var(--ink);
+        min-width: 3.4em; text-align: center;
       }
+      .ico { font-size: 1.05em; line-height: 1; }
       .toolbar .spacer { flex: 1; }
-      @media (max-width: 39.99rem) {
+      @media (max-width: 47.99rem) {
         .seg__label, .seg .long { display: none; }
-        .toolbar { gap: 0.4rem; justify-content: space-between; }
+        .toolbar { gap: 0.4rem; justify-content: center; padding: 0.45rem; top: 0.35rem; }
         .toolbar .spacer { display: none; }
+        .seg button { padding: 0.3rem 0.65rem; }
       }
 
       h2 {
@@ -180,13 +185,13 @@
       .card--lead { border-color: color-mix(in oklab, var(--accent) 32%, var(--hairline)); }
       /* A lone card lies on its side: video left, words right. */
       @media (min-width: 40rem) {
-        .view-tiles .card.card--wide { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
-        .view-tiles .card.card--wide .media { height: 100%; border-bottom: 0; border-right: 1px solid var(--hairline); }
+        .view-tiles .group .card.card--wide { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+        .view-tiles .group .card.card--wide .media { height: 100%; border-bottom: 0; border-right: 1px solid var(--hairline); }
       }
       @media (min-width: 100rem) {
-        .view-tiles .card.card--wide { grid-template-columns: minmax(0, 40rem) minmax(0, 1fr); }
-        .view-tiles .card.card--wide .body { justify-content: center; max-width: 46rem; }
-        .view-tiles .card.card--wide .desc { flex: none; }
+        .view-tiles .group .card.card--wide { grid-template-columns: minmax(0, 40rem) minmax(0, 1fr); }
+        .view-tiles .group .card.card--wide .body { justify-content: center; max-width: 46rem; }
+        .view-tiles .group .card.card--wide .desc { flex: none; }
       }
 
       .media {
@@ -268,7 +273,7 @@
         letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 0.4rem;
       }
       .ostage {
-        position: relative; height: 640px; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+        position: relative; height: 640px; perspective: 1500px; perspective-origin: 50% 35%; touch-action: pan-y; user-select: none; -webkit-user-select: none;
         cursor: grab; overflow: hidden; outline: none; border-radius: 16px;
       }
       .ostage:active { cursor: grabbing; }
@@ -282,9 +287,11 @@
       .ostage > .card {
         position: absolute; left: 50%; top: 46%;
         width: min(calc(21rem * var(--ts)), 86vw);
+        display: flex; flex-direction: column;
         transition: transform 0.75s cubic-bezier(.2, .8, .2, 1), opacity 0.75s, border-color 0.2s;
-        box-shadow: var(--shadow);
+        box-shadow: var(--shadow); backface-visibility: hidden;
       }
+      .ostage > .card .body { flex: 1; }
       .ostage.dragging > .card { transition: none; }
       .ostage > .card::before {
         content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
@@ -345,13 +352,6 @@
       .player__close:hover, .player__tabs button:hover, .player__open:hover { border-color: var(--accent); }
       .player video { display: block; width: 100%; max-height: calc(100vh - 8rem); background: #000; }
 
-      .talk {
-        display: grid; grid-template-columns: 6.5rem 1fr; gap: 0.2rem 1.2rem;
-        padding: 0.9rem 0; border-bottom: 1px solid var(--hairline);
-      }
-      .talk__when { font-family: var(--mono); font-size: 0.66rem; color: var(--ink-faint); }
-      .talk__what { font-size: 0.94rem; }
-      .talk__where { grid-column: 2; font-size: 0.82rem; color: var(--ink-faint); }
 
       .links { display: flex; flex-wrap: wrap; gap: 0.6rem; }
       .links a {
@@ -364,16 +364,48 @@
       .links a:hover { color: var(--accent); border-color: color-mix(in oklab, var(--accent) 45%, var(--hairline)); }
       .links svg { width: 15px; height: 15px; fill: currentColor; }
 
-      footer {
-        margin-top: 3.5rem; padding-top: 1.5rem;
-        border-top: 1px solid var(--hairline);
-        color: var(--ink-faint); font-size: 0.82rem; max-width: 46rem;
+      .foot {
+        display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem 1.5rem;
+        margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--hairline);
+      }
+      .foot__label {
+        font-family: var(--mono); font-size: 0.64rem; font-weight: 500;
+        letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin-right: 0.2rem;
+      }
+      .links { align-items: center; }
+      .foot__note { margin: 0 0 0 auto; color: var(--ink-faint); font-size: 0.82rem; max-width: 40rem; }
+      @media (max-width: 47.99rem) { .foot__note { margin-left: 0; } }
+
+      /* ---------- Fit to screen: everything on one display ---------- */
+      .fitgrid[hidden] { display: none; }
+      body.fit { height: 100vh; height: 100dvh; overflow: hidden; }
+      body.fit .wrap { padding-top: 0.9rem; padding-bottom: 0.9rem; transform-origin: top center; }
+      body.fit .kicker, body.fit .pulse-line, body.fit .orbit__label, body.fit .ohint { display: none; }
+      body.fit header { padding-bottom: 0.2rem; }
+      body.fit h1 { font-size: clamp(1.35rem, 2.6vw, 2.1rem); margin-bottom: 0.25rem; }
+      body.fit .standfirst { font-size: 0.9rem; max-width: none; }
+      body.fit .toolbar { position: relative; top: 0; margin-top: 0.5rem; }
+      body.fit .fitgrid { margin-top: 0.8rem; gap: 0.6rem; grid-template-columns: repeat(var(--fitcols, 3), minmax(0, 1fr)); }
+      body.fit .fitgrid .desc { display: none; }
+      body.fit .fitgrid .body { padding: 0.55em 0.8em 0.7em; }
+      body.fit .fitgrid h3 { font-size: 1em; margin: 0.25em 0 0.1em; }
+      body.fit .fitgrid .upd { margin-top: 0.3em; }
+      body.fit .fitgrid .go { margin-top: 0.5em; padding: 0.3em 0.75em; }
+      body.fit .fitgrid .watch { padding: 0.3rem; }
+      body.fit .fitgrid .watch .wl { display: none; }
+      body.fit .orbit { margin-top: 0.4rem; }
+      body.fit .foot { margin-top: 0.8rem; padding-top: 0.6rem; }
+      /* Phones and short screens: each board becomes a row — picture left, name and Open right. */
+      @media (max-width: 47.99rem), (max-height: 32rem) {
+        body.fit .fitgrid { gap: 0.45rem; }
+        body.fit .fitgrid .card { flex-direction: row; align-items: stretch; }
+        body.fit .fitgrid .media { width: 32%; height: auto; aspect-ratio: 16 / 10; border-bottom: 0; border-right: 1px solid var(--hairline); }
+        body.fit .fitgrid .body { justify-content: center; padding: 0.4em 0.7em; }
+        body.fit .fitgrid .upd { display: none; }
+        body.fit .fitgrid .go { margin-top: 0.35em; }
+        body.fit .standfirst { font-size: 0.82rem; }
       }
 
-      @media (max-width: 30rem) {
-        .talk { grid-template-columns: 1fr; }
-        .talk__where { grid-column: 1; }
-      }
       @media (prefers-reduced-motion: reduce) {
         .card, .media video, .ostage > .card { transition: none !important; }
         .view-tiles .card:hover, .view-tiles .card:focus-within { transform: none; }
@@ -387,9 +419,8 @@
         <p class="kicker">Stuart Okin</p>
         <h1>Horizon<span class="q">Q</span> Observatories</h1>
         <p class="standfirst">
-          Research boards on quantum computing, cryptography, cyber incidents and AI —
-          each built to show its working. <b>Every claim carries its source, its date, and
-          whether anyone has actually checked it.</b>
+          Research boards on cyber, quantum, cryptography, and AI. <b>Every claim carries its
+          source, its date, and whether anyone has actually checked it.</b>
         </p>
         <p class="pulse-line" id="pulse">9 boards · 3 maintained by agents · every one has a demo video</p>
       </header>
@@ -397,8 +428,11 @@
       <div class="toolbar" role="toolbar" aria-label="Display options">
         <div class="seg" role="group" aria-label="Layout">
           <span class="seg__label">View</span>
-          <button type="button" data-view="tiles" aria-pressed="true">▦ <span class="long">Tiles</span></button>
-          <button type="button" data-view="carousel" aria-pressed="false">◎ <span class="long">Carousel</span></button>
+          <button type="button" data-view="tiles" aria-pressed="true" title="Tiles"><span class="ico">▦</span><span class="long">Tiles</span></button>
+          <button type="button" data-view="carousel" aria-pressed="false" title="Carousel"><span class="ico">◎</span><span class="long">Carousel</span></button>
+        </div>
+        <div class="seg" role="group" aria-label="Fit to screen">
+          <button type="button" id="fitBtn" aria-pressed="false" title="Fit everything onto one screen"><span class="ico">⤢</span><span class="long">Fit to screen</span></button>
         </div>
         <div class="seg" role="group" aria-label="Tile text size">
           <span class="seg__label">Text</span>
@@ -407,10 +441,14 @@
           <button type="button" data-ts="1" aria-label="Larger tile text">A+</button>
         </div>
         <span class="spacer"></span>
-        <div class="seg" role="group" aria-label="Colour theme">
-          <button type="button" data-theme-set="dark" aria-pressed="true">☾ <span class="long">Dark</span></button>
-          <button type="button" data-theme-set="light" aria-pressed="false">☀ <span class="long">Light</span></button>
+        <div class="seg" role="group" aria-label="Music">
+          <button type="button" id="musicBtn" aria-pressed="false" aria-label="Turn music on" title="Music"><span class="ico" id="musicIco">🔇</span><span class="long" id="musicTxt">Music off</span></button>
         </div>
+        <div class="seg" role="group" aria-label="Colour theme">
+          <button type="button" data-theme-set="dark" aria-pressed="true" title="Dark"><span class="ico">☾</span><span class="long">Dark</span></button>
+          <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><span class="ico">☀</span><span class="long">Light</span></button>
+        </div>
+        <audio id="music" src="media/music.mp3" loop preload="none"></audio>
       </div>
 
       <section class="group" data-group="live">
@@ -421,7 +459,7 @@
           <button class="media" type="button" data-title="Quantum Observatory" data-videos='[[&quot;Walkthrough&quot;, &quot;media/quantum-observatory.mp4&quot;]]' aria-label="Watch the Quantum Observatory demo">
             <img src="media/quantum-observatory.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/quantum-observatory-preview.mp4"></video>
-            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
           <a class="body" href="https://stuartokin.github.io/quantum-observatory/">
             <span class="meta"><span class="tag--live">Live</span> <span>Quantum · cryptography</span></span>
@@ -435,7 +473,7 @@
           <button class="media" type="button" data-title="Cyber Attack Earth" data-videos='[[&quot;Twenty-five years in 28 seconds&quot;, &quot;media/cyber-attack-earth.mp4&quot;]]' aria-label="Watch the Cyber Attack Earth demo">
             <img src="media/cyber-attack-earth.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/cyber-attack-earth-preview.mp4"></video>
-            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
           <a class="body" href="https://stuartokin.github.io/cyber-attack-earth/">
             <span class="meta"><span class="tag--live">Live</span> <span>Cyber · energy</span></span>
@@ -449,7 +487,7 @@
           <button class="media" type="button" data-title="The Shrinking Gap" data-videos='[[&quot;Walkthrough&quot;, &quot;media/shrinking-gap.mp4&quot;]]' aria-label="Watch the The Shrinking Gap demo">
             <img src="media/shrinking-gap.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/shrinking-gap-preview.mp4"></video>
-            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
           <a class="body" href="https://stuartokin.github.io/ResearchGap/">
             <span class="meta"><span class="tag--live">Live</span> <span>Research · innovation</span></span>
@@ -470,7 +508,7 @@
           <button class="media" type="button" data-title="Q-Day Research" data-videos='[[&quot;Full demo&quot;, &quot;media/qday-research.mp4&quot;], [&quot;Intro&quot;, &quot;media/qday-intro.mp4&quot;]]' aria-label="Watch the Q-Day Research demo">
             <img src="media/qday-research.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/qday-research-preview.mp4"></video>
-            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
           <a class="body" href="https://stuartokin.github.io/qday-research/">
             <span class="meta"><span class="tag">Study</span> <span>Quantum · cryptography</span></span>
@@ -484,7 +522,7 @@
           <button class="media" type="button" data-title="Patch Pulse" data-videos='[[&quot;Walkthrough&quot;, &quot;media/patch-pulse.mp4&quot;]]' aria-label="Watch the Patch Pulse demo">
             <img src="media/patch-pulse.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/patch-pulse-preview.mp4"></video>
-            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
           <a class="body" href="https://stuartokin.github.io/PatchPulse/">
             <span class="meta"><span class="tag">Study</span> <span>Cyber</span></span>
@@ -498,7 +536,7 @@
           <button class="media" type="button" data-title="AI Model Cortex" data-videos='[[&quot;Guided demo&quot;, &quot;media/ai-model-cortex.mp4&quot;]]' aria-label="Watch the AI Model Cortex demo">
             <img src="media/ai-model-cortex.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/ai-model-cortex-preview.mp4"></video>
-            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
           <a class="body" href="https://stuartokin.github.io/AI-Model-Cortex/">
             <span class="meta"><span class="tag">Study</span> <span>AI</span></span>
@@ -512,7 +550,7 @@
           <button class="media" type="button" data-title="UK AI Landscape" data-videos='[[&quot;Walkthrough&quot;, &quot;media/uk-ai-landscape.mp4&quot;]]' aria-label="Watch the UK AI Landscape demo">
             <img src="media/uk-ai-landscape.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/uk-ai-landscape-preview.mp4"></video>
-            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
           <a class="body" href="https://stuartokin.github.io/uk-ai-landscape/">
             <span class="meta"><span class="tag">Study</span> <span>AI · governance</span></span>
@@ -526,7 +564,7 @@
           <button class="media" type="button" data-title="Zero-Day AI-Assisted Observatory" data-videos='[[&quot;Walkthrough&quot;, &quot;media/zero-day-ai.mp4&quot;]]' aria-label="Watch the Zero-Day AI-Assisted Observatory demo">
             <img src="media/zero-day-ai.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/zero-day-ai-preview.mp4"></video>
-            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
           <a class="body" href="https://stuartokin.github.io/AI-vulnerability-research/">
             <span class="meta"><span class="tag">Study</span> <span>AI · cyber</span></span>
@@ -547,7 +585,7 @@
           <button class="media" type="button" data-title="Apollo&#x27;s Maths Missions" data-videos='[[&quot;Walkthrough&quot;, &quot;media/apollo-maths.mp4&quot;]]' aria-label="Watch the Apollo&#x27;s Maths Missions demo">
             <img src="media/apollo-maths.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/apollo-maths-preview.mp4"></video>
-            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>Watch demo</span>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
           <a class="body" href="https://stuartokin.github.io/ApolloMaths/">
             <span class="meta"><span class="tag--fun">For fun</span> <span>Maths · learning</span></span>
@@ -559,6 +597,8 @@
         </article>
         </div>
       </section>
+
+      <div class="grid fitgrid" id="fitgrid" hidden></div>
 
       <section class="orbit" id="orbit" hidden aria-label="All boards as a carousel">
         <p class="orbit__label">All boards</p>
@@ -573,20 +613,9 @@
         <p class="ohint">Drag or swipe to turn · select a card at the side to bring it forward · the front card opens</p>
       </section>
 
-      <h2>Talks and evidence</h2>
-      <div class="talk">
-        <span class="talk__when">Jun 2026</span>
-        <span class="talk__what">Oral evidence to the Energy Security and Net Zero Select Committee</span>
-        <span class="talk__where">Cyber resilience in the energy sector</span>
-      </div>
-      <div class="talk">
-        <span class="talk__when">May 2026</span>
-        <span class="talk__what">Panel: AI's two-way impact on energy</span>
-        <span class="talk__where">All-Energy, Glasgow</span>
-      </div>
-
-      <h2>Elsewhere</h2>
-      <div class="links">
+      <footer class="foot">
+        <div class="links">
+          <span class="foot__label">Elsewhere</span>
         <a href="https://github.com/stuartokin">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
           github.com/stuartokin
@@ -595,14 +624,8 @@
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg>
           LinkedIn
         </a>
-      </div>
-
-      <footer>
-        <p>
-          Written in a personal capacity. Views expressed are my own and do not represent
-          the position of Ofgem or any organisation I advise. Demo videos are screen
-          recordings of each board and may lag behind the live versions.
-        </p>
+        </div>
+        <p class="foot__note">Written in a personal capacity and do not represent the position of any organisation I am engaged with.</p>
       </footer>
     </div>
 
@@ -683,7 +706,7 @@
           document.querySelector('[data-ts="-1"]').disabled = v <= SIZES[0];
           document.querySelector('[data-ts="1"]').disabled = v >= SIZES[SIZES.length - 1];
           if (save) store.set('obs.ts', v);
-          if (view === 'carousel') requestAnimationFrame(() => layoutOrbit(true));
+          requestAnimationFrame(refresh);
         };
         document.querySelectorAll('[data-ts]').forEach(b => b.addEventListener('click', () => {
           const i = SIZES.findIndex(s => s >= ts - 0.001);
@@ -701,15 +724,18 @@
 
         function layoutOrbit(instant) {
           const n = cards.length, s = step(), w = stage.clientWidth || 900, narrow = w < 640;
-          const RX = Math.min(560, w * (narrow ? 0.3 : 0.36)), RY = narrow ? 34 : 64;
+          const RX = Math.min(560, w * (narrow ? 0.3 : 0.36)), RY = narrow ? 30 : 56, LIFT = narrow ? 34 : 70;
           const front = frontIndex();
-          const tallest = Math.max(...cards.map(c => c.offsetHeight));
-          stage.style.height = Math.round(tallest + RY * 2 + (narrow ? 70 : 110)) + 'px';
+          const tallest = cards[0].offsetHeight;   // every card is the same height (sizeOrbit)
+          stage.style.height = Math.round(tallest + RY * 2 + LIFT + (narrow ? 60 : 90)) + 'px';
           stage.classList.toggle('dragging', !!instant);
           cards.forEach((c, i) => {
             let rel = i * s - angle; rel = ((rel % 360) + 540) % 360 - 180;
             const r = rel * Math.PI / 180, cs = Math.cos(r), sc = 0.5 + 0.5 * (cs + 1) / 2;
-            c.style.transform = `translate(-50%, -50%) translate(${(Math.sin(r) * RX).toFixed(1)}px, ${(cs * RY - 8).toFixed(1)}px) scale(${sc.toFixed(3)})`;
+            /* Cards going behind rise and turn to face the middle, so the ring reads in 3D. */
+            const x = Math.sin(r) * RX, y = cs * RY - (1 - cs) / 2 * LIFT + LIFT / 2 - 8;
+            const turn = -Math.sin(r) * 24, tilt = (1 - cs) / 2 * 6;
+            c.style.transform = `translate(-50%, -50%) translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotateY(${turn.toFixed(2)}deg) rotateX(${tilt.toFixed(2)}deg) scale(${sc.toFixed(3)})`;
             c.style.opacity = cs < -0.6 ? ((cs + 1) / 0.4).toFixed(3) : '1';
             c.style.setProperty('--dim', isFrontish(i, front) ? '0' : (0.25 + 0.5 * (1 - (cs + 1) / 2)).toFixed(3));
             c.style.zIndex = Math.round((cs + 1) * 100);
@@ -725,6 +751,12 @@
           [...dots.children].forEach((d, i) => d.classList.toggle('on', i === front));
         }
         function isFrontish(i, front) { return i === front; }
+        /* All carousel cards share one size: the tallest card's natural height. */
+        function sizeOrbit() {
+          cards.forEach(c => (c.style.height = ''));
+          const h = Math.max(...cards.map(c => c.offsetHeight));
+          cards.forEach(c => (c.style.height = h + 'px'));
+        }
         const turnTo = i => { let d = i * step() - angle; d = ((d % 360) + 540) % 360 - 180; angle += d; layoutOrbit(); };
         const stepBy = dir => { angle = Math.round(angle / step()) * step() + dir * step(); layoutOrbit(); };
 
@@ -749,29 +781,65 @@
         });
         orbit.querySelectorAll('.navbtn').forEach(b => b.addEventListener('click', () => stepBy(+b.dataset.dir)));
         orbit.querySelector('.odots').addEventListener('click', e => { const d = e.target.closest('.odot'); if (d) turnTo(+d.dataset.i); });
-        addEventListener('resize', () => { if (view === 'carousel') layoutOrbit(true); });
+        let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(refresh, 120); });
 
         const viewBtns = document.querySelectorAll('[data-view]');
-        function setView(v, save) {
-          view = v === 'carousel' ? 'carousel' : 'tiles';
+        const fitgrid = document.getElementById('fitgrid');
+        const wrap = document.querySelector('.wrap');
+        const fitBtn = document.getElementById('fitBtn');
+        let fit = false;
+        const clean = c => {
+          c.style.transform = c.style.opacity = c.style.zIndex = c.style.height = ''; c.style.removeProperty('--dim');
+          c.classList.remove('ofront'); c.removeAttribute('aria-hidden');
+          c.querySelectorAll('a, button').forEach(el => el.removeAttribute('tabindex'));
+        };
+        /* Put the cards where the current choices say: the ring, one fitted grid, or their sections. */
+        function place() {
           document.body.classList.toggle('view-tiles', view === 'tiles');
           document.body.classList.toggle('view-carousel', view === 'carousel');
+          document.body.classList.toggle('fit', fit);
           viewBtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
+          fitBtn.setAttribute('aria-pressed', String(fit));
           if (view === 'carousel') {
             cards.forEach(c => stage.appendChild(c));
-            groups.forEach(g => (g.hidden = true)); orbit.hidden = false;
-            layoutOrbit(true); requestAnimationFrame(() => layoutOrbit());
+            groups.forEach(g => (g.hidden = true)); fitgrid.hidden = true; orbit.hidden = false;
           } else {
-            cards.forEach((c, i) => {
-              home[i].appendChild(c);
-              c.style.transform = c.style.opacity = c.style.zIndex = ''; c.style.removeProperty('--dim');
-              c.classList.remove('ofront'); c.removeAttribute('aria-hidden');
-              c.querySelectorAll('a, button').forEach(el => el.removeAttribute('tabindex'));
-            });
-            orbit.hidden = true; groups.forEach(g => (g.hidden = false));
+            cards.forEach(clean);
+            if (fit) { cards.forEach(c => fitgrid.appendChild(c)); fitgrid.hidden = false; groups.forEach(g => (g.hidden = true)); }
+            else { cards.forEach((c, i) => home[i].appendChild(c)); fitgrid.hidden = true; groups.forEach(g => (g.hidden = false)); }
+            orbit.hidden = true;
           }
+          refresh();
+        }
+        /* Lay out for the current screen; in fit mode, choose the column count that shows the
+           largest cards with nothing below the fold, then shrink the whole page if still needed. */
+        function refresh() {
+          wrap.style.transform = '';
+          if (view === 'carousel') { sizeOrbit(); layoutOrbit(true); requestAnimationFrame(() => layoutOrbit()); }
+          if (!fit) return;
+          const H = () => wrap.offsetHeight;   // layout height, before any scaling
+          if (view === 'tiles') {
+            let best = null;
+            for (let n = 1; n <= cards.length; n++) {
+              fitgrid.style.setProperty('--fitcols', n);
+              const z = Math.min(1, innerHeight / H());
+              const eff = (fitgrid.clientWidth / n) * z;
+              if (!best || eff > best.eff + 1) best = { n, eff };
+            }
+            fitgrid.style.setProperty('--fitcols', best.n);
+          }
+          const h = H();
+          if (h > innerHeight) wrap.style.transform = `scale(${Math.max(0.15, (innerHeight - 2) / h).toFixed(4)})`;
+          scrollTo(0, 0);
+        }
+        function setView(v, save) {
+          view = v === 'carousel' ? 'carousel' : 'tiles';
+          place();
           if (save) store.set('obs.view', view);
         }
+        fitBtn.addEventListener('click', () => { fit = !fit; store.set('obs.fit', fit ? '1' : '0'); place(); });
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => refresh());
+        addEventListener('load', () => refresh());
         viewBtns.forEach(b => b.addEventListener('click', () => setView(b.dataset.view, true)));
 
         /* ---------- Hover previews (desktop only, motion permitting) ---------- */
@@ -785,6 +853,27 @@
             });
             c.addEventListener('mouseleave', () => { m.classList.remove('playing'); v.pause(); });
           }
+        }
+
+        /* ---------- Music (off unless chosen; browsers only allow sound after a tap or click) ---------- */
+        const music = document.getElementById('music');
+        const musicBtn = document.getElementById('musicBtn');
+        music.volume = 0.35;
+        let musicOn = false, ducked = false;
+        const paintMusic = () => {
+          musicBtn.setAttribute('aria-pressed', String(musicOn));
+          musicBtn.setAttribute('aria-label', musicOn ? 'Mute music' : 'Turn music on');
+          document.getElementById('musicIco').textContent = musicOn ? '♫' : '🔇';
+          document.getElementById('musicTxt').textContent = musicOn ? 'Music on' : 'Music off';
+        };
+        const syncMusic = () => { if (musicOn && !ducked) music.play().catch(() => {}); else music.pause(); };
+        const setMusic = (on, save) => { musicOn = on; paintMusic(); syncMusic(); if (save) store.set('obs.music', on ? '1' : '0'); };
+        musicBtn.addEventListener('click', () => setMusic(!musicOn, true));
+        if (store.get('obs.music') === '1') {
+          musicOn = true; paintMusic();
+          /* A remembered "on" starts with the visitor's first tap, click or key press. */
+          const kick = () => { syncMusic(); removeEventListener('pointerdown', kick, true); removeEventListener('keydown', kick, true); };
+          music.play().catch(() => { addEventListener('pointerdown', kick, true); addEventListener('keydown', kick, true); });
         }
 
         /* ---------- Demo player ---------- */
@@ -810,16 +899,18 @@
             });
             tabs.hidden = vids.length < 2;
             dlg.showModal();
+            ducked = true; syncMusic();   // the demo's own sound takes over
             load(vids[0][1], tabs.children[0]);
           });
         }
-        const close = () => { pv.pause(); pv.removeAttribute('src'); pv.load(); dlg.close(); };
+        const close = () => { pv.pause(); pv.removeAttribute('src'); pv.load(); dlg.close(); ducked = false; syncMusic(); };
         document.getElementById('playerClose').addEventListener('click', close);
         dlg.addEventListener('click', e => { if (e.target === dlg) close(); });
         dlg.addEventListener('cancel', e => { e.preventDefault(); close(); });
 
         /* ---------- Restore saved choices ---------- */
         setTs(SIZES.includes(ts) ? ts : 1);
+        fit = store.get('obs.fit') === '1';
         setView(store.get('obs.view') || 'tiles');
       })();
     </script>
