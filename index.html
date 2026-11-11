@@ -91,6 +91,7 @@
       @media (min-width: 64rem)  { :root { --col: 18rem; } }                    /* laptop */
       @media (min-width: 100rem) { :root { --col: 19rem; --wrap: 104rem; } }    /* large screen */
       @media (min-width: 140rem) { :root { --col: 21rem; --wrap: 128rem; } html { font-size: 18px; } }
+      @media (min-width: 200rem) { :root { --col: 22rem; --wrap: 150rem; } html { font-size: 21px; } }   /* 4K */
 
       .wrap {
         max-width: var(--wrap);
@@ -265,42 +266,62 @@
       }
       .body:hover .go { background: var(--accent); color: var(--on-accent); }
 
-      /* ---------- Carousel: cards travel round an oval, always facing you ---------- */
+      /* ---------- Carousel: a real 3D ring, seen from slightly above ---------- */
       .orbit[hidden], .group[hidden] { display: none; }
-      .orbit { margin-top: 2rem; }
+      .orbit { margin-top: 1.4rem; }
       .orbit__label {
         font-family: var(--mono); font-size: 0.64rem; font-weight: 500;
-        letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 0.4rem;
+        letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 0.2rem;
       }
       .ostage {
-        position: relative; height: 640px; perspective: 1500px; perspective-origin: 50% 35%; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+        --cw: 300px; --ch: 480px; --R: 480px;
+        position: relative; height: 640px; touch-action: pan-y; user-select: none; -webkit-user-select: none;
         cursor: grab; overflow: hidden; outline: none; border-radius: 16px;
+        perspective: var(--persp, 1600px); perspective-origin: 50% 0%;
       }
       .ostage:active { cursor: grabbing; }
       .ostage:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
+      .oring {
+        position: absolute; left: 50%; top: var(--ringtop, 55%); width: 0; height: 0;
+        transform-style: preserve-3d;
+        transform: scale3d(var(--rs, 1), var(--rs, 1), var(--rs, 1)) translateZ(calc(-1 * var(--R))) rotateX(var(--tilt, -16deg));
+      }
       .ofloor {
-        position: absolute; left: 50%; top: 62%; width: min(1100px, 86%); height: 170px;
-        transform: translate(-50%, -50%); border-radius: 50%;
-        border: 1px solid var(--hairline); background: color-mix(in oklab, var(--accent) 4%, transparent);
-        pointer-events: none;
+        position: absolute; left: 0; top: 0; width: calc(var(--R) * 2.5); height: calc(var(--R) * 2.5);
+        border-radius: 50%; pointer-events: none;
+        transform: translate(-50%, -50%) translateY(calc(var(--ch) / 2 + 14px)) rotateX(90deg);
+        background: radial-gradient(closest-side, color-mix(in oklab, var(--accent) 16%, transparent), color-mix(in oklab, var(--accent) 5%, transparent) 62%, transparent 100%);
+        border: 1px solid color-mix(in oklab, var(--accent) 22%, transparent);
       }
-      .ostage > .card {
-        position: absolute; left: 50%; top: 46%;
-        width: min(calc(21rem * var(--ts)), 86vw);
+      .oring > .card {
+        position: absolute; left: 0; top: 0;
+        width: var(--cw); height: var(--ch); margin: calc(var(--ch) / -2) 0 0 calc(var(--cw) / -2);
         display: flex; flex-direction: column;
-        transition: transform 0.75s cubic-bezier(.2, .8, .2, 1), opacity 0.75s, border-color 0.2s;
-        box-shadow: var(--shadow); backface-visibility: hidden;
+        transition: transform 0.8s cubic-bezier(.2, .8, .2, 1), opacity 0.6s, border-color 0.2s;
+        box-shadow: var(--shadow); backface-visibility: hidden; -webkit-backface-visibility: hidden;
       }
-      .ostage > .card .body { flex: 1; }
-      .ostage.dragging > .card { transition: none; }
-      .ostage > .card::before {
+      .ostage.measuring .oring > .card { height: auto; }
+      .oring > .card .body { flex: 1; min-height: 0; overflow: hidden; }
+      .oring > .card .desc { flex: none; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-clamp: 5; overflow: hidden; }
+      .oring > .card .go { margin-top: auto; }
+      .oring > .card h3 { margin-bottom: 0.35em; }
+      .oring > .card .desc + .go { margin-top: auto; }
+      /* The carousel is meant to sit on one screen: trim the page chrome around it. */
+      body.view-carousel .wrap { padding-top: clamp(1rem, 3vh, 2.5rem); padding-bottom: 1rem; }
+      body.view-carousel .orbit__label, body.view-carousel .ohint, body.view-carousel .kicker { display: none; }
+      body.view-carousel h1 { font-size: clamp(1.6rem, 3.4vw, 2.5rem); margin-bottom: 0.4rem; }
+      body.view-carousel .standfirst { font-size: 0.98rem; }
+      body.view-carousel .pulse-line { margin-top: 0.5rem; }
+      body.view-carousel .orbit { margin-top: 0.6rem; }
+      body.view-carousel .foot { margin-top: 0.6rem; padding-top: 0.8rem; }
+      .ostage.dragging .oring > .card, .ostage.dragging .oring > .card::before { transition: none; }
+      .oring > .card::before {
         content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
-        background: var(--ground); opacity: var(--dim, 0); transition: opacity 0.75s;
+        background: var(--ground); opacity: var(--dim, 0); transition: opacity 0.8s;
       }
-      .ostage.dragging > .card::before { transition: none; }
-      .ostage > .card:not(.ofront) .desc, .ostage > .card:not(.ofront) .go, .ostage > .card:not(.ofront) .watch { opacity: 0; }
-      .ostage > .card:not(.ofront) * { cursor: pointer; }
-      .ostage > .card.ofront { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow); }
+      .oring > .card:not(.ofront) .desc, .oring > .card:not(.ofront) .go, .oring > .card:not(.ofront) .watch { opacity: 0; }
+      .oring > .card:not(.ofront) * { cursor: pointer; }
+      .oring > .card.ofront { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 40px color-mix(in oklab, var(--accent) 25%, transparent), var(--shadow); }
       .onav { display: flex; align-items: center; justify-content: center; gap: 1.4rem; margin-top: 0.4rem; }
       .navbtn {
         appearance: none; cursor: pointer; flex: none; width: 2.75rem; height: 2.75rem; border-radius: 50%;
@@ -323,7 +344,6 @@
       .odot:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
       .ohint { text-align: center; font-size: 0.82rem; color: var(--ink-faint); margin: 0.7rem 0 0; }
       @media (max-width: 39.99rem) {
-        .ofloor { height: 100px; top: 64%; }
         .onav { gap: 0.7rem; }
         .oinfo { min-width: 9rem; }
       }
@@ -379,7 +399,10 @@
       /* ---------- Fit to screen: everything on one display ---------- */
       .fitgrid[hidden] { display: none; }
       body.fit { height: 100vh; height: 100dvh; overflow: hidden; }
-      body.fit .wrap { padding-top: 0.9rem; padding-bottom: 0.9rem; transform-origin: top center; }
+      /* A fixed, clipped frame: the page inside can be laid out wider than the screen and scaled
+         down without phones zooming the whole page out. */
+      body.fit .fitbox { position: fixed; inset: 0; overflow: hidden; }
+      body.fit .wrap { padding-top: 0.9rem; padding-bottom: 0.9rem; max-width: none; margin: 0; transform-origin: 0 0; }
       body.fit .kicker, body.fit .pulse-line, body.fit .orbit__label, body.fit .ohint { display: none; }
       body.fit header { padding-bottom: 0.2rem; }
       body.fit h1 { font-size: clamp(1.35rem, 2.6vw, 2.1rem); margin-bottom: 0.25rem; }
@@ -407,13 +430,14 @@
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .card, .media video, .ostage > .card { transition: none !important; }
+        .card, .media video, .oring > .card { transition: none !important; }
         .view-tiles .card:hover, .view-tiles .card:focus-within { transform: none; }
         .tag--live::before { animation: none; }
       }
     </style>
   </head>
   <body class="view-tiles">
+    <div class="fitbox">
     <div class="wrap">
       <header>
         <p class="kicker">Stuart Okin</p>
@@ -603,7 +627,7 @@
       <section class="orbit" id="orbit" hidden aria-label="All boards as a carousel">
         <p class="orbit__label">All boards</p>
         <div class="ostage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Swipe, drag or use the arrow keys to turn">
-          <div class="ofloor" aria-hidden="true"></div>
+          <div class="oring"><div class="ofloor" aria-hidden="true"></div></div>
         </div>
         <div class="onav">
           <button class="navbtn" type="button" data-dir="-1" aria-label="Previous board">‹</button>
@@ -627,6 +651,7 @@
         </div>
         <p class="foot__note">Written in a personal capacity and do not represent the position of any organisation I am engaged with.</p>
       </footer>
+    </div>
     </div>
 
     <dialog class="player" id="player" aria-labelledby="playerTitle">
@@ -722,24 +747,21 @@
         const step = () => 360 / cards.length;
         const frontIndex = () => ((Math.round(angle / step()) % cards.length) + cards.length) % cards.length;
 
+        const ring = stage.querySelector('.oring');
+        const geo = { cw: 300, ch: 480, R: 480 };
+        /* Each card sits on a real 3D ring: turned to its place, pushed out to the rim. The ring is
+           tilted towards you, so cards going round the back rise up and turn away. */
         function layoutOrbit(instant) {
-          const n = cards.length, s = step(), w = stage.clientWidth || 900, narrow = w < 640;
-          const RX = Math.min(560, w * (narrow ? 0.3 : 0.36)), RY = narrow ? 30 : 56, LIFT = narrow ? 34 : 70;
-          const front = frontIndex();
-          const tallest = cards[0].offsetHeight;   // every card is the same height (sizeOrbit)
-          stage.style.height = Math.round(tallest + RY * 2 + LIFT + (narrow ? 60 : 90)) + 'px';
+          const n = cards.length, s = step(), front = frontIndex();
           stage.classList.toggle('dragging', !!instant);
           cards.forEach((c, i) => {
             let rel = i * s - angle; rel = ((rel % 360) + 540) % 360 - 180;
-            const r = rel * Math.PI / 180, cs = Math.cos(r), sc = 0.5 + 0.5 * (cs + 1) / 2;
-            /* Cards going behind rise and turn to face the middle, so the ring reads in 3D. */
-            const x = Math.sin(r) * RX, y = cs * RY - (1 - cs) / 2 * LIFT + LIFT / 2 - 8;
-            const turn = -Math.sin(r) * 24, tilt = (1 - cs) / 2 * 6;
-            c.style.transform = `translate(-50%, -50%) translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotateY(${turn.toFixed(2)}deg) rotateX(${tilt.toFixed(2)}deg) scale(${sc.toFixed(3)})`;
-            c.style.opacity = cs < -0.6 ? ((cs + 1) / 0.4).toFixed(3) : '1';
-            c.style.setProperty('--dim', isFrontish(i, front) ? '0' : (0.25 + 0.5 * (1 - (cs + 1) / 2)).toFixed(3));
-            c.style.zIndex = Math.round((cs + 1) * 100);
-            const isFront = i === front;
+            const a = Math.abs(rel), isFront = i === front;
+            /* Out to the rim, then turned most of the way back towards you, so cards behind stay
+               visible: smaller, higher and angled, the way a real carousel looks from above. */
+            c.style.transform = `rotateY(${rel.toFixed(2)}deg) translateZ(${geo.R.toFixed(1)}px) rotateY(${(-rel * 0.62).toFixed(2)}deg)`;
+            c.style.opacity = '1';
+            c.style.setProperty('--dim', isFront ? '0' : Math.min(0.72, 0.18 + a / 230).toFixed(3));
             c.classList.toggle('ofront', isFront);
             c.setAttribute('aria-hidden', String(!isFront));
             c.querySelectorAll('a, button').forEach(el => (el.tabIndex = isFront ? 0 : -1));
@@ -750,12 +772,58 @@
           if (dots.children.length !== n) dots.innerHTML = cards.map((c, i) => `<button class="odot" type="button" data-i="${i}" aria-label="${c.querySelector('h3').textContent}"></button>`).join('');
           [...dots.children].forEach((d, i) => d.classList.toggle('on', i === front));
         }
-        function isFrontish(i, front) { return i === front; }
-        /* All carousel cards share one size: the tallest card's natural height. */
-        function sizeOrbit() {
-          cards.forEach(c => (c.style.height = ''));
-          const h = Math.max(...cards.map(c => c.offsetHeight));
-          cards.forEach(c => (c.style.height = h + 'px'));
+        /* Card size for the ring: as wide as the screen allows while the whole page still fits the
+           window height (no scroll bar), all cards the same height. vh is the height to fit into. */
+        function setGeo(cw, k = 1) {
+          stage.style.setProperty('--cw', cw + 'px');
+          stage.classList.add('measuring');
+          const ch = Math.max(...cards.map(c => c.offsetHeight));
+          stage.classList.remove('measuring');
+          const R = (cw / 2) / Math.tan(Math.PI / cards.length) * 1.3;
+          const lift = R * 0.42;                     // how far the back of the ring rises above the front
+          Object.assign(geo, { cw, ch, R });
+          stage.style.setProperty('--ch', ch + 'px');
+          stage.style.setProperty('--R', R.toFixed(1) + 'px');
+          stage.style.setProperty('--rs', k.toFixed(4));
+          stage.style.setProperty('--persp', Math.round(R * 3 + cw) + 'px');
+          /* Measure where the tilted ring actually lands on screen and frame the stage around it. */
+          let top = Math.round((lift + ch / 2 + 16) * k);
+          stage.style.setProperty('--ringtop', top + 'px');
+          for (let pass = 0; pass < 2; pass++) {
+            layoutOrbit(true);
+            const st = stage.getBoundingClientRect().top;
+            let t = Infinity, b = -Infinity;
+            cards.forEach(c => { const r = c.getBoundingClientRect(); t = Math.min(t, r.top - st); b = Math.max(b, r.bottom - st); });
+            top = Math.round(top - t + 12);
+            stage.style.setProperty('--ringtop', top + 'px');
+            stage.style.height = Math.round(b - t + 30) + 'px';
+          }
+          return ch;
+        }
+        function sizeOrbit(vh) {
+          const W = wrap.clientWidth, narrow = W < 640;
+          const rem = parseFloat(getComputedStyle(root).fontSize) || 16;
+          const maxW = Math.min(rem * 22 * ts, W * (narrow ? 0.62 : 0.22));
+          const minW = Math.min(230, maxW);
+          const fits = cw => { setGeo(cw); return wrap.offsetHeight <= vh; };
+          if (fits(maxW)) return true;
+          if (fits(minW)) {
+            let lo = minW, hi = maxW;
+            for (let i = 0; i < 9; i++) { const mid = (lo + hi) / 2; if (fits(mid)) lo = mid; else hi = mid; }
+            setGeo(lo); return true;
+          }
+          /* Still too tall: keep the cards readable and stand the whole ring further back instead. */
+          const cw = narrow ? maxW : minW;
+          setGeo(cw);
+          const floor = narrow ? 0.8 : 0.5;
+          let k = 1;
+          for (let i = 0; i < 4; i++) {
+            const other = wrap.offsetHeight - stage.offsetHeight;
+            k = Math.max(floor, Math.min(1, k * (vh - other - 2) / stage.offsetHeight));
+            setGeo(cw, k);
+            if (wrap.offsetHeight <= vh || k === floor) break;
+          }
+          return wrap.offsetHeight <= vh;
         }
         const turnTo = i => { let d = i * step() - angle; d = ((d % 360) + 540) % 360 - 180; angle += d; layoutOrbit(); };
         const stepBy = dir => { angle = Math.round(angle / step()) * step() + dir * step(); layoutOrbit(); };
@@ -789,7 +857,7 @@
         const fitBtn = document.getElementById('fitBtn');
         let fit = false;
         const clean = c => {
-          c.style.transform = c.style.opacity = c.style.zIndex = c.style.height = ''; c.style.removeProperty('--dim');
+          c.style.transform = c.style.opacity = ''; c.style.removeProperty('--dim');
           c.classList.remove('ofront'); c.removeAttribute('aria-hidden');
           c.querySelectorAll('a, button').forEach(el => el.removeAttribute('tabindex'));
         };
@@ -801,7 +869,7 @@
           viewBtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
           fitBtn.setAttribute('aria-pressed', String(fit));
           if (view === 'carousel') {
-            cards.forEach(c => stage.appendChild(c));
+            cards.forEach(c => ring.appendChild(c));
             groups.forEach(g => (g.hidden = true)); fitgrid.hidden = true; orbit.hidden = false;
           } else {
             cards.forEach(clean);
@@ -813,23 +881,47 @@
         }
         /* Lay out for the current screen; in fit mode, choose the column count that shows the
            largest cards with nothing below the fold, then shrink the whole page if still needed. */
+        /* Shrink the page to the window when fit is on, but widen it first by the same factor, so
+           the result still fills the whole screen width (large screens included). */
+        function scaleToFit(prep) {
+          /* Find the largest scale at which the page fits the window height. The page is laid out
+             at window width ÷ scale first, so after scaling it still spans the full width; on big
+             screens the scale can go above 1 to use the spare room. */
+          const box = document.querySelector('.fitbox'), VW = box.clientWidth, VH = box.clientHeight;
+          const test = z => {
+            wrap.style.width = Math.abs(z - 1) < 0.002 ? '' : (VW / z) + 'px';
+            if (prep) prep(z, VH);
+            return wrap.offsetHeight * z <= VH - 2;
+          };
+          let lo = 0.15, hi = 2.2;
+          if (test(1)) lo = 1; else hi = 1;
+          for (let k = 0; k < 9; k++) { const mid = (lo + hi) / 2; if (test(mid)) lo = mid; else hi = mid; }
+          test(lo);
+          wrap.style.transform = Math.abs(lo - 1) < 0.002 ? '' : `scale(${lo.toFixed(4)})`;
+          return lo;
+        }
         function refresh() {
-          wrap.style.transform = '';
-          if (view === 'carousel') { sizeOrbit(); layoutOrbit(true); requestAnimationFrame(() => layoutOrbit()); }
-          if (!fit) return;
-          const H = () => wrap.offsetHeight;   // layout height, before any scaling
+          wrap.style.transform = ''; wrap.style.width = '';
+          if (!fit) {
+            if (view === 'carousel') { sizeOrbit(innerHeight); layoutOrbit(true); requestAnimationFrame(() => layoutOrbit()); }
+            return;
+          }
           if (view === 'tiles') {
             let best = null;
-            for (let n = 1; n <= cards.length; n++) {
+            const VW = document.querySelector('.fitbox').clientWidth;
+            const maxN = Math.min(cards.length, Math.max(1, Math.floor(VW / 150)));
+            for (let n = 1; n <= maxN; n++) {
               fitgrid.style.setProperty('--fitcols', n);
-              const z = Math.min(1, innerHeight / H());
-              const eff = (fitgrid.clientWidth / n) * z;
-              if (!best || eff > best.eff + 1) best = { n, eff };
+              const z = scaleToFit();
+              const score = (VW / n) * Math.min(z, 1);   // on-screen card width, unless text would shrink
+              if (!best || score > best.score + 1) best = { n, score };
             }
             fitgrid.style.setProperty('--fitcols', best.n);
+            scaleToFit();
+          } else {
+            scaleToFit((z, VH) => sizeOrbit(VH / z));
+            layoutOrbit(true); requestAnimationFrame(() => layoutOrbit());
           }
-          const h = H();
-          if (h > innerHeight) wrap.style.transform = `scale(${Math.max(0.15, (innerHeight - 2) / h).toFixed(4)})`;
           scrollTo(0, 0);
         }
         function setView(v, save) {
