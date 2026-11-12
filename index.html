@@ -507,6 +507,23 @@
       }
       .card .note::before { content: "🔒 "; }
       .card .note + .go { margin-top: 0.9em; }
+      /* LinkedIn article link: a small badge on the picture, top right. */
+      .card .article {
+        position: absolute; top: 0.6rem; right: 0.6rem; z-index: 4;
+        display: inline-flex; align-items: center; gap: 0.4rem; height: 2rem; padding: 0 0.6rem;
+        border-radius: 999px; text-decoration: none;
+        background: rgb(7 11 20 / 0.78); border: 1px solid rgb(230 237 247 / 0.22); color: #e6edf7;
+        font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+        backdrop-filter: blur(4px);
+      }
+      .card .article svg { width: 13px; height: 13px; fill: #4aa3f0; }
+      .card .article:hover, .card .article:focus-visible { border-color: #4aa3f0; background: #0a66c2; outline: none; }
+      .card .article:hover svg, .card .article:focus-visible svg { fill: #fff; }
+      .oring > .card .article { transform: translateZ(3px); }
+      .oring > .card:not(.ofront) .article { opacity: 0; }
+      body.fit .fitgrid .article span { display: none; }
+      body.fit .fitgrid .article { padding: 0; width: 1.8rem; justify-content: center; top: 0.4rem; right: 0.4rem; }
+      @media (max-width: 39.99rem) { .card .article span { display: none; } .card .article { padding: 0; width: 2rem; justify-content: center; } }
       body.fit .fitgrid .note { display: none; }
       .oring > .card:not(.ofocus) .note { display: none; }
       .player__tabs button, .player__close, .player__open {
@@ -703,6 +720,7 @@
             <video muted loop playsinline preload="none" data-src="media/qday-research-preview.mp4"></video>
             <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
+          <a class="article" href="https://www.linkedin.com/pulse/i-built-q-day-clock-kept-speeding-up-stuart-okin-ku1me" target="_blank" rel="noopener" title="Read my LinkedIn article: I Built a Q-Day Clock. It Kept Speeding Up." aria-label="Read the LinkedIn article: I Built a Q-Day Clock. It Kept Speeding Up."><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg><span>Article</span></a>
           <a class="body" href="https://stuartokin.github.io/qday-research/">
             <span class="meta"><span class="tag">Study</span> <span>Quantum · cryptography</span></span>
             <span class="upd" data-fallback="2026-07-16"></span>
@@ -717,6 +735,7 @@
             <video muted loop playsinline preload="none" data-src="media/patch-pulse-preview.mp4"></video>
             <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
+          <a class="article" href="https://www.linkedin.com/pulse/patch-wave-isnt-coming-landed-tuesday-stuart-okin-txxie/" target="_blank" rel="noopener" title="Read my LinkedIn article: The Patch Wave isn&#x27;t coming, it landed Tuesday" aria-label="Read the LinkedIn article: The Patch Wave isn&#x27;t coming, it landed Tuesday"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg><span>Article</span></a>
           <a class="body" href="https://stuartokin.github.io/PatchPulse/">
             <span class="meta"><span class="tag">Study</span> <span>Cyber</span></span>
             <span class="upd" data-fallback="2026-07-19"></span>
@@ -731,6 +750,7 @@
             <video muted loop playsinline preload="none" data-src="media/ai-model-cortex-preview.mp4"></video>
             <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
+          <a class="article" href="https://www.linkedin.com/pulse/ai-models-learn-basics-decide-ecosystem-you-need-understand-okin-od7he/" target="_blank" rel="noopener" title="Read my LinkedIn article: AI models — learn the basics, decide the ecosystem you need" aria-label="Read the LinkedIn article: AI models — learn the basics, decide the ecosystem you need"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg><span>Article</span></a>
           <a class="body" href="https://stuartokin.github.io/AI-Model-Cortex/">
             <span class="meta"><span class="tag">Study</span> <span>AI</span></span>
             <span class="upd" data-fallback="2026-07-13"></span>
@@ -745,6 +765,7 @@
             <video muted loop playsinline preload="none" data-src="media/uk-ai-landscape-preview.mp4"></video>
             <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
+          <a class="article" href="https://www.linkedin.com/pulse/mapping-ai-governance-standards-stuart-okin-w8oqe/" target="_blank" rel="noopener" title="Read my LinkedIn article: Mapping AI governance &amp; standards" aria-label="Read the LinkedIn article: Mapping AI governance &amp; standards"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg><span>Article</span></a>
           <a class="body" href="https://stuartokin.github.io/uk-ai-landscape/">
             <span class="meta"><span class="tag">Study</span> <span>AI · governance</span></span>
             <span class="upd" data-fallback="2026-06-21"></span>
@@ -759,6 +780,7 @@
             <video muted loop playsinline preload="none" data-src="media/zero-day-ai-preview.mp4"></video>
             <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
+          <a class="article" href="https://www.linkedin.com/pulse/ai-finding-zero-day-bugs-fast-stuart-okin-khv1e/" target="_blank" rel="noopener" title="Read my LinkedIn article: AI is finding zero-day bugs fast" aria-label="Read the LinkedIn article: AI is finding zero-day bugs fast"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg><span>Article</span></a>
           <a class="body" href="https://stuartokin.github.io/AI-vulnerability-research/">
             <span class="meta"><span class="tag">Study</span> <span>AI · cyber</span></span>
             <span class="upd" data-fallback="2026-06-26"></span>
@@ -1298,7 +1320,8 @@
         /* ---------- Restore saved choices ---------- */
         setTs(SIZES.includes(ts) ? ts : 1);
         fit = store.get('obs.fit') === '1';
-        setView(store.get('obs.view') || 'tiles');
+        /* First visit: the carousel on tablets, Folds, laptops and big screens; tiles on phones. */
+        setView(store.get('obs.view') || (Math.min(innerWidth, screen.width || innerWidth) >= 600 ? 'carousel' : 'tiles'));
       })();
     </script>
   </body>
