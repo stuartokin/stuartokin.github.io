@@ -331,12 +331,47 @@
         transform-style: preserve-3d;
         transform: scale3d(var(--rs, 1), var(--rs, 1), var(--rs, 1)) translateZ(calc(-1 * var(--R))) rotateX(var(--tilt, -16deg));
       }
+      /* ---------- The platform: a low round plinth the cards stand on ----------
+         Top face, a rim built from thin vertical strips, and a soft shadow underneath. */
+      .ostage { --pr: calc(var(--R) * 1.2); --ph: clamp(12px, calc(var(--R) * 0.05), 34px); --py: calc(var(--ch) / 2 + 14px); }
+      .ofloor, .pl-base, .pl-ring { position: absolute; left: 0; top: 0; pointer-events: none; }
       .ofloor {
-        position: absolute; left: 0; top: 0; width: calc(var(--R) * 2.5); height: calc(var(--R) * 2.5);
-        border-radius: 50%; pointer-events: none;
-        transform: translate(-50%, -50%) translateY(calc(var(--ch) / 2 + 14px)) rotateX(90deg);
-        background: var(--floor-glow, radial-gradient(closest-side, color-mix(in oklab, var(--accent) 16%, transparent), color-mix(in oklab, var(--accent) 5%, transparent) 62%, transparent 100%));
-        border: 1px solid color-mix(in oklab, var(--accent) 22%, transparent);
+        width: calc(var(--pr) * 2); height: calc(var(--pr) * 2); border-radius: 50%;
+        transform: translate(-50%, -50%) translateY(var(--py)) rotateX(90deg);
+        background: var(--pl-top);
+        box-shadow: inset 0 0 0 1px var(--pl-edge), inset 0 0 calc(var(--pr) * 0.25) var(--pl-inner);
+      }
+      .ofloor::after {   /* an engraved inner ring */
+        content: ''; position: absolute; inset: 14%; border-radius: 50%;
+        border: 1px solid var(--pl-line);
+      }
+      .pl-ring { transform-style: preserve-3d; }
+      .pl-ring > i {
+        position: absolute; left: 0; top: 0; display: block;
+        width: calc(var(--pr) * 0.1); height: var(--ph); margin-left: calc(var(--pr) * -0.05);
+        background: var(--pl-side); box-shadow: inset 0 1px 0 var(--pl-edge);
+        backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      }
+      .pl-base {
+        width: calc(var(--pr) * 2.5); height: calc(var(--pr) * 2.5); border-radius: 50%;
+        transform: translate(-50%, -50%) translateY(calc(var(--py) + var(--ph) + 4px)) rotateX(90deg);
+        background: radial-gradient(closest-side, var(--pl-shadow), transparent 100%);
+      }
+      :root {
+        --pl-top: radial-gradient(closest-side, color-mix(in oklab, var(--accent) 16%, #0e1626), #0c1422 55%, #0a111d 100%);
+        --pl-edge: color-mix(in oklab, var(--accent) 55%, transparent);
+        --pl-inner: rgb(0 0 0 / 0.55);
+        --pl-line: color-mix(in oklab, var(--accent) 18%, transparent);
+        --pl-side: linear-gradient(180deg, color-mix(in oklab, var(--accent) 22%, #142033), #070b14);
+        --pl-shadow: rgb(0 0 0 / 0.6);
+      }
+      :root[data-theme="light"] {
+        --pl-top: radial-gradient(closest-side, color-mix(in oklab, var(--accent) 10%, #efe9de), #e6dfd2 60%, #dcd4c4 100%);
+        --pl-edge: rgb(255 255 255 / 0.85);
+        --pl-inner: rgb(60 45 25 / 0.12);
+        --pl-line: rgb(60 45 25 / 0.12);
+        --pl-side: linear-gradient(180deg, #d4cab7, #b2a68f);
+        --pl-shadow: rgb(60 45 25 / 0.35);
       }
       .oring > .card {
         position: absolute; left: 0; top: 0;
@@ -922,6 +957,15 @@
         const frontIndex = () => ((Math.round(angle / step()) % cards.length) + cards.length) % cards.length;
 
         const ring = stage.querySelector('.oring');
+        /* The platform's rim: thin upright strips set round the edge of the top face. */
+        (() => {
+          const base = document.createElement('i'); base.className = 'pl-base'; base.setAttribute('aria-hidden', 'true');
+          const rim = document.createElement('span'); rim.className = 'pl-ring'; rim.setAttribute('aria-hidden', 'true');
+          const N = 64;
+          rim.innerHTML = Array.from({ length: N }, (_, i) =>
+            `<i style="transform: translateY(var(--py)) rotateY(${(i * 360 / N).toFixed(2)}deg) translateZ(var(--pr))"></i>`).join('');
+          ring.prepend(rim); ring.prepend(base);
+        })();
         /* The faces that give each carousel card its thickness (hidden in the tile view). */
         cards.forEach(c => {
           const s = document.createElement('span'); s.className = 'slab'; s.setAttribute('aria-hidden', 'true');
@@ -975,6 +1019,7 @@
             const sr = stage.getBoundingClientRect(), st = sr.top, zr = (sr.height / stage.offsetHeight) || 1;
             let t = Infinity, b = -Infinity;
             cards.forEach(c => { const r = c.getBoundingClientRect(); t = Math.min(t, (r.top - st) / zr); b = Math.max(b, (r.bottom - st) / zr); });
+            ring.querySelectorAll('.pl-ring > i').forEach(el => { const r = el.getBoundingClientRect(); if (r.height) b = Math.max(b, (r.bottom - st) / zr); });
             top = Math.round(top - t + 12);
             stage.style.setProperty('--ringtop', top + 'px');
             stage.style.height = Math.round(b - t + 30) + 'px';
@@ -996,9 +1041,9 @@
           /* Still too tall: keep the cards readable and stand the whole ring further back instead. */
           const cw = narrow ? maxW : minW;
           setGeo(cw);
-          const floor = narrow ? 0.8 : 0.5;
+          const floor = narrow ? 0.8 : 0.4;
           let k = 1;
-          for (let i = 0; i < 4; i++) {
+          for (let i = 0; i < 6; i++) {
             const other = wrap.offsetHeight - stage.offsetHeight;
             k = Math.max(floor, Math.min(1, k * (vh - other - 2) / stage.offsetHeight));
             setGeo(cw, k);
