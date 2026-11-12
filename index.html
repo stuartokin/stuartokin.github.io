@@ -160,8 +160,8 @@
       /* ---------- Toolbar: view, fit, text size, music, theme ---------- */
       .toolbar {
         position: sticky; top: 0.6rem; z-index: 20;
-        display: flex; flex-wrap: wrap; align-items: center; gap: 0.55rem 0.7rem;
-        margin: 0.6rem 0 0; padding: 0.6rem 0.7rem;
+        display: flex; flex-wrap: nowrap; align-items: center; gap: 0.55rem 0.7rem;
+        margin: 0.6rem 0 0; padding: 0.6rem 0.7rem; overflow-x: auto; scrollbar-width: none;
         background: color-mix(in oklab, var(--ground-panel) 94%, transparent);
         backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         border: 1px solid color-mix(in oklab, var(--accent) 45%, var(--hairline));
@@ -194,8 +194,14 @@
       .toolbar.compact .seg__label, .toolbar.compact .seg .long { display: none; }
       .toolbar.compact { gap: 0.4rem; padding: 0.45rem; }
       .toolbar.compact .seg button { padding: 0.3rem 0.6rem; }
+      .toolbar::-webkit-scrollbar { display: none; }
+      .toolbar > * { flex: none; }
       .toolbar.tight .seg output { display: none; }
       .toolbar.tight .seg button { min-width: 2.2rem; padding: 0.25rem 0.45rem; }
+      .toolbar.toolbar.tiny { gap: 0.15rem; padding: 0.3rem; justify-content: space-between; }
+      .toolbar.toolbar.tiny .seg { padding: 2px; gap: 1px; }
+      .toolbar.toolbar.tiny .seg button { min-width: 1.6rem; min-height: 2rem; padding: 0.2rem 0.15rem; }
+      .toolbar.toolbar.tiny .seg button[data-ts] { min-width: 1.4rem; }
       @media (max-width: 47.99rem) {
         .seg__label, .seg .long { display: none; }
         .toolbar { gap: 0.4rem; justify-content: center; padding: 0.45rem; top: 0.35rem; }
@@ -403,14 +409,24 @@
       .oring > .card:not(.ofront) .desc, .oring > .card:not(.ofront) .go, .oring > .card:not(.ofront) .watch { opacity: 0; }
       .oring > .card:not(.ofront) * { cursor: pointer; }
       /* Focus: pause on the front card and it comes forward, straightens and widens to read. */
-      .oring > .card.ofocus {
-        width: var(--fw); height: auto; margin: calc(var(--fh) / -2) 0 0 calc(var(--fw) / -2);
-        box-shadow: 0 0 0 1px var(--accent), 0 0 70px color-mix(in oklab, var(--accent) 35%, transparent), 0 40px 80px rgb(0 0 0 / 0.6);
+      .ostage.focusing .oring > .card { --dim: 0.8 !important; }
+      .oring > .card.ofocus { opacity: 0 !important; transition: opacity 0.2s; }
+      /* The enlarged front card: flat, laid over the carousel. */
+      .card.ofloat {
+        position: fixed; z-index: 60; margin: 0; height: auto;
+        transform-origin: 0 0; transform: var(--from); opacity: 0.6;
+        transition: transform 0.35s cubic-bezier(.2, .8, .2, 1), opacity 0.25s;
+        border-color: var(--accent) !important;
+        box-shadow: 0 0 0 1px var(--accent), 0 0 70px color-mix(in oklab, var(--accent) 35%, transparent), 0 40px 80px rgb(0 0 0 / 0.55);
       }
-      .oring > .card.ofocus .desc { display: block; -webkit-line-clamp: unset; line-clamp: none; overflow: visible; margin-bottom: 0.4em; }
-      .oring > .card.ofocus .body { overflow: visible; }
-      .ostage.focusing .oring > .card:not(.ofocus) { --dim: 0.8 !important; }
+      .card.ofloat.in { transform: scale(var(--k, 1)); opacity: 1; }
+      .card.ofloat .desc { display: block; -webkit-line-clamp: unset; line-clamp: none; overflow: visible; margin-bottom: 0.4em; }
+      .card.ofloat .article { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { .card.ofloat { transition: none; } }
+      /* The enlarged card may rise out of the stage, but nothing may ever widen the page
+         (on phones and Folds that makes the browser zoom the whole page out). */
       .ostage.focusing.spill { overflow: visible; z-index: 30; }
+      html, body { overflow-x: clip; }
       .oring > .card.ofront { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 40px color-mix(in oklab, var(--accent) 25%, transparent), var(--shadow); }
 
       /* ---------- Solid cards in the carousel: each card is a block with real thickness ----------
@@ -438,7 +454,6 @@
         background: radial-gradient(closest-side, rgb(40 30 15 / 0.45), transparent);
       }
       .oring > .card.ofront .slab .fr { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 40px color-mix(in oklab, var(--accent) 28%, transparent), var(--shadow); }
-      .oring > .card.ofocus .slab .fr { box-shadow: 0 0 0 1px var(--accent), 0 0 70px color-mix(in oklab, var(--accent) 35%, transparent), 0 40px 80px rgb(0 0 0 / 0.5); }
 
       /* Dark: glass edges */
       :root:not([data-theme="light"]) .oring > .card { --T: clamp(16px, calc(var(--cw) * 0.08), 30px); }
@@ -813,18 +828,18 @@
             <span class="go">Play ↗</span>
           </a>
         </article>
-        <article class="card" data-repo="ApolloMaths" data-section="For fun">
-          <button class="media" type="button" data-title="Starlane Trader" data-videos='[[&quot;Trailer&quot;, &quot;media/starlane-trader.mp4&quot;]]' data-about="Starlane Trader is a space trading and exploration game in the spirit of the classic Elite. You command your own starship across a galaxy of worlds: buying low and selling high, taking on missions, fighting off pirates and upgrading your ship. Along the way you meet strange factions, from peaceful explorers to crystalline aliens, and stumble into adventures such as alien signals, nebula storms and black holes. Each adventure is a puzzle of maths, science and logic. Nova, your ship&#x27;s computer, guides you with training tours, and the game plays on laptop, tablet or phone in a sleek 3D style or two retro looks. It&#x27;s hidden inside Apollo&#x27;s Maths Missions behind a secret code — message me for it." aria-label="Watch the Starlane Trader demo">
+        <article class="card" data-repo="Starlane" data-section="For fun">
+          <button class="media" type="button" data-title="Starlane Trader" data-videos='[[&quot;Trailer&quot;, &quot;media/starlane-trader.mp4&quot;]]' data-about="Starlane Trader is a space trading and exploration game in the spirit of the classic Elite. You command your own starship across a galaxy of worlds: buying low and selling high, taking on missions, fighting off pirates and upgrading your ship. Along the way you meet strange factions, from peaceful explorers to crystalline aliens, and stumble into adventures such as alien signals, nebula storms and black holes. Each adventure is a puzzle of maths, science and logic. Nova, your ship&#x27;s computer, guides you with training tours, and the game plays on laptop, tablet or phone in a sleek 3D style or two retro looks. It&#x27;s also hidden inside Apollo&#x27;s Maths Missions behind a secret code, alongside other arcade games — message me for it." aria-label="Watch the Starlane Trader demo">
             <img src="media/starlane-trader.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/starlane-trader-preview.mp4"></video>
             <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
           </button>
-          <a class="body" href="https://stuartokin.github.io/ApolloMaths/">
+          <a class="body" href="https://stuartokin.github.io/Starlane/">
             <span class="meta"><span class="tag--fun">For fun</span> <span>Games · space</span></span>
-            <span class="upd" data-fallback="2026-11-08"></span>
+            <span class="upd" data-fallback="2026-11-12"></span>
             <h3>Starlane Trader</h3>
             <span class="desc">Command your own starship in Starlane Trader: fly, trade, explore… and learn. Battle pirates, meet alien civilisations and solve the puzzles hidden among the stars, with your ship&#x27;s computer Nova by your side.</span>
-            <span class="note">Hidden inside Apollo&#x27;s Maths Missions behind a secret code, alongside other arcade games. Message me for the code.</span>
+            <span class="note">Also hidden inside Apollo&#x27;s Maths Missions behind a secret code, alongside other arcade games. Message me for the code.</span>
             <span class="go">Play ↗</span>
           </a>
         </article>
@@ -935,14 +950,20 @@
 
         /* ---------- Toolbar: words where they fit on one line, icons where they don't ---------- */
         const bar = document.querySelector('.toolbar');
-        const wraps = () => { const k = [...bar.children].filter(el => el.offsetWidth && el.offsetHeight); return k.some(el => el.offsetTop > k[0].offsetTop + 4); };
+        /* The bar never wraps: if its contents are wider than it, drop the words, then the
+           percentage, then tighten the spacing. Re-checked whenever the bar changes size
+           (unfolding a Fold, rotating, fonts arriving). */
+        const overflows = () => bar.scrollWidth > bar.clientWidth + 1;
         function fitBar() {
-          bar.classList.remove('compact', 'tight');
-          if (wraps()) bar.classList.add('compact');
-          if (wraps()) bar.classList.add('tight');
+          /* In fit mode the page is zoomed to the screen: the bar keeps the icon form set by refresh(). */
+          if (document.body.classList.contains('fit')) return;
+          bar.classList.remove('compact', 'tight', 'tiny');
+          for (const level of ['compact', 'tight', 'tiny']) { if (!overflows()) break; bar.classList.add(level); }
         }
         fitBar();
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitBar);
+        addEventListener('load', fitBar);
+        if (window.ResizeObserver) { let lastW = 0; new ResizeObserver(() => { const w = bar.clientWidth; if (Math.abs(w - lastW) > 1) { lastW = w; fitBar(); } }).observe(bar); }
 
         /* ---------- Theme ---------- */
         const themeBtns = document.querySelectorAll('[data-theme-set]');
@@ -1008,8 +1029,7 @@
             const a = Math.abs(rel), isFront = i === front;
             /* Out to the rim, then turned most of the way back towards you, so cards behind stay
                visible: smaller, higher and angled, the way a real carousel looks from above. */
-            if (!c.classList.contains('ofocus'))
-              c.style.transform = `rotateY(${rel.toFixed(2)}deg) translateZ(${geo.R.toFixed(1)}px) rotateY(${(-rel * 0.62).toFixed(2)}deg)`;
+            c.style.transform = `rotateY(${rel.toFixed(2)}deg) translateZ(${geo.R.toFixed(1)}px) rotateY(${(-rel * 0.62).toFixed(2)}deg)`;
             c.style.opacity = '1';
             c.style.setProperty('--dim', isFront ? '0' : Math.min(0.72, 0.18 + a / 230).toFixed(3));
             c.classList.toggle('ofront', isFront);
@@ -1079,43 +1099,55 @@
         /* ----- Focus on the front card ----- */
         let focused = false, focusTimer = null, homeRect = null, ptrType = 'mouse';
         const tiltDeg = () => parseFloat(getComputedStyle(ring).getPropertyValue('--tilt')) || -16;
+        /* The enlarged card is a flat copy laid over the carousel, outside the 3D scene, so no
+           browser can ever draw the ring through it. It grows out of the front card's place. */
+        let floatCard = null;
         function focusFront(on) {
           clearTimeout(focusTimer); focusTimer = null;
           if (view !== 'carousel') on = false;
           const f = cards[frontIndex()];
-          if (on && focused && f.classList.contains('ofocus')) return;
+          if (on && focused) return;
           if (!on && !focused) return;
           focused = on;
           stage.classList.toggle('focusing', on);
-          cards.forEach(c => { if (c !== f || !on) c.classList.remove('ofocus'); });
-          if (!on) { homeRect = null; stage.classList.remove('spill'); layoutOrbit(); return; }
-          homeRect = f.getBoundingClientRect();
-          const before = f.style.transform;
-          f.style.transition = 'none';
-          const fw = Math.min(geo.cw * 1.75, stage.clientWidth * 0.9);
-          f.style.setProperty('--fw', fw + 'px');
-          f.classList.add('ofocus');
-          f.style.setProperty('--fh', f.offsetHeight + 'px');
-          /* Find a straight-on position, as close as the stage allows, centred in it. */
-          /* Room to grow: the stage, or more of the window when the stage is short. */
-          const sr = stage.getBoundingClientRect(), sc = sr.height / stage.offsetHeight || 1;
-          const roomTop = Math.max(8, Math.min(sr.top, sr.top + sr.height / 2 - innerHeight * 0.42));
-          const roomBot = Math.min(innerHeight - 8, Math.max(sr.bottom, sr.top + sr.height / 2 + innerHeight * 0.42));
-          const st = { top: roomTop, height: roomBot - roomTop };
-          stage.classList.toggle('spill', st.top < sr.top - 1 || st.top + st.height > sr.bottom + 1);
-          let z = geo.R + geo.cw * 0.5, y = 0;
-          const unscale = 1 / (parseFloat(stage.style.getPropertyValue('--rs')) || 1);   // undo the ring's shrink
-          const tf = () => `rotateY(0deg) translateZ(${z.toFixed(1)}px) rotateX(${(-tiltDeg()).toFixed(2)}deg) translateY(${y.toFixed(1)}px) scale(${unscale.toFixed(4)})`;
-          for (let i = 0; i < 7; i++) {
-            f.style.transform = tf();
-            const r = f.getBoundingClientRect(), over = r.height - (st.height - 24);
-            if (over > 0) z -= (over / sc) * 1.3;
-            y += ((st.top + st.height / 2) - (r.top + r.bottom) / 2) / sc * 0.95;
+          if (!on) {
+            homeRect = null;
+            cards.forEach(c => c.classList.remove('ofocus'));
+            if (floatCard) {
+              const fc = floatCard; floatCard = null;
+              fc.classList.remove('in'); fc.style.pointerEvents = 'none';
+              setTimeout(() => fc.remove(), reduce() ? 0 : 260);
+            }
+            return;
           }
-          const target = tf();
-          f.style.transform = before; void f.offsetWidth;
-          f.style.transition = '';
-          requestAnimationFrame(() => { if (f.classList.contains('ofocus')) f.style.transform = target; });
+          homeRect = f.getBoundingClientRect();
+          f.classList.add('ofocus');
+          const fc = f.cloneNode(true);
+          fc.querySelector('.slab')?.remove();
+          fc.className = 'card ofloat'; fc.removeAttribute('aria-hidden'); fc.removeAttribute('style');
+          fc.querySelectorAll('[tabindex]').forEach(el => el.removeAttribute('tabindex'));
+          fc.querySelectorAll('video').forEach(v => v.remove());
+          fc.querySelector('.media').addEventListener('click', () => { focusFront(false); f.querySelector('.media').click(); });
+          fc.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse' && !inRect(homeRect, e)) focusFront(false); });
+          document.body.appendChild(fc);
+          /* Size: up to 1.75 × the card, never wider than the screen, never taller than the space
+             between the toolbar and the bottom of the screen. */
+          const vw = document.documentElement.clientWidth, vh = window.visualViewport ? visualViewport.height : innerHeight;
+          const top0 = Math.max(0, bar.getBoundingClientRect().bottom) + 10, bot0 = vh - 10;
+          const w = Math.min(Math.max(homeRect.width, geo.cw) * 1.75, vw - 24, 640);
+          fc.style.width = w + 'px';
+          const k = Math.min(1, (bot0 - top0) / fc.offsetHeight);
+          const h = fc.offsetHeight * k, cx = homeRect.left + homeRect.width / 2, cy = homeRect.top + homeRect.height / 2;
+          const left = Math.min(Math.max(12, cx - w * k / 2), vw - 12 - w * k);
+          const top = Math.min(Math.max(top0, cy - h / 2), bot0 - h);
+          Object.assign(fc.style, { left: left + 'px', top: top + 'px', '--k': k.toFixed(4) });
+          fc.style.setProperty('--k', k.toFixed(4));
+          /* Start exactly over the ring card, then grow to the final size. */
+          const sx = homeRect.width / (w * k), sy = homeRect.height / h;
+          fc.style.setProperty('--from', `translate(${(homeRect.left - left).toFixed(1)}px, ${(homeRect.top - top).toFixed(1)}px) scale(${sx.toFixed(4)}, ${sy.toFixed(4)})`);
+          void fc.offsetWidth;
+          requestAnimationFrame(() => fc.classList.add('in'));
+          floatCard = fc;
         }
         const inRect = (r, e) => r && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
         stage.addEventListener('pointermove', e => {
@@ -1123,17 +1155,24 @@
           if (e.pointerType !== 'mouse' || x0 !== null || reduceFocus()) return;
           const f = cards[frontIndex()];
           if (focused) {
-            /* Stay open while the pointer is on the enlarged card or where the card started. */
-            if (!inRect(f.getBoundingClientRect(), e) && !inRect(homeRect, e)) focusFront(false);
+            if (!inRect(homeRect, e) && !(floatCard && inRect(floatCard.getBoundingClientRect(), e))) focusFront(false);
           } else if (inRect(f.getBoundingClientRect(), e)) {
             if (!focusTimer) focusTimer = setTimeout(() => focusFront(true), 400);
           } else { clearTimeout(focusTimer); focusTimer = null; }
         });
-        stage.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') focusFront(false); });
+        /* Touch: a tap anywhere outside the enlarged card puts it back. */
+        document.addEventListener('pointerdown', e => {
+          if (focused && floatCard && !floatCard.contains(e.target) && !stage.contains(e.target)) focusFront(false);
+        }, true);
+        addEventListener('scroll', () => { if (focused) focusFront(false); }, { passive: true });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && focused) focusFront(false); });
+        stage.addEventListener('pointerleave', e => {
+          if (e.pointerType === 'mouse' && !(floatCard && inRect(floatCard.getBoundingClientRect(), e))) focusFront(false);
+        });
         stage.addEventListener('focusin', e => {   // keyboard users: tabbing onto the front card focuses it
           if (e.target.closest('.card.ofront') && e.target.matches(':focus-visible')) focusFront(true);
         });
-        stage.addEventListener('focusout', e => { if (!stage.contains(e.relatedTarget)) focusFront(false); });
+        stage.addEventListener('focusout', e => { if (!stage.contains(e.relatedTarget) && !(floatCard && floatCard.contains(e.relatedTarget))) focusFront(false); });
         function reduceFocus() { return false; }
         const turnTo = i => { focusFront(false); let d = i * step() - angle; d = ((d % 360) + 540) % 360 - 180; angle += d; layoutOrbit(); };
         const stepBy = dir => { focusFront(false); angle = Math.round(angle / step()) * step() + dir * step(); layoutOrbit(); };
@@ -1149,6 +1188,7 @@
         ['pointerup', 'pointerleave', 'pointercancel'].forEach(t => stage.addEventListener(t, endDrag));
         /* A drag is not a click, and a card at the side comes forward instead of opening. */
         stage.addEventListener('click', e => {
+          if (focused && ptrType !== 'mouse') { e.preventDefault(); e.stopPropagation(); focusFront(false); return; }
           const c = e.target.closest('.card'); if (!c) { focusFront(false); return; }
           if (moved > 5) { e.preventDefault(); e.stopPropagation(); moved = 0; return; }
           /* On touch screens the first tap on the front card brings it forward to read. */
@@ -1220,6 +1260,7 @@
         function refresh() {
           if (typeof focusFront === 'function') focusFront(false);
           wrap.style.transform = ''; wrap.style.width = ''; wrap.style.zoom = '';
+          if (fit) { bar.classList.remove('tiny'); bar.classList.add('compact', 'tight'); } else fitBar();
           if (!fit) {
             if (view === 'carousel') { sizeOrbit(viewH()); layoutOrbit(true); requestAnimationFrame(() => layoutOrbit()); }
             return;
