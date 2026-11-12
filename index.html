@@ -507,7 +507,7 @@
           <button type="button" class="infobtn infobtn--title" id="hinfoBtn" aria-expanded="false" aria-controls="hinfo" title="About and links" aria-label="About this site and links"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="4.6" r="1" fill="currentColor"/><path d="M8 7v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
           <div class="hinfo" id="hinfo" hidden>
             <p class="hinfo__claim small-only">Every claim carries its source, its date, and whether anyone has actually checked it.</p>
-            <p class="hinfo__pulse small-only" data-pulse>10 boards · 3 maintained by agents</p>
+            <p class="hinfo__pulse small-only" data-pulse>11 boards · 3 maintained by agents</p>
             <div class="hinfo__links">
               <a href="https://github.com/stuartokin"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>github.com/stuartokin</a>
               <a href="https://www.linkedin.com/in/stuart-okin-b37ab69/"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg>linkedin.com/in/stuart-okin-b37ab69</a>
@@ -518,7 +518,7 @@
           Research boards on cyber, quantum, cryptography, and AI. <b class="big-only">Every claim carries its
           source, its date, and whether anyone has actually checked it.</b>
         </p>
-        <p class="pulse-line big-only" data-pulse>10 boards · 3 maintained by agents · every one has a demo video</p>
+        <p class="pulse-line big-only" data-pulse>11 boards · 3 maintained by agents · every one has a demo video</p>
       </header>
 
       <div class="toolbar" role="toolbar" aria-label="Display options">
@@ -548,10 +548,10 @@
       </div>
 
       <section class="group" data-group="live">
-        <h2>Live · maintained by agents<button type="button" class="infobtn infobtn--sec" aria-expanded="false" aria-controls="note-live" title="About this section" aria-label="About Live · maintained by agents"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="4.6" r="1" fill="currentColor"/><path d="M8 7v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></h2>
-        <p class="section-note" id="note-live">These change week to week. Research agents gather and check the evidence; each board says what has and hasn't been reviewed.</p>
+        <h2>Live · maintained by agents and live data<button type="button" class="infobtn infobtn--sec" aria-expanded="false" aria-controls="note-live" title="About this section" aria-label="About Live · maintained by agents and live data"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="4.6" r="1" fill="currentColor"/><path d="M8 7v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></h2>
+        <p class="section-note" id="note-live">These change week to week. Research agents or live data feeds keep them current; each board says what has and hasn't been reviewed.</p>
         <div class="grid">
-        <article class="card card--lead" data-repo="quantum-observatory" data-section="Live">
+        <article class="card card--lead" data-repo="quantum-observatory" data-section="Live" data-agents>
           <button class="media" type="button" data-title="Quantum Observatory" data-videos='[[&quot;Walkthrough&quot;, &quot;media/quantum-observatory.mp4&quot;]]' aria-label="Watch the Quantum Observatory demo">
             <img src="media/quantum-observatory.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/quantum-observatory-preview.mp4"></video>
@@ -565,7 +565,7 @@
             <span class="go">Open ↗</span>
           </a>
         </article>
-        <article class="card" data-repo="cyber-attack-earth" data-section="Live">
+        <article class="card" data-repo="cyber-attack-earth" data-section="Live" data-agents>
           <button class="media" type="button" data-title="Cyber Attack Earth" data-videos='[[&quot;Twenty-five years in 28 seconds&quot;, &quot;media/cyber-attack-earth.mp4&quot;]]' aria-label="Watch the Cyber Attack Earth demo">
             <img src="media/cyber-attack-earth.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/cyber-attack-earth-preview.mp4"></video>
@@ -579,7 +579,21 @@
             <span class="go">Open ↗</span>
           </a>
         </article>
-        <article class="card" data-repo="ResearchGap" data-section="Live">
+        <article class="card" data-repo="energy-resilience" data-section="Live">
+          <button class="media" type="button" data-title="Energy Resilience" data-videos='[[&quot;Walkthrough&quot;, &quot;media/energy-resilience.mp4&quot;]]' aria-label="Watch the Energy Resilience demo">
+            <img src="media/energy-resilience.jpg" alt="" loading="lazy" width="1280" height="720" />
+            <video muted loop playsinline preload="none" data-src="media/energy-resilience-preview.mp4"></video>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
+          </button>
+          <a class="body" href="https://stuartokin.github.io/energy-resilience/">
+            <span class="meta"><span class="tag--live">Live data</span> <span>Energy · resilience</span></span>
+            <span class="upd" data-fallback="2026-11-12"></span>
+            <h3>Energy Resilience</h3>
+            <span class="desc">A live picture of the GB energy system — infrastructure, power cuts, generator outages, flows and warnings — built only from public open data, with &#x27;what if&#x27; disruption scenarios on top. Every figure comes straight from its publisher; scenario impacts are modelled illustrations, not forecasts.</span>
+            <span class="go">Open ↗</span>
+          </a>
+        </article>
+        <article class="card" data-repo="ResearchGap" data-section="Live" data-agents>
           <button class="media" type="button" data-title="The Shrinking Gap" data-videos='[[&quot;Walkthrough&quot;, &quot;media/shrinking-gap.mp4&quot;]]' aria-label="Watch the The Shrinking Gap demo">
             <img src="media/shrinking-gap.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/shrinking-gap-preview.mp4"></video>
@@ -780,7 +794,7 @@
         const paint = () => {
           for (const c of cards) { const el = c.querySelector('.upd'), d = dateOf(c); el.textContent = ago(d); el.title = d.toLocaleString('en-GB'); }
           const latest = new Date(Math.max(...cards.map(dateOf)));
-          const live = document.querySelectorAll('.card .tag--live').length;
+          const live = document.querySelectorAll('.card[data-agents]').length;
           const pulseHtml =
             `<b>${cards.length}</b> boards · <b>${live}</b> maintained by agents · last change <b>${ago(latest).replace('Updated ', '')}</b>`;
           document.querySelectorAll('[data-pulse]').forEach(el => (el.innerHTML = pulseHtml));
