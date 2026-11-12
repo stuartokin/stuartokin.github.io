@@ -377,6 +377,54 @@
       .ostage.focusing .oring > .card:not(.ofocus) { --dim: 0.8 !important; }
       .ostage.focusing.spill { overflow: visible; z-index: 30; }
       .oring > .card.ofront { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 40px color-mix(in oklab, var(--accent) 25%, transparent), var(--shadow); }
+
+      /* ---------- Solid cards in the carousel: each card is a block with real thickness ----------
+         Dark: glass edges that glow teal. Light: thick stone edges lit from above, with a floor shadow. */
+      .slab { display: none; }
+      .oring > .card {
+        --T: clamp(14px, calc(var(--cw) * 0.07), 28px);
+        overflow: visible; transform-style: preserve-3d;
+        background: transparent !important; border-color: transparent !important; box-shadow: none !important;
+      }
+      .oring > .card .media, .oring > .card .body { transform: translateZ(1px); }
+      .oring > .card .media { border-radius: 10px 10px 0 0; }
+      .oring > .card::before { transform: translateZ(2px); border-radius: 10px; }
+      .oring > .card .slab { display: block; position: absolute; inset: -1px; transform-style: preserve-3d; pointer-events: none; }
+      .slab > i { position: absolute; display: block; }
+      .slab .fr { inset: 0; border-radius: 10px; background: var(--ground-panel); border: 1px solid var(--hairline); box-shadow: var(--shadow); }
+      .slab .bk { inset: 0; border-radius: 10px; transform: translateZ(calc(-1 * var(--T))); }
+      .slab .l { top: 6px; bottom: 6px; left: 0; width: var(--T); transform-origin: left center; transform: rotateY(90deg); }
+      .slab .r { top: 6px; bottom: 6px; right: 0; width: var(--T); transform-origin: right center; transform: rotateY(-90deg); }
+      .slab .t { left: 6px; right: 6px; top: 0; height: var(--T); transform-origin: center top; transform: rotateX(-90deg); }
+      .slab .b { left: 6px; right: 6px; bottom: 0; height: var(--T); transform-origin: center bottom; transform: rotateX(90deg); }
+      .slab .sh {
+        display: none; left: -12%; right: -12%; bottom: calc(-1 * var(--T) - 6px); height: 60px;
+        transform-origin: center bottom; transform: rotateX(90deg) translateZ(-2px);
+        background: radial-gradient(closest-side, rgb(40 30 15 / 0.45), transparent);
+      }
+      .oring > .card.ofront .slab .fr { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 40px color-mix(in oklab, var(--accent) 28%, transparent), var(--shadow); }
+      .oring > .card.ofocus .slab .fr { box-shadow: 0 0 0 1px var(--accent), 0 0 70px color-mix(in oklab, var(--accent) 35%, transparent), 0 40px 80px rgb(0 0 0 / 0.5); }
+
+      /* Dark: glass edges */
+      :root:not([data-theme="light"]) .oring > .card { --T: clamp(16px, calc(var(--cw) * 0.08), 30px); }
+      :root:not([data-theme="light"]) .slab .l, :root:not([data-theme="light"]) .slab .r,
+      :root:not([data-theme="light"]) .slab .t, :root:not([data-theme="light"]) .slab .b {
+        background: linear-gradient(90deg, color-mix(in oklab, var(--accent) 55%, transparent), color-mix(in oklab, var(--accent) 12%, transparent));
+        box-shadow: 0 0 18px color-mix(in oklab, var(--accent) 35%, transparent);
+      }
+      :root:not([data-theme="light"]) .slab .bk { background: color-mix(in oklab, var(--accent) 10%, transparent); border: 1px solid color-mix(in oklab, var(--accent) 45%, transparent); }
+      :root:not([data-theme="light"]) .slab .fr { border-color: color-mix(in oklab, var(--accent) 50%, var(--hairline)); }
+
+      /* Light: thick lit stone edges */
+      :root[data-theme="light"] .oring > .card { --T: clamp(18px, calc(var(--cw) * 0.11), 36px); }
+      :root[data-theme="light"] .slab .l, :root[data-theme="light"] .slab .r { background: linear-gradient(90deg, #e4dbcb, #a89c84 70%); }
+      :root[data-theme="light"] .slab .t { background: linear-gradient(180deg, color-mix(in oklab, var(--accent) 35%, #e4dbcb), #a89c84); }
+      :root[data-theme="light"] .slab .b { background: #a89c84; }
+      :root[data-theme="light"] .slab .bk { background: #9c907a; }
+      :root[data-theme="light"] .slab .sh { display: block; }
+      :root[data-theme="light"] .oring > .card.ofront .slab .l, :root[data-theme="light"] .oring > .card.ofront .slab .r {
+        background: linear-gradient(90deg, color-mix(in oklab, var(--accent) 75%, #e4dbcb), #a89c84 80%);
+      }
       .onav { display: flex; align-items: center; justify-content: center; gap: 1.4rem; margin-top: 0.4rem; }
       .navbtn {
         appearance: none; cursor: pointer; flex: none; width: 2.75rem; height: 2.75rem; border-radius: 50%;
@@ -874,6 +922,12 @@
         const frontIndex = () => ((Math.round(angle / step()) % cards.length) + cards.length) % cards.length;
 
         const ring = stage.querySelector('.oring');
+        /* The faces that give each carousel card its thickness (hidden in the tile view). */
+        cards.forEach(c => {
+          const s = document.createElement('span'); s.className = 'slab'; s.setAttribute('aria-hidden', 'true');
+          s.innerHTML = '<i class="sh"></i><i class="bk"></i><i class="fr"></i><i class="l"></i><i class="r"></i><i class="t"></i><i class="b"></i>';
+          c.prepend(s);
+        });
         const geo = { cw: 300, ch: 480, R: 480 };
         /* Each card sits on a real 3D ring: turned to its place, pushed out to the rim. The ring is
            tilted towards you, so cards going round the back rise up and turn away. */
