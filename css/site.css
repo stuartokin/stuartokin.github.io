@@ -669,3 +669,7 @@ header { position: relative; z-index: 60; }
 
 /* Text size only changes the tiles, so it is hidden while the carousel is showing. */
 body.view-carousel .seg[aria-label="Tile text size"] { display: none; }
+
+/* The enlarged card handles its own taps and drags; stop the browser treating a wobbly tap
+   as the start of a scroll (which cancelled the tap). */
+.card.ofloat { touch-action: none; }

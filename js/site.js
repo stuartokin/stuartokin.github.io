@@ -308,10 +308,27 @@
     fc.className = 'card ofloat'; fc.removeAttribute('aria-hidden'); fc.removeAttribute('style');
     fc.querySelectorAll('[tabindex]').forEach(el => el.removeAttribute('tabindex'));
     fc.querySelectorAll('video').forEach(v => v.remove());
-    fc.querySelector('.media').addEventListener('click', () => { focusFront(false); f.querySelector('.media').click(); });
+    fc.querySelector('.media').addEventListener('click', () => { focusFront(false); passThrough = true; f.querySelector('.media').click(); passThrough = false; });
     fc.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse' && x0 === null && !inRect(homeRect, e)) focusFront(false); });
-    fc.addEventListener('pointerdown', e => { if (e.button) return; ptrType = e.pointerType; x0 = e.clientX; a0 = angle; moved = 0; });
-    fc.addEventListener('click', e => { if (moved > 5) { e.preventDefault(); e.stopPropagation(); moved = 0; } }, true);
+    fc.addEventListener('pointerdown', e => { if (e.button) return; ptrType = e.pointerType; x0 = e.clientX; a0 = angle; moved = 0; dragFromFloat = true; });
+    /* Touch: act on the finger lifting, not on the browser's click. A tap that wobbles a few
+       pixels can cancel the click on some phones, which made Watch demo and Open seem dead. */
+    let tapDone = 0;
+    fc.addEventListener('pointerup', e => {
+      if (e.pointerType === 'mouse' || dragged()) return;
+      const t = e.target.closest('a, .media'); if (!t) return;
+      tapDone = Date.now(); e.preventDefault();
+      /* Run just after the browser's own click (if any) has passed, so that click can't land on
+         the video player's backdrop and close it again. */
+      setTimeout(() => {
+        if (t.classList.contains('media')) { focusFront(false); passThrough = true; f.querySelector('.media').click(); passThrough = false; }
+        else t.click();
+      }, 60);
+    });
+    fc.addEventListener('click', e => {
+      if (e.isTrusted && Date.now() - tapDone < 700) { e.preventDefault(); e.stopPropagation(); return; }   // already handled on pointerup
+      if (dragged()) { e.preventDefault(); e.stopPropagation(); moved = 0; }
+    }, true);
     fc.addEventListener('dragstart', e => e.preventDefault());
     document.body.appendChild(fc);
     /* Size: up to 1.75 × the card, never wider than the screen, never taller than the space
@@ -362,30 +379,36 @@
   const turnTo = i => { focusFront(false); let d = i * step() - angle; d = ((d % 360) + 540) % 360 - 180; angle += d; layoutOrbit(); };
   const stepBy = dir => { focusFront(false); angle = Math.round(angle / step()) * step() + dir * step(); layoutOrbit(); };
 
-  let x0 = null, a0 = 0;
-  stage.addEventListener('pointerdown', e => { ptrType = e.pointerType; if (e.button) return; x0 = e.clientX; a0 = angle; moved = 0; });
+  let x0 = null, a0 = 0, dragFromFloat = false;
+  const dragThreshold = () => dragFromFloat ? 24 : (ptrType === 'mouse' ? 5 : 14);
+  const dragged = () => moved > dragThreshold();
+  stage.addEventListener('pointerdown', e => { ptrType = e.pointerType; if (e.button) return; x0 = e.clientX; a0 = angle; moved = 0; dragFromFloat = false; });
   /* Drags are followed across the whole window, so a drag that starts on the enlarged card
      (or wanders off the carousel) still turns the ring. */
   addEventListener('pointermove', e => {
     if (x0 === null) return;
     const dx = e.clientX - x0; moved = Math.max(moved, Math.abs(dx));
-    if (moved > 5) { if (focused) focusFront(false); angle = a0 - dx * 0.25; layoutOrbit(true); }
+    if (dragged()) { if (focused) focusFront(false); angle = a0 - dx * 0.25; layoutOrbit(true); }
   });
-  const endDrag = () => { if (x0 === null) return; x0 = null; if (moved > 5) { angle = Math.round(angle / step()) * step(); layoutOrbit(); } };
+  const endDrag = () => { if (x0 === null) return; x0 = null; if (dragged()) { angle = Math.round(angle / step()) * step(); layoutOrbit(); } };
   ['pointerup', 'pointercancel'].forEach(t => addEventListener(t, endDrag));
   /* A drag is not a click, and a card at the side comes forward instead of opening. */
+  /* Set while the enlarged card hands a "Watch demo" click to the ring card behind it, so the
+     carousel's own click handling (which would open the enlarged card again) stays out of it. */
+  let passThrough = false;
   stage.addEventListener('click', e => {
+    if (passThrough) return;
     if (focused && ptrType !== 'mouse') { e.preventDefault(); e.stopPropagation(); focusFront(false); return; }
     if (gl() && e.target.closest('canvas')) {
       e.preventDefault(); e.stopPropagation();
-      if (moved > 5) { moved = 0; return; }
+      if (dragged()) { moved = 0; return; }
       const i = window.HQ3D.pick(e.clientX, e.clientY);
       if (i < 0) { focusFront(false); return; }
       if (i === frontIndex()) { if (!focused) focusFront(true); return; }
       turnTo(i); return;
     }
     const c = e.target.closest('.card'); if (!c) { focusFront(false); return; }
-    if (moved > 5) { e.preventDefault(); e.stopPropagation(); moved = 0; return; }
+    if (dragged()) { e.preventDefault(); e.stopPropagation(); moved = 0; return; }
     /* On touch screens the first tap on the front card brings it forward to read. */
     if (c.classList.contains('ofront') && !focused && ptrType !== 'mouse') { e.preventDefault(); e.stopPropagation(); focusFront(true); return; }
     if (!c.classList.contains('ofront')) { e.preventDefault(); e.stopPropagation(); turnTo(cards.indexOf(c)); }
