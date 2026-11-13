@@ -195,6 +195,21 @@
       .toolbar.compact { gap: 0.4rem; padding: 0.45rem; }
       .toolbar.compact .seg button { padding: 0.3rem 0.6rem; }
       .toolbar::-webkit-scrollbar { display: none; }
+      .tbgroup { display: flex; flex: none; align-items: center; gap: inherit; }
+      /* Large screens: two separate floating bars, controls on the left, music and theme on the right. */
+      @media (min-width: 90rem) {
+        .toolbar {
+          background: none; border-color: transparent; box-shadow: none; padding: 0;
+          backdrop-filter: none; -webkit-backdrop-filter: none; overflow: visible;
+        }
+        .tbgroup {
+          padding: 0.5rem 0.6rem; border-radius: 16px;
+          background: color-mix(in oklab, var(--ground-panel) 94%, transparent);
+          backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+          border: 1px solid color-mix(in oklab, var(--accent) 45%, var(--hairline));
+          box-shadow: var(--bar-shadow);
+        }
+      }
       .toolbar > * { flex: none; }
       .toolbar.tight .seg output { display: none; }
       .toolbar.tight .seg button { min-width: 2.2rem; padding: 0.25rem 0.45rem; }
@@ -637,6 +652,7 @@
       </header>
 
       <div class="toolbar" role="toolbar" aria-label="Display options">
+        <div class="tbgroup tbgroup--main">
         <div class="seg" role="group" aria-label="Layout">
           <span class="seg__label">View</span>
           <button type="button" data-view="tiles" aria-pressed="true" title="Tiles"><span class="ico">▦</span><span class="long">Tiles</span></button>
@@ -651,13 +667,16 @@
           <output id="tsOut" aria-live="polite">100%</output>
           <button type="button" data-ts="1" aria-label="Larger tile text">A+</button>
         </div>
+        </div>
         <span class="spacer"></span>
+        <div class="tbgroup tbgroup--side">
         <div class="seg" role="group" aria-label="Music">
           <button type="button" id="musicBtn" aria-pressed="false" aria-label="Turn music on" title="Music"><span class="ico" id="musicIco">🔇</span><span class="long" id="musicTxt">Music off</span></button>
         </div>
         <div class="seg" role="group" aria-label="Colour theme">
           <button type="button" data-theme-set="dark" aria-pressed="true" title="Dark"><span class="ico">☾</span><span class="long">Dark</span></button>
           <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><span class="ico">☀</span><span class="long">Light</span></button>
+        </div>
         </div>
         <audio id="music" src="media/music.mp3" loop preload="none"></audio>
       </div>
@@ -1200,7 +1219,17 @@
         });
         orbit.querySelectorAll('.navbtn').forEach(b => b.addEventListener('click', () => stepBy(+b.dataset.dir)));
         orbit.querySelector('.odots').addEventListener('click', e => { const d = e.target.closest('.odot'); if (d) turnTo(+d.dataset.i); });
-        let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { fitBar(); refresh(); }, 120); });
+        /* On phones and Folds the browser's address bar slides in and out as you scroll, which
+           changes only the window height. Re-laying the page for that made the footer jump, so
+           only a width change (rotating, folding, resizing a window) or a big height change counts. */
+        const touchy = matchMedia('(pointer: coarse)').matches;
+        let rt, lastW = innerWidth, lastH = innerHeight;
+        addEventListener('resize', () => {
+          const dw = Math.abs(innerWidth - lastW), dh = Math.abs(innerHeight - lastH);
+          if (touchy && dw < 2 && dh < 160 && !fit) return;
+          lastW = innerWidth; lastH = innerHeight;
+          clearTimeout(rt); rt = setTimeout(() => { fitBar(); refresh(); }, 120);
+        });
 
         const viewBtns = document.querySelectorAll('[data-view]');
         const fitgrid = document.getElementById('fitgrid');
