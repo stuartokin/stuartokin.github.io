@@ -219,6 +219,19 @@
         box-shadow: 3px 4px 0 0 #cfc5b3, 6px 8px 0 0 #a89c84, 0 26px 30px -10px rgb(60 45 25 / 0.35) !important;
       }
       html.lite .oring > .card.ofront { border-color: var(--accent) !important; }
+      /* No 3D at all on touch screens. */
+      html.lite .ostage { perspective: none; }
+      html.lite .oring { transform: scale(var(--rs, 1)) !important; transform-origin: 0 0; transform-style: flat; }
+      html.lite .oring > .card { margin: 0; transform-origin: 50% 100%; backface-visibility: visible; -webkit-backface-visibility: visible; }
+      html.lite .oring > .card::before { border-radius: 10px; }
+      html.lite .ofloor, html.lite .pl-side, html.lite .pl-base {
+        width: calc(var(--ex) * 2); height: calc(var(--ey) * 2); border-radius: 50%;
+        transform: translate(-50%, -50%);
+      }
+      html.lite .ofloor { z-index: 2; }
+      html.lite .pl-side { z-index: 1; transform: translate(-50%, -50%) translateY(var(--fph)); }
+      html.lite .pl-base { z-index: 0; width: calc(var(--ex) * 2.4); height: calc(var(--ey) * 2.6); transform: translate(-50%, -50%) translateY(calc(var(--fph) * 2)); }
+      html.lite .ofloor::after { inset: 18%; }
       .pl-side {
         position: absolute; left: 0; top: 0; pointer-events: none;
         width: calc(var(--pr) * 2); height: calc(var(--pr) * 2); border-radius: 50%;
@@ -680,7 +693,7 @@
               <a href="https://github.com/stuartokin"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>github.com/stuartokin</a>
               <a href="https://www.linkedin.com/in/stuart-okin-b37ab69/"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg>linkedin.com/in/stuart-okin-b37ab69</a>
             </div>
-            <p class="hinfo__ver">Page version 2026-11-13b</p>
+            <p class="hinfo__ver">Page version 2026-11-13c</p>
           </div>
         </div>
         <p class="standfirst">
@@ -1083,9 +1096,44 @@
         const geo = { cw: 300, ch: 480, R: 480 };
         /* Each card sits on a real 3D ring: turned to its place, pushed out to the rim. The ring is
            tilted towards you, so cards going round the back rise up and turn away. */
+        /* Touch screens: the same ring drawn with flat (2D) moves only — position, size and a
+           slight squeeze for cards at the side — so phone graphics never have to sort 3D surfaces. */
+        function layoutFlat() {
+          const W = stage.clientWidth, cw = geo.cw, ch = geo.ch;
+          const RX = Math.min(W * 0.4, cw * 2.6), RY = RX * 0.2, lift = ch * 0.62;
+          const ex = RX + cw * 0.62, ey = RY + cw * 0.62 * 0.2, ph = Math.max(10, ey * 0.16);
+          stage.style.setProperty('--ex', ex.toFixed(1) + 'px'); stage.style.setProperty('--ey', ey.toFixed(1) + 'px');
+          stage.style.setProperty('--fph', ph.toFixed(1) + 'px');
+          const front = frontIndex(), s = step();
+          cards.forEach((c, i) => {
+            let rel = i * s - angle; rel = ((rel % 360) + 540) % 360 - 180;
+            const r = rel * Math.PI / 180, sn = Math.sin(r), cs = Math.cos(r), a = Math.abs(rel);
+            const k = 0.42 + 0.58 * Math.pow((cs + 1) / 2, 1.3), squeeze = 0.8 + 0.2 * Math.abs(cs);
+            const x = sn * RX, y = cs * RY - (1 - cs) / 2 * lift;
+            c.style.transform = `translate(-50%, -100%) translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${(k * squeeze).toFixed(4)}, ${k.toFixed(4)})`;
+            c.style.zIndex = String(Math.round((cs + 1) * 100) + 10);
+            c.style.opacity = '1';
+            c.style.setProperty('--dim', i === front ? '0' : Math.min(0.72, 0.18 + a / 230).toFixed(3));
+          });
+        }
         function layoutOrbit(instant) {
           const n = cards.length, s = step(), front = frontIndex();
           stage.classList.toggle('dragging', !!instant);
+          if (lite) {
+            layoutFlat();
+            cards.forEach((c, i) => {
+              const isFront = i === front;
+              c.classList.toggle('ofront', isFront);
+              c.setAttribute('aria-hidden', String(!isFront));
+              c.querySelectorAll('a, button').forEach(el => (el.tabIndex = isFront ? 0 : -1));
+            });
+            const fc0 = cards[front];
+            orbit.querySelector('.olabel').textContent = `${fc0.dataset.section} · ${front + 1} of ${n}`;
+            const dots0 = orbit.querySelector('.odots');
+            if (dots0.children.length !== n) dots0.innerHTML = cards.map((c, i) => `<button class="odot" type="button" data-i="${i}" aria-label="${c.querySelector('h3').textContent}"></button>`).join('');
+            [...dots0.children].forEach((d, i) => d.classList.toggle('on', i === front));
+            return;
+          }
           cards.forEach((c, i) => {
             let rel = i * s - angle; rel = ((rel % 360) + 540) % 360 - 180;
             const a = Math.abs(rel), isFront = i === front;
