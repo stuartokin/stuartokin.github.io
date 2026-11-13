@@ -175,11 +175,14 @@ function init() {
       meshes.forEach(m => { m.geometry.dispose(); m.geometry = g; });
       faceGeoDepth = depth;
     }
-    if (sideMat) sideMat.dispose();
-    sideMat = D
-      ? new THREE.MeshStandardMaterial({ color: accent, emissive: accent, emissiveIntensity: 0.45, transparent: true, opacity: 0.8, roughness: 0.25, metalness: 0.2 })
-      : new THREE.MeshStandardMaterial({ color: new THREE.Color('#cdbfa6'), roughness: 0.75, metalness: 0 });
-    meshes.forEach(m => { m.material[1] = sideMat; paintFace(m.userData.card, m.userData.tex); m.userData.tex.needsUpdate = true; });
+    meshes.forEach(m => {
+      if (m.material[1]) m.material[1].dispose();
+      m.material[1] = D
+        ? new THREE.MeshStandardMaterial({ color: accent, emissive: accent, emissiveIntensity: 0.3, transparent: true, opacity: 0.8, roughness: 0.25, metalness: 0.2 })
+        : new THREE.MeshStandardMaterial({ color: new THREE.Color('#cdbfa6'), emissive: accent, emissiveIntensity: 0, roughness: 0.75, metalness: 0 });
+      paintFace(m.userData.card, m.userData.tex); m.userData.tex.needsUpdate = true;
+    });
+    buildSpot(D, accent);
 
     // platform
     platform.clear();
@@ -205,6 +208,71 @@ function init() {
       gm.rotation.x = -Math.PI / 2; gm.position.y = 0.002; platform.add(gm);
     }
     requestRender();
+  }
+
+  /* ---------- The spotlight on the front place: a beam, a pool of light and a contact shadow ---------- */
+  const spot = new THREE.Group(); scene.add(spot);
+  let beam, pool, contact, spotLight;
+  function gradTex(draw, w = 256, h = 256) {
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    draw(c.getContext('2d'), w, h);
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+  }
+  function buildSpot(D, accent) {
+    spot.clear();
+    const z = R + 0.18, topY = CH + 1.9;
+    // the beam: an open cone, brightest at the top and fading towards the platform
+    const beamTex = gradTex((ctx, w, h) => {
+      const g = ctx.createLinearGradient(0, 0, 0, h);
+      if (D) { g.addColorStop(0, 'rgba(160,255,235,0)'); g.addColorStop(0.15, 'rgba(160,255,235,0.45)'); g.addColorStop(0.6, 'rgba(61,224,192,0.14)'); g.addColorStop(1, 'rgba(61,224,192,0)'); }
+      else { g.addColorStop(0, 'rgba(255,250,236,0)'); g.addColorStop(0.15, 'rgba(255,250,236,0.95)'); g.addColorStop(0.65, 'rgba(255,246,226,0.45)'); g.addColorStop(1, 'rgba(255,246,226,0)'); }
+      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+      const s = ctx.createLinearGradient(0, 0, w, 0);   // soft sides
+      s.addColorStop(0, 'rgba(0,0,0,1)'); s.addColorStop(0.5, 'rgba(0,0,0,0)'); s.addColorStop(1, 'rgba(0,0,0,1)');
+      ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = s; ctx.fillRect(0, 0, w, h);
+    }, 64, 256);
+    const coneH = topY - 0.02;
+    const cone = new THREE.CylinderGeometry(0.08, 0.78, coneH, 48, 1, true);
+    beam = new THREE.Mesh(cone, new THREE.MeshBasicMaterial({
+      map: beamTex, transparent: true, depthWrite: false, side: THREE.DoubleSide,
+      blending: D ? THREE.AdditiveBlending : THREE.NormalBlending, opacity: D ? 0.55 : 0.55 }));
+    beam.position.set(0, coneH / 2 + 0.01, z); beam.renderOrder = 400;
+    spot.add(beam);
+    // the pool of light on the platform
+    const poolTex = gradTex((ctx, w, h) => {
+      const g = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2);
+      if (D) { g.addColorStop(0, 'rgba(170,255,238,0.75)'); g.addColorStop(0.45, 'rgba(61,224,192,0.3)'); g.addColorStop(1, 'rgba(61,224,192,0)'); }
+      else { g.addColorStop(0, 'rgba(255,252,240,1)'); g.addColorStop(0.5, 'rgba(255,248,232,0.6)'); g.addColorStop(1, 'rgba(255,248,232,0)'); }
+      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    });
+    pool = new THREE.Mesh(new THREE.PlaneGeometry(1.9, 1.5), new THREE.MeshBasicMaterial({
+      map: poolTex, transparent: true, depthWrite: false, blending: D ? THREE.AdditiveBlending : THREE.NormalBlending }));
+    pool.rotation.x = -Math.PI / 2; pool.position.set(0, 0.006, z); spot.add(pool);
+    // a soft shadow right under the lifted card
+    const shTex = gradTex((ctx, w, h) => {
+      const g = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2);
+      g.addColorStop(0, D ? 'rgba(0,0,0,0.7)' : 'rgba(60,45,25,0.45)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    }, 128, 128);
+    contact = new THREE.Mesh(new THREE.PlaneGeometry(1.25, 0.32), new THREE.MeshBasicMaterial({ map: shTex, transparent: true, depthWrite: false }));
+    contact.rotation.x = -Math.PI / 2; contact.position.set(0, 0.009, z + 0.02); spot.add(contact);
+    // a real light, so the platform and the card's edges catch it
+    if (!spotLight) {
+      spotLight = new THREE.SpotLight(0xffffff, 0, 0, Math.PI / 13, 0.7, 1.2);
+      scene.add(spotLight); scene.add(spotLight.target);
+    }
+    spotLight.color.set(D ? accent.clone().lerp(new THREE.Color('#ffffff'), 0.55) : new THREE.Color('#fff4dc'));
+    spotLight.position.set(0, topY, z); spotLight.target.position.set(0, 0, z);
+    spotLight.userData.max = D ? 10 : 7;
+  }
+  function updateSpot() {
+    if (!beam) return;
+    // full strength when a card is settled in front; it dims while the ring is turning between cards
+    const f = Math.max(...fronts), k = focusing ? 0.35 : 1;
+    beam.material.opacity = (dark() ? 0.55 : 0.5) * f * k;
+    pool.material.opacity = f * k;
+    contact.material.opacity = f * (focusing ? 0 : 1);
+    spotLight.intensity = spotLight.userData.max * f * k;
   }
 
   /* ---------- Lights ---------- */
@@ -252,23 +320,48 @@ function init() {
 
   /* ---------- Turning ---------- */
   let cur = HQ.getAngle(), goal = cur, front = HQ.frontIndex(), focusing = false, anim = 0;
+  const fronts = new Array(N).fill(0);
   const stepDeg = 360 / N;
   function placeCards() {
     meshes.forEach((m, i) => {
       let rel = i * stepDeg - cur; rel = ((rel % 360) + 540) % 360 - 180;
       const t = THREE.MathUtils.degToRad(rel);
-      m.position.set(Math.sin(t) * R, CH / 2 + 0.01, Math.cos(t) * R);
-      m.rotation.set(0, t * 0.38, 0);
       const a = Math.abs(rel);
       const isFront = i === front;
+      /* How "in front" the card is: 1 at the front, falling to 0 one place either side. */
+      const f = Math.max(0, 1 - a / stepDeg); fronts[i] = f;
+      const lift = f * 0.13, fwd = f * 0.18;
+      m.position.set(Math.sin(t) * (R + fwd), CH / 2 + 0.01 + lift, Math.cos(t) * (R + fwd));
+      m.rotation.set(0, t * 0.38, 0);
+      const side = m.material[1];
+      if (side) {
+        if (dark()) { side.emissiveIntensity = 0.18 + f * 1.1; side.opacity = 0.55 + f * 0.4; }
+        else { side.emissiveIntensity = f * 0.35; }
+      }
       let dim = isFront ? 0 : Math.min(0.72, 0.18 + a / 230);
       if (focusing && !isFront) dim = 0.8;
-      const g = 1 - dim * (dark() ? 0.85 : 0.6);
+      const g = 1 - dim * (dark() ? 0.85 : 0.8);
       m.userData.face.color.setRGB(g, g, g);
       m.visible = !(focusing && isFront);
       m.renderOrder = Math.round(100 + Math.cos(t) * 50);
     });
-    if (sideMat) sideMat.emissiveIntensity = dark() ? 0.45 : 0;
+    updateSpot();
+
+  }
+  /* A first-visit hint under the front card; gone for good once someone has opened a card. */
+  const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
+  const prompt = document.createElement('div');
+  prompt.className = 'oprompt'; prompt.setAttribute('aria-hidden', 'true');
+  prompt.textContent = matchMedia('(pointer: coarse)').matches ? 'Tap to open' : 'Click to open';
+  stage.appendChild(prompt);
+  let opened = store.get('obs.opened') === '1';
+  function placePrompt() {
+    const show = !opened && !focusing && cur === goal;
+    prompt.classList.toggle('on', show);
+    if (!show) return;
+    const r = window.HQ3D.frontRect(), sr = stage.getBoundingClientRect(), z = (sr.height / stage.offsetHeight) || 1;
+    prompt.style.left = ((r.left + r.width / 2 - sr.left) / z) + 'px';
+    prompt.style.top = ((r.bottom - sr.top) / z + 12) + 'px';
   }
   function tick() {
     anim = 0;
@@ -276,6 +369,7 @@ function init() {
     cur = Math.abs(d) < 0.05 ? goal : cur + d * 0.16;
     placeCards();
     renderer.render(scene, camera);
+    placePrompt();
     if (cur !== goal) anim = requestAnimationFrame(tick);
   }
   function requestRender() { if (!anim) anim = requestAnimationFrame(tick); }
@@ -286,6 +380,7 @@ function init() {
     ready: true,
     update(angle, frontI, instant, isFocusing) {
       goal = angle; front = frontI; focusing = !!isFocusing;
+      if (focusing && !opened) { opened = true; store.set('obs.opened', '1'); }
       if (instant || matchMedia('(prefers-reduced-motion: reduce)').matches) cur = goal;
       requestRender();
     },

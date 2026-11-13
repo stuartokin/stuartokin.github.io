@@ -653,3 +653,19 @@ html.gl .ostage { cursor: grab; }
 
 /* The title's info panel always opens above the toolbar. */
 header { position: relative; z-index: 60; }
+
+/* Front-card hint in the 3D carousel (first visits only). */
+.oprompt {
+  position: absolute; z-index: 5; transform: translate(-50%, 0); pointer-events: none;
+  padding: 0.35rem 0.8rem; border-radius: 999px;
+  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--on-accent); background: var(--accent);
+  box-shadow: 0 6px 18px color-mix(in oklab, var(--accent) 40%, transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.oprompt.on { opacity: 1; animation: promptPulse 2.4s ease-in-out infinite; }
+@keyframes promptPulse { 50% { box-shadow: 0 6px 26px color-mix(in oklab, var(--accent) 70%, transparent); } }
+@media (prefers-reduced-motion: reduce) { .oprompt.on { animation: none; } }
+
+/* Text size only changes the tiles, so it is hidden while the carousel is showing. */
+body.view-carousel .seg[aria-label="Tile text size"] { display: none; }
