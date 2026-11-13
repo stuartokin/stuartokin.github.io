@@ -15,6 +15,9 @@
     <script>
       /* Apply the saved theme and text size before first paint, so nothing flashes. */
       (function () {
+        /* Touch devices get a lighter carousel: phone graphics chips run out of room for the
+           hundreds of 3D surfaces in the full version and start dropping parts of the page. */
+        try { if (matchMedia('(pointer: coarse)').matches) document.documentElement.classList.add('lite'); } catch (e) {}
         try {
           var t = localStorage.getItem('obs.theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
           var s = parseFloat(localStorage.getItem('obs.ts')); if (s) document.documentElement.style.setProperty('--ts', s);
@@ -200,7 +203,28 @@
       @media (max-width: 39.99rem) { .toolbar { justify-content: center; } .toolbar .spacer { display: none; } }
       /* Keep the bar on its own layer, always above the 3D carousel (some phone browsers were
          painting the carousel over part of the sticky bar, or dropping the bar altogether). */
-      .toolbar { z-index: 40; isolation: isolate; transform: translateZ(0); will-change: transform; }
+      .toolbar { z-index: 40; isolation: isolate; }
+
+      /* ---------- Lite carousel for touch devices: flat cards with drawn edges ---------- */
+      html.lite .oring > .card {
+        transform-style: flat;
+        background: var(--ground-panel) !important; border: 1px solid var(--hairline) !important; border-radius: 10px;
+      }
+      html.lite .oring > .card .media, html.lite .oring > .card .body, html.lite .oring > .card::before { transform: none; }
+      html.lite:not([data-theme="light"]) .oring > .card {
+        border-color: color-mix(in oklab, var(--accent) 50%, var(--hairline)) !important;
+        box-shadow: 4px 5px 0 -1px color-mix(in oklab, var(--accent) 35%, #0b1220), 0 0 18px color-mix(in oklab, var(--accent) 22%, transparent), var(--shadow) !important;
+      }
+      html.lite[data-theme="light"] .oring > .card {
+        box-shadow: 3px 4px 0 0 #cfc5b3, 6px 8px 0 0 #a89c84, 0 26px 30px -10px rgb(60 45 25 / 0.35) !important;
+      }
+      html.lite .oring > .card.ofront { border-color: var(--accent) !important; }
+      .pl-side {
+        position: absolute; left: 0; top: 0; pointer-events: none;
+        width: calc(var(--pr) * 2); height: calc(var(--pr) * 2); border-radius: 50%;
+        transform: translate(-50%, -50%) translateY(calc(var(--py) + var(--ph))) rotateX(90deg);
+        background: var(--pl-side); box-shadow: 0 0 0 1px var(--pl-edge);
+      }
       .orbit { position: relative; z-index: 0; isolation: isolate; }
       /* Touch screens: a solid bar instead of a see-through blurred one — cheaper to draw and
          avoids the same glitches. */
@@ -656,7 +680,7 @@
               <a href="https://github.com/stuartokin"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>github.com/stuartokin</a>
               <a href="https://www.linkedin.com/in/stuart-okin-b37ab69/"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg>linkedin.com/in/stuart-okin-b37ab69</a>
             </div>
-            <p class="hinfo__ver">Page version 2026-11-13</p>
+            <p class="hinfo__ver">Page version 2026-11-13b</p>
           </div>
         </div>
         <p class="standfirst">
@@ -1037,8 +1061,13 @@
 
         const ring = stage.querySelector('.oring');
         /* The platform's rim: thin upright strips set round the edge of the top face. */
+        const lite = root.classList.contains('lite');
         (() => {
           const base = document.createElement('i'); base.className = 'pl-base'; base.setAttribute('aria-hidden', 'true');
+          if (lite) {   // one disc set lower than the top gives the platform its height
+            const side = document.createElement('i'); side.className = 'pl-side'; side.setAttribute('aria-hidden', 'true');
+            ring.prepend(side); ring.prepend(base); return;
+          }
           const rim = document.createElement('span'); rim.className = 'pl-ring'; rim.setAttribute('aria-hidden', 'true');
           const N = 64;
           rim.innerHTML = Array.from({ length: N }, (_, i) =>
@@ -1046,7 +1075,7 @@
           ring.prepend(rim); ring.prepend(base);
         })();
         /* The faces that give each carousel card its thickness (hidden in the tile view). */
-        cards.forEach(c => {
+        if (!lite) cards.forEach(c => {
           const s = document.createElement('span'); s.className = 'slab'; s.setAttribute('aria-hidden', 'true');
           s.innerHTML = '<i class="sh"></i><i class="bk"></i><i class="fr"></i><i class="l"></i><i class="r"></i><i class="t"></i><i class="b"></i>';
           c.prepend(s);
@@ -1097,7 +1126,7 @@
             const sr = stage.getBoundingClientRect(), st = sr.top, zr = (sr.height / stage.offsetHeight) || 1;
             let t = Infinity, b = -Infinity;
             cards.forEach(c => { const r = c.getBoundingClientRect(); t = Math.min(t, (r.top - st) / zr); b = Math.max(b, (r.bottom - st) / zr); });
-            ring.querySelectorAll('.pl-ring > i').forEach(el => { const r = el.getBoundingClientRect(); if (r.height) b = Math.max(b, (r.bottom - st) / zr); });
+            ring.querySelectorAll('.pl-ring > i, .pl-side').forEach(el => { const r = el.getBoundingClientRect(); if (r.height) b = Math.max(b, (r.bottom - st) / zr); });
             top = Math.round(top - t + 12);
             stage.style.setProperty('--ringtop', top + 'px');
             stage.style.height = Math.round(b - t + 30) + 'px';
