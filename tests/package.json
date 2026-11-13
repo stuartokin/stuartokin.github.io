@@ -1,0 +1,18 @@
+{
+  "name": "horizonq-observatories-tests",
+  "private": true,
+  "description": "Portable test rig for stuartokin.github.io (HorizonQ Observatories). See tests/README.md.",
+  "scripts": {
+    "setup": "npm install && npx playwright install chromium",
+    "test": "node check.js",
+    "test:quick": "node check.js --devices=laptop,fold-open,phone",
+    "shots": "node shots.js",
+    "serve": "node lib/server.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.1",
+    "@fontsource/archivo": "5.1.0",
+    "@fontsource/ibm-plex-mono": "5.1.0",
+    "@fontsource/newsreader": "5.1.0"
+  }
+}

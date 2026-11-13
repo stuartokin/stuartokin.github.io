@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#070B14" />
+    <title>HorizonQ Observatories — Stuart Okin</title>
+    <meta
+      name="description"
+      content="HorizonQ Observatories: public research boards by Stuart Okin on quantum readiness and Q-Day, recorded cyber incidents, the shrinking gap from research to change, security patch cadence, AI-assisted vulnerability discovery and the UK AI landscape — each with a video demo. Written in a personal capacity."
+    />
+    <meta property="og:title" content="HorizonQ Observatories" />
+    <meta property="og:description" content="Research boards on cyber, quantum, cryptography, and AI. Every claim carries its source, its date, and whether anyone has actually checked it." />
+    <meta property="og:image" content="https://stuartokin.github.io/media/quantum-observatory.jpg" />
+    <script>
+      /* Apply the saved theme and text size before first paint, so nothing flashes. */
+      (function () {
+        /* Touch devices get a lighter carousel: phone graphics chips run out of room for the
+           hundreds of 3D surfaces in the full version and start dropping parts of the page. */
+        try { if (matchMedia('(pointer: coarse)').matches) document.documentElement.classList.add('lite'); } catch (e) {}
+        try {
+          var t = localStorage.getItem('obs.theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+          var s = parseFloat(localStorage.getItem('obs.ts')); if (s) document.documentElement.style.setProperty('--ts', s);
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/site.css?v=__VER__" />
+  </head>
+  <body class="view-tiles">
+    <div class="fitbox">
+    <div class="wrap">
+      <header>
+        <div class="titlerow">
+          <h1>Horizon<span class="q">Q</span> Observatories</h1>
+          <button type="button" class="infobtn infobtn--title" id="hinfoBtn" aria-expanded="false" aria-controls="hinfo" title="About and links" aria-label="About this site and links"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="4.6" r="1" fill="currentColor"/><path d="M8 7v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+          <div class="hinfo" id="hinfo" hidden>
+            <p class="hinfo__claim small-only">Every claim carries its source, its date, and whether anyone has actually checked it.</p>
+            <p class="hinfo__pulse small-only" data-pulse><!--COUNT--> boards · 3 maintained by agents</p>
+            <div class="hinfo__links">
+              <a href="https://github.com/stuartokin"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>github.com/stuartokin</a>
+              <a href="https://www.linkedin.com/in/stuart-okin-b37ab69/"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg>linkedin.com/in/stuart-okin-b37ab69</a>
+            </div>
+            <p class="hinfo__ver">Page version __VER__</p>
+          </div>
+        </div>
+        <p class="standfirst">
+          Research boards on cyber, quantum, cryptography, and AI. <b class="big-only">Every claim carries its
+          source, its date, and whether anyone has actually checked it.</b>
+        </p>
+        <p class="pulse-line big-only" data-pulse><!--COUNT--> boards · 3 maintained by agents · every one has a demo video</p>
+      </header>
+
+      <div class="toolbar" role="toolbar" aria-label="Display options">
+        <div class="tbgroup tbgroup--main">
+        <div class="seg" role="group" aria-label="Layout">
+          <span class="seg__label">View</span>
+          <button type="button" data-view="tiles" aria-pressed="true" title="Tiles"><span class="ico">▦</span><span class="long">Tiles</span></button>
+          <button type="button" data-view="carousel" aria-pressed="false" title="Carousel"><span class="ico">◎</span><span class="long">Carousel</span></button>
+        </div>
+        <div class="seg" role="group" aria-label="Fit to screen">
+          <button type="button" id="fitBtn" aria-pressed="false" title="Fit everything onto one screen"><span class="ico">⤢</span><span class="long">Fit to screen</span></button>
+        </div>
+        <div class="seg" role="group" aria-label="Tile text size">
+          <span class="seg__label">Text</span>
+          <button type="button" data-ts="-1" aria-label="Smaller tile text">A−</button>
+          <output id="tsOut" aria-live="polite">100%</output>
+          <button type="button" data-ts="1" aria-label="Larger tile text">A+</button>
+        </div>
+        </div>
+        <span class="spacer"></span>
+        <div class="tbgroup tbgroup--side">
+        <div class="seg" role="group" aria-label="Music">
+          <button type="button" id="musicBtn" aria-pressed="false" aria-label="Turn music on" title="Music"><span class="ico" id="musicIco">🔇</span><span class="long" id="musicTxt">Music off</span></button>
+        </div>
+        <div class="seg" role="group" aria-label="Colour theme">
+          <button type="button" data-theme-set="dark" aria-pressed="true" title="Dark"><span class="ico">☾</span><span class="long">Dark</span></button>
+          <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><span class="ico">☀</span><span class="long">Light</span></button>
+        </div>
+        </div>
+        <audio id="music" src="media/music.mp3" loop preload="none"></audio>
+      </div>
+
+<!--SECTIONS-->
+
+      <div class="grid fitgrid" id="fitgrid" hidden></div>
+
+      <section class="orbit" id="orbit" hidden aria-label="All boards as a carousel">
+        <p class="orbit__label">All boards</p>
+        <div class="ostage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Swipe, drag or use the arrow keys to turn">
+          <div class="oring"><div class="ofloor" aria-hidden="true"></div></div>
+        </div>
+        <div class="onav">
+          <button class="navbtn" type="button" data-dir="-1" aria-label="Previous board">‹</button>
+          <div class="oinfo"><span class="olabel" aria-live="polite"></span><span class="odots"></span></div>
+          <button class="navbtn" type="button" data-dir="1" aria-label="Next board">›</button>
+        </div>
+        <p class="ohint">Drag or swipe to turn · select a card at the side to bring it forward · the front card opens</p>
+      </section>
+
+      <footer class="foot">
+        <div class="links">
+        <a href="https://github.com/stuartokin">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+          github.com/stuartokin
+        </a>
+        <a href="https://www.linkedin.com/in/stuart-okin-b37ab69/">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg>
+          LinkedIn
+        </a>
+        </div>
+        <p class="foot__note">Written in a personal capacity and do not represent the position of any organisation I am engaged with.</p>
+      </footer>
+    </div>
+    </div>
+
+    <dialog class="player" id="player" aria-labelledby="playerTitle">
+      <div class="player__bar">
+        <p class="player__title" id="playerTitle"></p>
+        <div class="player__tabs" id="playerTabs"></div>
+        <a class="player__open" id="playerOpen" href="#">Open board ↗</a>
+        <button class="player__close" type="button" id="playerClose">Close ✕</button>
+      </div>
+      <video id="playerVideo" controls playsinline preload="metadata"></video>
+      <p class="player__about" id="playerAbout" hidden></p>
+    </dialog>
+
+    <script src="js/site.js?v=__VER__"></script>
+    <script type="module" src="js/carousel3d.js?v=__VER__"></script>
+  </body>
+</html>

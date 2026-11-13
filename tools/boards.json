@@ -1,0 +1,229 @@
+{
+  "_readme": "The cards on the page. Edit here, then run: python3 tools/build.py. Field guide: docs/KNOWLEDGE-BASE.md#boardsjson",
+  "base": "https://stuartokin.github.io/",
+  "sections": [
+    {
+      "key": "live",
+      "label": "Live · maintained by agents and live data",
+      "note": "These change week to week. Research agents or live data feeds keep them current; each board says what has and hasn't been reviewed."
+    },
+    {
+      "key": "studies",
+      "label": "Studies",
+      "note": "Point-in-time deep dives. Dated to when the evidence was last gathered."
+    },
+    {
+      "key": "fun",
+      "label": "Just for fun",
+      "note": "Side projects. Less evidence grading, more football and starships."
+    }
+  ],
+  "boards": [
+    {
+      "sec": "live",
+      "repo": "quantum-observatory",
+      "title": "Quantum Observatory",
+      "media": "quantum-observatory",
+      "topic": "Quantum · cryptography",
+      "lead": true,
+      "fallback": "2026-11-10",
+      "videos": [
+        {
+          "label": "Walkthrough",
+          "media": "quantum-observatory"
+        }
+      ],
+      "desc": "How close quantum computing, sensing, communications and post-quantum cryptography are to being real, graded by evidence. Includes Q-Day: what a machine capable of breaking RSA still needs, every regulator's migration deadline against it, and a Mosca self-assessment. Maintained by six research agents whose work is marked as unreviewed until a human reads it."
+    },
+    {
+      "sec": "live",
+      "repo": "cyber-attack-earth",
+      "title": "Cyber Attack Earth",
+      "media": "cyber-attack-earth",
+      "topic": "Cyber · energy",
+      "fallback": "2026-11-11",
+      "videos": [
+        {
+          "label": "Twenty-five years in 28 seconds",
+          "media": "cyber-attack-earth"
+        }
+      ],
+      "article": {
+        "title": "What Would Earth Look Like If You Could See the Cyber Attacks?",
+        "url": "https://www.linkedin.com/pulse/what-would-earth-look-like-you-could-see-cyber-attacks-stuart-okin-0wrxc"
+      },
+      "desc": "Publicly documented cyber incidents from 2000 onwards, drawn from five independent sources and shown on a globe you can play through time. Disclosed incidents are a small and uneven fraction of what occurred, and the map says so throughout."
+    },
+    {
+      "sec": "live",
+      "repo": "energy-resilience",
+      "title": "Energy Resilience",
+      "media": "energy-resilience",
+      "topic": "Energy · resilience",
+      "tag": "Live data",
+      "fallback": "2026-11-12",
+      "videos": [
+        {
+          "label": "Walkthrough",
+          "media": "energy-resilience"
+        }
+      ],
+      "article": {
+        "title": "AI vibe coding – “Oh, the ecstasy…oh the agony”",
+        "url": "https://www.linkedin.com/pulse/ai-vibe-coding-oh-ecstasyoh-agony-stuart-okin-c5n5e"
+      },
+      "desc": "A live picture of the GB energy system — infrastructure, power cuts, generator outages, flows and warnings — built only from public open data, with 'what if' disruption scenarios on top. Every figure comes straight from its publisher; scenario impacts are modelled illustrations, not forecasts."
+    },
+    {
+      "sec": "live",
+      "repo": "ResearchGap",
+      "title": "The Shrinking Gap",
+      "media": "shrinking-gap",
+      "topic": "Research · innovation",
+      "fallback": "2026-11-10",
+      "videos": [
+        {
+          "label": "Walkthrough",
+          "media": "shrinking-gap"
+        }
+      ],
+      "article": {
+        "title": "From Apprentices to AI agents - the importance of Human Connection",
+        "url": "https://www.linkedin.com/pulse/from-apprentices-ai-agents-importance-human-connection-stuart-okin-hmlje"
+      },
+      "desc": "How long research takes to become real-world change, across eleven fields from 1925 to ten years ahead, as an interactive 3D model. Two AI agents research and independently check new breakthroughs every week, with automated guardrails instead of human review — and the board says so."
+    },
+    {
+      "sec": "studies",
+      "repo": "qday-research",
+      "title": "Q-Day Research",
+      "media": "qday-research",
+      "topic": "Quantum · cryptography",
+      "fallback": "2026-07-16",
+      "videos": [
+        {
+          "label": "Full demo",
+          "media": "qday-research"
+        },
+        {
+          "label": "Intro",
+          "media": "qday-intro"
+        }
+      ],
+      "article": {
+        "title": "I Built a Q-Day Clock. It Kept Speeding Up.",
+        "url": "https://www.linkedin.com/pulse/i-built-q-day-clock-kept-speeding-up-stuart-okin-ku1me"
+      },
+      "desc": "A planning app tracking the estimated arrival of a cryptographically relevant quantum computer against global post-quantum migration deadlines — how RSA and elliptic-curve cryptography would be broken, and what it would take. Built from verified public sources."
+    },
+    {
+      "sec": "studies",
+      "repo": "PatchPulse",
+      "title": "Patch Pulse",
+      "media": "patch-pulse",
+      "topic": "Cyber",
+      "fallback": "2026-07-19",
+      "videos": [
+        {
+          "label": "Walkthrough",
+          "media": "patch-pulse"
+        }
+      ],
+      "article": {
+        "title": "The Patch Wave isn't coming, it landed Tuesday",
+        "url": "https://www.linkedin.com/pulse/patch-wave-isnt-coming-landed-tuesday-stuart-okin-txxie/"
+      },
+      "desc": "Fifteen years of security patch cadence across thirty-nine vendors, in eight chapters, with a confidence badge on every series."
+    },
+    {
+      "sec": "studies",
+      "repo": "AI-Model-Cortex",
+      "title": "AI Model Cortex",
+      "media": "ai-model-cortex",
+      "topic": "AI",
+      "fallback": "2026-07-13",
+      "videos": [
+        {
+          "label": "Guided demo",
+          "media": "ai-model-cortex"
+        }
+      ],
+      "article": {
+        "title": "AI models — learn the basics, decide the ecosystem you need",
+        "url": "https://www.linkedin.com/pulse/ai-models-learn-basics-decide-ecosystem-you-need-understand-okin-od7he/"
+      },
+      "desc": "An interactive field guide to AI model architectures — how they relate, what they cost to run, and the known weaknesses and best practice for securing each."
+    },
+    {
+      "sec": "studies",
+      "repo": "uk-ai-landscape",
+      "title": "UK AI Landscape",
+      "media": "uk-ai-landscape",
+      "topic": "AI · governance",
+      "fallback": "2026-06-21",
+      "videos": [
+        {
+          "label": "Walkthrough",
+          "media": "uk-ai-landscape"
+        }
+      ],
+      "article": {
+        "title": "Mapping AI governance & standards",
+        "url": "https://www.linkedin.com/pulse/mapping-ai-governance-standards-stuart-okin-w8oqe/"
+      },
+      "desc": "A force-directed map of the UK's AI governance landscape — the bodies, strategies, frameworks and guidance, and the relationships between them — with the international standards layer alongside."
+    },
+    {
+      "sec": "studies",
+      "repo": "AI-vulnerability-research",
+      "title": "Zero-Day AI-Assisted Observatory",
+      "media": "zero-day-ai",
+      "topic": "AI · cyber",
+      "fallback": "2026-06-26",
+      "videos": [
+        {
+          "label": "Walkthrough",
+          "media": "zero-day-ai"
+        }
+      ],
+      "article": {
+        "title": "AI is finding zero-day bugs fast",
+        "url": "https://www.linkedin.com/pulse/ai-finding-zero-day-bugs-fast-stuart-okin-khv1e/"
+      },
+      "desc": "A catalogue of programmes using AI to find software vulnerabilities, and what their published results actually show."
+    },
+    {
+      "sec": "fun",
+      "repo": "ApolloMaths",
+      "title": "Apollo's Maths Missions",
+      "media": "apollo-maths",
+      "topic": "Maths · learning",
+      "go": "Play",
+      "fallback": "2026-11-08",
+      "videos": [
+        {
+          "label": "Walkthrough",
+          "media": "apollo-maths"
+        }
+      ],
+      "desc": "A football-mad maths game built for my son's 11+ preparation: hundreds of questions, step-by-step hints, mock exams and a kit shop to spend the points in. Any family can set it up for their own child and exam."
+    },
+    {
+      "sec": "fun",
+      "repo": "Starlane",
+      "title": "Starlane Trader",
+      "media": "starlane-trader",
+      "topic": "Games · space",
+      "go": "Play",
+      "fallback": "2026-11-12",
+      "videos": [
+        {
+          "label": "Trailer",
+          "media": "starlane-trader"
+        }
+      ],
+      "desc": "Command your own starship in Starlane Trader: fly, trade, explore… and learn. Battle pirates, meet alien civilisations and solve the puzzles hidden among the stars, with your ship's computer Nova by your side.",
+      "about": "Starlane Trader is a space trading and exploration game in the spirit of the classic Elite. You command your own starship across a galaxy of worlds: buying low and selling high, taking on missions, fighting off pirates and upgrading your ship. Along the way you meet strange factions, from peaceful explorers to crystalline aliens, and stumble into adventures such as alien signals, nebula storms and black holes. Each adventure is a puzzle of maths, science and logic. Nova, your ship's computer, guides you with training tours, and the game plays on laptop, tablet or phone in a sleek 3D style or two retro looks."
+    }
+  ]
+}
