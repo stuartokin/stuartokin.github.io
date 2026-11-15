@@ -56,10 +56,12 @@ async function check(browser, URL, devName, dev) {
   };
   const centre = r => [r.left + r.width / 2, r.top + r.height / 2];
   const T = (name, ok, detail) => record(devName, name, ok, detail);
+  // Page loads get more time and one retry: software 3D at 4K can be slow to settle.
+  const go = async u => { for (let i = 0; i < 2; i++) { try { return await page.goto(u, { waitUntil: 'load', timeout: 25000 }); } catch (e) { if (i) throw e; await page.waitForTimeout(1000); } } };
   const shoot = n => page.screenshot({ path: path.join(OUT, `${devName}-${n}.png`) }).catch(() => {});
 
   try {
-    await page.goto(URL, { waitUntil: 'load' });
+    await go(URL);
     await page.waitForTimeout(2500);
 
     // --- basics ---
@@ -104,10 +106,17 @@ async function check(browser, URL, devName, dev) {
       const vs = await page.evaluate(() => document.documentElement.scrollHeight - innerHeight);
       T('carousel fits without scrolling', vs <= 2, `${vs}px`);
     }
+    const frontRepo = () => page.evaluate(() => window.HQ.cards[window.HQ.frontIndex()].dataset.repo);
+    T('first visit opens on The Shrinking Gap', (await frontRepo()) === 'ResearchGap', await frontRepo());
     const label0 = await page.textContent('.olabel');
     await page.click('.navbtn[data-dir="1"]'); await page.waitForTimeout(900);
     const label1 = await page.textContent('.olabel');
     T('arrows turn the ring', label0 !== label1, `${label0} → ${label1}`);
+    const turned = await page.evaluate(() => ({ repo: window.HQ.cards[window.HQ.frontIndex()].dataset.repo, title: window.HQ.cards[window.HQ.frontIndex()].querySelector('h3').textContent, hash: location.hash }));
+    const slug = s => s.toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    T('address bar follows the front board', turned.hash === '#' + slug(turned.title), JSON.stringify(turned));
+    await go(URL); await page.waitForTimeout(2000);
+    T('front board remembered after reload', (await frontRepo()) === turned.repo, `${await frontRepo()} (expected ${turned.repo})`);
     await page.click('.navbtn[data-dir="-1"]'); await page.waitForTimeout(900);
 
     // pause on (mouse) or tap (touch) the front card → enlarged panel
@@ -152,7 +161,7 @@ async function check(browser, URL, devName, dev) {
       await tap(gb.x + gb.width / 2, gb.y + gb.height / 2, touch ? 6 : 0);
       const r = await req;
       T('Open goes to the board', !!r, r ? r.url() : 'no navigation');
-      await page.goto(URL); await page.waitForTimeout(2000);
+      await go(URL); await page.waitForTimeout(2000);
     }
 
     // --- fit to screen: tiles and carousel ---
@@ -189,6 +198,26 @@ async function check(browser, URL, devName, dev) {
     T('light theme remembered', await page.evaluate(() => document.documentElement.dataset.theme === 'light'));
     await shoot('light');
     await page.click('[data-theme-set="dark"]');
+
+    // --- a shared link opens the hub on that board ---
+    await go(URL + '#apollos-maths-missions'); await page.waitForTimeout(2200);
+    const dl = await page.evaluate(() => {
+      const c = document.querySelector('.card[data-repo="ApolloMaths"]'), r = c.getBoundingClientRect();
+      return { view: document.body.classList.contains('view-carousel') ? 'carousel' : 'tiles', front: window.HQ.cards[window.HQ.frontIndex()].dataset.repo, inView: r.top < innerHeight && r.bottom > 0 };
+    });
+    T('a shared link opens on that board', dl.view === 'carousel' ? dl.front === 'ApolloMaths' : dl.inView, JSON.stringify(dl));
+    await page.click('.card[data-repo="ApolloMaths"] .stat').catch(() => {});
+    if (dl.view === 'tiles') {
+      await page.waitForTimeout(400);
+      const link = await page.evaluate(() => (document.querySelector('.statdlg__share input') || {}).value || '');
+      T('status panel offers a link to the board', link.endsWith('#apollos-maths-missions'), link);
+    }
+    await shoot('share');
+    await page.keyboard.press('Escape').catch(() => {});
+    await page.click('[data-view="carousel"]'); await page.waitForTimeout(600);
+    await go(URL + '#cyber-attack-earth'); await page.waitForTimeout(2200);
+    const dc = await page.evaluate(() => ({ view: document.body.classList.contains('view-carousel'), front: window.HQ.cards[window.HQ.frontIndex()].dataset.repo }));
+    T('a shared link turns the carousel to that board', dc.view && dc.front === 'cyber-attack-earth', JSON.stringify(dc));
 
     T('no script errors', errors.length === 0, errors.slice(0, 3).join(' | '));
   } catch (e) {

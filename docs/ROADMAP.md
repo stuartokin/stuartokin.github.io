@@ -37,7 +37,6 @@ Status as of version **2026-11-15a**. Move items between sections as they change
 - A "what's new" strip (latest commit message per board) from the same GitHub API call.
 - Scripted re-recording of the static boards (Playwright) as `tests/record.js`, so demos can be
   refreshed with one command.
-- Deep links (`#carousel/energy-resilience`) to open the site on a given card.
 
 ## Decided / done (don't reopen without a reason)
 

@@ -750,3 +750,10 @@ dialog.statdlg::backdrop { background: rgb(3 5 10 / 0.7); }
 html.boot-carousel .group, html.boot-carousel .fitgrid, html.boot-carousel .foot { visibility: hidden; }
 html.boot-carousel .group { display: none; }
 html.gl-wait .oring { visibility: hidden; }
+
+/* Sharing a board: the link box in the status panel, and the brief glow on a linked tile. */
+.statdlg__share { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 0.9rem 0 0.2rem; padding: 0.75rem 0.9rem; border-radius: 8px; background: var(--ground-panel); border: 1px solid var(--hairline); font-size: 0.85rem; color: var(--ink-muted); }
+.statdlg__share span { flex: 1 1 100%; }
+.statdlg__share input { flex: 1 1 12rem; min-width: 0; padding: 0.45rem 0.6rem; border-radius: 6px; border: 1px solid var(--hairline); background: var(--ground-raised); color: var(--ink); font-family: var(--mono); font-size: 0.72rem; }
+.statdlg__share button { color: var(--accent); }
+.card.target { border-color: var(--accent) !important; box-shadow: 0 0 0 2px var(--accent), 0 0 40px color-mix(in oklab, var(--accent) 30%, transparent); transition: box-shadow 0.4s; }

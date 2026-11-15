@@ -2,6 +2,17 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-15d
+- **Opens on The Shrinking Gap** on a first visit (carousel front card; `DEFAULT_FRONT` in `site.js`).
+- **Remembers the front board** (`obs.front`), alongside the view, fit, theme and text size it
+  already remembered.
+- **Links to a board.** `https://stuartokin.github.io/#the-shrinking-gap` (or any board's slug, or its
+  repo name) opens the hub on that board: the carousel turns to it, the tiles scroll to it and glow.
+  The address bar follows the carousel as it turns, and each board's status panel has a
+  "Copy link" box near the top.
+- Rig: first-visit board, address bar, remembered board, shared links (carousel and tiles), the
+  panel's link; page loads now get 25 s and one retry (4K under software 3D was flaky).
+
 ## 2026-11-15b
 - **New Apollo's Maths Missions video**: Stuart's 90-second LinkedIn trailer (square, with sound)
   replaces the scripted walkthrough; the tab now reads "Trailer". Card still and hover preview

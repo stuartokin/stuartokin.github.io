@@ -80,9 +80,12 @@
   fetch('status.json?d=' + Math.floor(Date.now() / 6e5), { cache: 'no-cache' })
     .then(r => (r.ok ? r.json() : null)).then(j => { if (j && j.boards) { status = j; applyStatus(); } }).catch(() => {});
 
+  const shareHtml = card => `<div class="statdlg__share"><span>Link to the hub, opened on this board:</span>`
+    + `<input type="text" readonly value="${esc(boardLink(card))}" aria-label="Link to this board on the hub">`
+    + `<button type="button" class="player__close" data-copy>Copy link</button></div>`;
   function statusHtml(card, s) {
     const title = card.querySelector('h3').textContent;
-    if (!s) return `<p class="statdlg__lead" data-state="${esc(card.querySelector('.stat').dataset.state)}"><i class="stat__dot"></i><span><b>Details not available yet</b>They are collected once a day; try again later.</span></p>`;
+    if (!s) return `<p class="statdlg__lead" data-state="${esc(card.querySelector('.stat').dataset.state)}"><i class="stat__dot"></i><span><b>Details not available yet</b>They are collected once a day; try again later.</span></p>` + shareHtml(card);
     const sw = s.switch || {};
     const lead = {
       on: ['Updates itself', 'Something runs on its own to keep this board current. What it is, and when it last ran, is below.'],
@@ -93,6 +96,7 @@
       none: ['Updated by hand', 'Nothing runs on its own here. The board changes only when Stuart publishes a new version.'],
     }[s.state];
     let h = `<p class="statdlg__lead" data-state="${s.state}"><i class="stat__dot"></i><span><b>${lead[0]}</b>${lead[1]}</span></p>`;
+    h += shareHtml(card);
     if (s.jobs && s.jobs.length) {
       h += `<h4>What runs on its own</h4>`;
       for (const j of s.jobs) {
@@ -139,7 +143,14 @@
   }
   const closeStatus = () => { statDlg.close(); if (statFrom && statFrom.focus && document.contains(statFrom)) statFrom.focus(); };
   document.getElementById('statClose').addEventListener('click', closeStatus);
-  statDlg.addEventListener('click', e => { if (e.target === statDlg) closeStatus(); });
+  statDlg.addEventListener('click', e => {
+    if (e.target === statDlg) return closeStatus();
+    const b = e.target.closest('[data-copy]'); if (!b) return;
+    const inp = statDlg.querySelector('.statdlg__share input');
+    const done = () => { b.textContent = 'Copied ✓'; setTimeout(() => (b.textContent = 'Copy link'), 2000); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(inp.value).then(done, () => { inp.select(); });
+    else { inp.select(); try { document.execCommand('copy'); done(); } catch (err) {} }
+  });
   statDlg.addEventListener('cancel', e => { e.preventDefault(); closeStatus(); });
   document.addEventListener('click', e => {
     const b = e.target.closest && e.target.closest('.stat');
@@ -280,6 +291,7 @@
   }
   function layoutOrbit(instant) {
     const n = cards.length, s = step(), front = frontIndex();
+    if (!instant) noteFront(front);
     stage.classList.toggle('dragging', !!instant);
     if (gl()) {
       syncFront(front, n);
@@ -697,12 +709,48 @@
   dlg.addEventListener('click', e => { if (e.target === dlg) close(); });
   dlg.addEventListener('cancel', e => { e.preventDefault(); close(); });
 
+  /* ---------- Which board is in front: remembered, and in the address bar for sharing ----------
+     A link like https://stuartokin.github.io/#the-shrinking-gap opens the hub on that board (the
+     carousel turns to it; the tiles scroll to it). As the carousel turns, the address bar follows,
+     so the current address is always a link to the board in front. First visit: The Shrinking Gap. */
+  const DEFAULT_FRONT = 'ResearchGap';
+  const slugOf = c => c.querySelector('h3').textContent.toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const cardFromHash = () => {
+    const h = decodeURIComponent(location.hash.slice(1)).toLowerCase();
+    return h ? cards.findIndex(c => slugOf(c) === h || c.dataset.repo.toLowerCase() === h) : -1;
+  };
+  const boardLink = c => location.origin + location.pathname + '#' + slugOf(c);
+  let frontSettled = false, lastFront = -1;
+  function noteFront(i) {
+    if (!frontSettled || view !== 'carousel' || i === lastFront) return;
+    lastFront = i;
+    store.set('obs.front', cards[i].dataset.repo);
+    try { history.replaceState(null, '', '#' + slugOf(cards[i])); } catch (e) {}
+  }
+  function showInTiles(i) {
+    const c = cards[i]; if (!c) return;
+    c.scrollIntoView({ block: 'center', behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
+    c.classList.add('target'); setTimeout(() => c.classList.remove('target'), 2600);
+  }
+  const linked = cardFromHash();
+  {
+    const saved = cards.findIndex(c => c.dataset.repo === store.get('obs.front'));
+    const start = linked >= 0 ? linked : saved >= 0 ? saved : Math.max(0, cards.findIndex(c => c.dataset.repo === DEFAULT_FRONT));
+    angle = start * step(); lastFront = start;
+  }
+  addEventListener('hashchange', () => {
+    const i = cardFromHash(); if (i < 0) return;
+    if (view === 'carousel') turnTo(i); else showInTiles(i);
+  });
+
   /* ---------- Restore saved choices ---------- */
   setTs(SIZES.includes(ts) ? ts : 1);
   fit = store.get('obs.fit') === '1';
   /* First visit: the carousel on tablets, Folds, laptops and big screens; tiles on phones. */
   setView(store.get('obs.view') || (Math.min(innerWidth, screen.width || innerWidth) >= 600 ? 'carousel' : 'tiles'));
   root.classList.remove('boot-carousel');
+  frontSettled = true;
+  if (view === 'tiles' && linked >= 0) requestAnimationFrame(() => showInTiles(linked));
   /* If the WebGL carousel never arrives (no WebGL, script failed), show the CSS one after all. */
   setTimeout(() => root.classList.remove('gl-wait'), 5000);
   /* Shared with the WebGL carousel. */

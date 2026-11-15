@@ -359,6 +359,19 @@ The inline script in the page head picks the first view with the same rule as `s
 has WebGL, `gl-wait` (hides the CSS ring; `carousel3d.js` removes it when ready or when WebGL fails;
 `site.js` removes it after 5 s as a safety net).
 
+## 14c. Front board, memory and shareable links
+
+- First visit: the carousel opens on `DEFAULT_FRONT` (`'ResearchGap'`, in `site.js`).
+- `obs.front` (localStorage) remembers the repo of the board in front; written by `noteFront()`
+  whenever the front changes in the carousel (not during a drag).
+- A board's **slug** is its title, lower case, apostrophes dropped, other runs of non-letters as `-`
+  (`the-shrinking-gap`, `apollos-maths-missions`). `#<slug>` or `#<repo>` in the URL wins over the
+  remembered board. In the carousel the ring turns to it; in tiles the card scrolls into view and
+  glows (`.card.target`) for 2.6 s. `hashchange` does the same while the page is open.
+- The address bar follows the carousel (`history.replaceState`, so Back isn't filled with turns).
+- The status panel's "Copy link" box gives `https://stuartokin.github.io/#<slug>`. For LinkedIn
+  articles, paste that link.
+
 ## 15. Automation status and kill switches
 
 Added 2026-11-15. Five boards have workflows that run on their own; the rest change only when
