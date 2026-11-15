@@ -266,6 +266,7 @@ hover previews and the hint pulse.
 | `obs.theme` | `dark` / `light` |
 | `obs.view` | `tiles` / `carousel` |
 | `obs.fit` | `1` when Fit to screen is on |
+| `obs.front` | repo of the board in front of the carousel |
 | `obs.ts` | tile text size (0.85–1.75) |
 | `obs.music` | `1` when music is on |
 | `obs.opened` | `1` once a card has been opened (hides the "Click to open" hint) |
