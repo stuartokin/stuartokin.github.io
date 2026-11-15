@@ -2,6 +2,11 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-15b
+- **New Apollo's Maths Missions video**: Stuart's 90-second LinkedIn trailer (square, with sound)
+  replaces the scripted walkthrough; the tab now reads "Trailer". Card still and hover preview
+  unchanged.
+
 ## 2026-11-15a
 - **Automation status on every card.** A pill on each picture (top left): green "Automated",
   amber "Paused", red "Needs a look", grey "Manual". Tap it for a plain-English panel: what runs

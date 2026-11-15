@@ -277,7 +277,9 @@ All reads/writes are wrapped in try/catch; the page works with storage blocked.
 
 Each card needs `media/<name>.jpg` (1280×720 still), `media/<name>-preview.mp4` (8 s, 640 wide,
 silent loop) and one or more `media/<name>.mp4` (1280 wide, H.264, `+faststart`; silent unless
-the sound matters — Q-Day and AI Model Cortex keep theirs).
+the sound matters — Q-Day, AI Model Cortex, Starlane and Apollo keep theirs). Stuart's square
+LinkedIn videos (1080×1080) go in as they are: the player letterboxes them, and the card keeps its
+own 16:9 still and preview (a 16:9 crop of a square video would cut off its captions).
 
 **From Stuart's screen recording** (best for apps that need live data or the internet):
 `tools/make_media.sh <name> <recording> "<keep ranges>" <preview-start> <still-at>`.
@@ -320,7 +322,7 @@ for a screen recording instead.
 | AI Model Cortex | AI-Model-Cortex | studies | `Aimodelcortexdemo.mp4` from its repo | AI models — learn the basics, decide the ecosystem you need |
 | UK AI Landscape | uk-ai-landscape | studies | scripted recording | Mapping AI governance & standards |
 | Zero-Day AI-Assisted Observatory | AI-vulnerability-research | studies | scripted recording | AI is finding zero-day bugs fast |
-| Apollo's Maths Missions | ApolloMaths | fun, "Play" | scripted recording (setup, Locker Room, lesson, mock, room, shop) | — |
+| Apollo's Maths Missions | ApolloMaths | fun, "Play" | Stuart's square LinkedIn trailer (`Starlane-ApolloMaths-LinkedIn.mp4`, 90 s, with sound); still and hover preview still from the earlier scripted recording | — |
 | Starlane Trader | Starlane | fun, "Play", long "about" text | Stuart's trailer (`Starlane Trailer.mp4`) | — |
 
 Apollo's Maths Missions is Stuart's son's 11+ prep app; keep its card light-hearted and don't
