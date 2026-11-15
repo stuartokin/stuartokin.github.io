@@ -28,6 +28,19 @@ function record(device, name, ok, detail = '') { results.push({ device, name, ok
 async function check(browser, URL, devName, dev) {
   const ctx = await browser.newContext({ viewport: dev.viewport, deviceScaleFactor: dev.deviceScaleFactor, isMobile: dev.isMobile, hasTouch: dev.hasTouch });
   await setupRoutes(ctx);
+  // Watch every frame from the very start: on carousel devices the tiles, and the CSS stand-in ring,
+  // must never be painted before the real carousel (Stuart saw both flash on refresh, 2026-11-15).
+  await ctx.addInitScript(() => {
+    const w = window.__boot = { tilesBeforeCarousel: false, standInBeforeGl: false };
+    const shown = el => el && el.getClientRects().length > 0 && getComputedStyle(el).visibility === 'visible';
+    const t0 = performance.now();
+    (function tick() {
+      const b = document.body;
+      if (b && !b.classList.contains('view-carousel') && shown(document.querySelector('.group .card'))) w.tilesBeforeCarousel = true;
+      if (b && !document.documentElement.classList.contains('gl') && shown(document.querySelector('.oring > .card'))) w.standInBeforeGl = true;
+      if (performance.now() - t0 < 6000) requestAnimationFrame(tick);
+    })();
+  });
   const page = await ctx.newPage();
   page.setDefaultTimeout(8000);
   const errors = [];
@@ -66,6 +79,11 @@ async function check(browser, URL, devName, dev) {
     T('toolbar on one line', Math.max(1, ...basics.bars) === 1, JSON.stringify(basics.bars));
     const expectView = Math.min(dev.viewport.width, 9999) >= 600 ? 'carousel' : 'tiles';
     T('first-visit view', basics.view === expectView, `${basics.view} (expected ${expectView})`);
+    if (expectView === 'carousel') {
+      const boot = await page.evaluate(() => ({ ...window.__boot, gl: document.documentElement.classList.contains('gl') }));
+      T('no tiles flash before the carousel', !boot.tilesBeforeCarousel, JSON.stringify(boot));
+      T('no flat stand-in flash before the 3D carousel', !boot.gl || !boot.standInBeforeGl, JSON.stringify(boot));
+    }
 
     // --- every card's links point where boards.json says ---
     const hrefs = await page.$$eval('.card[data-repo] a.body', as => as.map(a => [a.closest('.card').dataset.repo, a.href]));

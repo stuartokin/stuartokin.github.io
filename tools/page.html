@@ -22,6 +22,16 @@
           var t = localStorage.getItem('obs.theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
           var s = parseFloat(localStorage.getItem('obs.ts')); if (s) document.documentElement.style.setProperty('--ts', s);
         } catch (e) {}
+        /* Decide tiles or carousel now, so the tiles never flash up before the carousel takes over
+           (same rule as setView in site.js). While the WebGL carousel loads, its stand-in stays hidden. */
+        try {
+          var v = null; try { v = localStorage.getItem('obs.view'); } catch (e) {}
+          if (!v) v = Math.min(innerWidth, screen.width || innerWidth) >= 600 ? 'carousel' : 'tiles';
+          if (v === 'carousel') {
+            document.documentElement.classList.add('boot-carousel');
+            if (window.WebGLRenderingContext) document.documentElement.classList.add('gl-wait');
+          }
+        } catch (e) {}
       })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -351,6 +351,14 @@ version visible**, and if possible try Chrome on the same device to separate bro
 5. Commit and push to `main` (backup tag first if major; see `docs/STANDARDS.md`).
 6. Tell him the new version string so he can confirm it in the ⓘ panel on each device.
 
+## 14b. First paint
+
+The inline script in the page head picks the first view with the same rule as `setView`
+(saved choice, else carousel from 600 px wide). For the carousel it adds `boot-carousel` to `<html>`
+(hides tiles and footer; `site.js` removes it right after the first `setView`) and, if the browser
+has WebGL, `gl-wait` (hides the CSS ring; `carousel3d.js` removes it when ready or when WebGL fails;
+`site.js` removes it after 5 s as a safety net).
+
 ## 15. Automation status and kill switches
 
 Added 2026-11-15. Five boards have workflows that run on their own; the rest change only when

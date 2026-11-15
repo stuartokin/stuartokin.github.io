@@ -7,6 +7,13 @@ Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js UR
   replaces the scripted walkthrough; the tab now reads "Trailer". Card still and hover preview
   unchanged.
 
+## 2026-11-15c
+- **No flash on load.** On screens that open in the carousel, the tiles no longer show for a moment
+  first, and the flat stand-in ring no longer shows before the 3D one. The page head now decides the
+  view before first paint (`boot-carousel`), and the stand-in stays hidden until WebGL is ready
+  (`gl-wait`, cleared by `carousel3d.js`, or after 5 s if WebGL never arrives).
+- Rig: two new checks per carousel device watch every frame from the start of loading.
+
 ## 2026-11-15a
 - **Automation status on every card.** A pill on each picture (top left): green "Automated",
   amber "Paused", red "Needs a look", grey "Manual". Tap it for a plain-English panel: what runs

@@ -702,6 +702,9 @@
   fit = store.get('obs.fit') === '1';
   /* First visit: the carousel on tablets, Folds, laptops and big screens; tiles on phones. */
   setView(store.get('obs.view') || (Math.min(innerWidth, screen.width || innerWidth) >= 600 ? 'carousel' : 'tiles'));
+  root.classList.remove('boot-carousel');
+  /* If the WebGL carousel never arrives (no WebGL, script failed), show the CSS one after all. */
+  setTimeout(() => root.classList.remove('gl-wait'), 5000);
   /* Shared with the WebGL carousel. */
   window.HQ = { cards, stage, getAngle: () => angle, frontIndex, step, refresh, layoutOrbit, isFocused: () => focused };
 })();

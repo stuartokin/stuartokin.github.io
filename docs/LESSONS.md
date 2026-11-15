@@ -76,6 +76,11 @@ day's run already done. Check the jobs (`status.py` does) before concluding anyt
 **17. Push access needs pushing to `main`.** GitHub only runs scheduled workflows from the
 default branch, so kill-switch changes on a side branch do nothing.
 
+**18. Decide the first view before first paint.** The view was chosen at the end of `site.js`, so
+the tiles were drawn first and then swapped for the carousel; then the CSS stand-in ring showed until
+three.js had loaded. Fast local loads hid it; Stuart saw both on refresh. The head script now sets the
+view class, and the rig samples every frame from navigation start.
+
 ## Small but sticky
 
 - The title's ⓘ panel opened *behind* the sticky toolbar until the header got `z-index: 60`.

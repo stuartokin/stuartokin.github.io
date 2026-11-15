@@ -17,7 +17,7 @@ function init() {
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-  } catch (e) { return; }           // no WebGL: keep the CSS carousel
+  } catch (e) { root.classList.remove('gl-wait'); return; }           // no WebGL: keep the CSS carousel
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.shadowMap.enabled = false;
@@ -420,11 +420,11 @@ function init() {
 
   canvas.addEventListener('webglcontextlost', e => {
     e.preventDefault();
-    window.HQ3D.ready = false; root.classList.remove('gl'); canvas.remove(); HQ.refresh();
+    window.HQ3D.ready = false; root.classList.remove('gl', 'gl-wait'); canvas.remove(); HQ.refresh();
   });
   new MutationObserver(() => buildTheme()).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
-  root.classList.remove('lite');
+  root.classList.remove('lite', 'gl-wait');
   root.classList.add('gl');
   buildTheme();
   const go = () => { meshes.forEach(m => { paintFace(m.userData.card, m.userData.tex); m.userData.tex.needsUpdate = true; }); HQ.refresh(); };

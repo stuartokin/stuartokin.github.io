@@ -742,3 +742,11 @@ dialog.statdlg::backdrop { background: rgb(3 5 10 / 0.7); }
 .statdlg__key i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 0.35rem; }
 .statdlg__body a { color: var(--accent); }
 .statdlg__foot { margin: 1.1rem 0 0; color: var(--ink-faint); font-size: 0.8rem; }
+
+/* ---------- First paint ----------
+   boot-carousel (set in the page head, cleared by site.js once the view is in place): hide the tiles
+   and footer so they don't flash up before the carousel. gl-wait (cleared when the WebGL carousel is
+   ready, or after 5 s): keep the CSS stand-in ring hidden so it doesn't flash before the 3D one. */
+html.boot-carousel .group, html.boot-carousel .fitgrid, html.boot-carousel .foot { visibility: hidden; }
+html.boot-carousel .group { display: none; }
+html.gl-wait .oring { visibility: hidden; }

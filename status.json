@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15T14:16:46+00:00",
+ "generated": "2026-11-15T20:57:21+00:00",
  "master": {
   "paused": false
  },
@@ -7,17 +7,17 @@
   "quantum-observatory": {
    "repo": "quantum-observatory",
    "url": "https://github.com/stuartokin/quantum-observatory",
-   "updated": "2026-11-15T14:08:34Z",
+   "updated": "2026-11-15T15:01:44Z",
    "lastBy": "assistant",
-   "lastMessage": "Pause automation and limit Steward to the owner",
+   "lastMessage": "Add working standard to CLAUDE.md; personal-capacity wording",
    "recent": {
     "you": 0,
-    "assistant": 1,
-    "agent": 29,
+    "assistant": 2,
+    "agent": 28,
     "script": 0,
     "of": 30
    },
-   "version": "0.59.0",
+   "version": "0.59.1",
    "switch": {
     "local": true,
     "master": false
@@ -57,14 +57,14 @@
   "cyber-attack-earth": {
    "repo": "cyber-attack-earth",
    "url": "https://github.com/stuartokin/cyber-attack-earth",
-   "updated": "2026-11-15T14:08:34Z",
+   "updated": "2026-11-15T15:01:46Z",
    "lastBy": "assistant",
-   "lastMessage": "Add kill switch to automated workflows",
+   "lastMessage": "Add working standard to CLAUDE.md; personal-capacity wording",
    "recent": {
     "you": 0,
-    "assistant": 1,
+    "assistant": 2,
     "agent": 0,
-    "script": 29,
+    "script": 28,
     "of": 30
    },
    "version": null,
@@ -93,17 +93,17 @@
   "energy-resilience": {
    "repo": "energy-resilience",
    "url": "https://github.com/stuartokin/energy-resilience",
-   "updated": "2026-11-15T14:08:34Z",
+   "updated": "2026-11-15T15:01:52Z",
    "lastBy": "assistant",
-   "lastMessage": "Add kill switch to automated workflows",
+   "lastMessage": "Add working standard to CLAUDE.md; personal-capacity wording",
    "recent": {
-    "you": 29,
-    "assistant": 1,
+    "you": 28,
+    "assistant": 2,
     "agent": 0,
     "script": 0,
     "of": 30
    },
-   "version": "4.3.0",
+   "version": "4.3.1",
    "switch": {
     "local": false,
     "master": false
@@ -116,12 +116,12 @@
      "ai": false,
      "when": "Every Monday at 03:17 UTC",
      "lastRun": {
-      "date": "2026-11-15T14:08:44Z",
+      "date": "2026-11-15T15:01:55Z",
       "outcome": "worked",
       "event": "push",
-      "url": "https://github.com/stuartokin/energy-resilience/actions/runs/43722731624"
+      "url": "https://github.com/stuartokin/energy-resilience/actions/runs/43727573209"
      },
-     "lastWorked": "2026-11-15T14:08:44Z"
+     "lastWorked": "2026-11-15T15:01:55Z"
     }
    ],
    "state": "on"
@@ -129,14 +129,14 @@
   "ResearchGap": {
    "repo": "ResearchGap",
    "url": "https://github.com/stuartokin/ResearchGap",
-   "updated": "2026-11-15T14:08:34Z",
+   "updated": "2026-11-15T15:01:48Z",
    "lastBy": "assistant",
-   "lastMessage": "Add kill switch to automated workflows",
+   "lastMessage": "Add working standard to CLAUDE.md; personal-capacity wording",
    "recent": {
     "you": 16,
-    "assistant": 1,
+    "assistant": 2,
     "agent": 5,
-    "script": 8,
+    "script": 7,
     "of": 30
    },
    "version": "13.4 · data revision 37",
@@ -193,12 +193,12 @@
   "qday-research": {
    "repo": "qday-research",
    "url": "https://github.com/stuartokin/Qday-Research",
-   "updated": "2026-07-16T21:04:15Z",
-   "lastBy": "you",
-   "lastMessage": "Add files via upload",
+   "updated": "2026-11-15T15:01:58Z",
+   "lastBy": "assistant",
+   "lastMessage": "Add working standard to CLAUDE.md; personal-capacity wording",
    "recent": {
-    "you": 30,
-    "assistant": 0,
+    "you": 29,
+    "assistant": 1,
     "agent": 0,
     "script": 0,
     "of": 30
@@ -214,15 +214,15 @@
   "PatchPulse": {
    "repo": "PatchPulse",
    "url": "https://github.com/stuartokin/PatchPulse",
-   "updated": "2026-07-19T21:11:55Z",
-   "lastBy": "you",
-   "lastMessage": "Add files via upload",
+   "updated": "2026-11-15T15:01:56Z",
+   "lastBy": "assistant",
+   "lastMessage": "Add working standard to CLAUDE.md; personal-capacity wording",
    "recent": {
     "you": 3,
-    "assistant": 0,
+    "assistant": 1,
     "agent": 0,
     "script": 0,
-    "of": 3
+    "of": 4
    },
    "version": null,
    "switch": {
@@ -235,15 +235,15 @@
   "AI-Model-Cortex": {
    "repo": "AI-Model-Cortex",
    "url": "https://github.com/stuartokin/AI-Model-Cortex",
-   "updated": "2026-07-13T16:49:53Z",
-   "lastBy": "you",
-   "lastMessage": "Add files via upload",
+   "updated": "2026-11-15T15:02:01Z",
+   "lastBy": "assistant",
+   "lastMessage": "Add working standard to CLAUDE.md; personal-capacity wording",
    "recent": {
     "you": 13,
-    "assistant": 0,
+    "assistant": 1,
     "agent": 0,
     "script": 0,
-    "of": 13
+    "of": 14
    },
    "version": null,
    "switch": {
@@ -256,15 +256,15 @@
   "uk-ai-landscape": {
    "repo": "uk-ai-landscape",
    "url": "https://github.com/stuartokin/uk-ai-landscape",
-   "updated": "2026-06-21T08:51:37Z",
-   "lastBy": "you",
-   "lastMessage": "Add files via upload",
+   "updated": "2026-11-15T15:02:05Z",
+   "lastBy": "assistant",
+   "lastMessage": "Add working standard to CLAUDE.md; personal-capacity wording",
    "recent": {
     "you": 10,
-    "assistant": 0,
+    "assistant": 1,
     "agent": 0,
     "script": 0,
-    "of": 10
+    "of": 11
    },
    "version": null,
    "switch": {
@@ -277,15 +277,15 @@
   "AI-vulnerability-research": {
    "repo": "AI-vulnerability-research",
    "url": "https://github.com/stuartokin/AI-vulnerability-research",
-   "updated": "2026-06-26T10:42:40Z",
-   "lastBy": "you",
-   "lastMessage": "Add files via upload",
+   "updated": "2026-11-15T15:02:03Z",
+   "lastBy": "assistant",
+   "lastMessage": "Add working standard to CLAUDE.md; personal-capacity wording",
    "recent": {
     "you": 7,
-    "assistant": 0,
+    "assistant": 1,
     "agent": 0,
     "script": 0,
-    "of": 7
+    "of": 8
    },
    "version": null,
    "switch": {
@@ -298,12 +298,12 @@
   "ApolloMaths": {
    "repo": "ApolloMaths",
    "url": "https://github.com/stuartokin/ApolloMaths",
-   "updated": "2026-11-15T14:08:34Z",
+   "updated": "2026-11-15T15:01:50Z",
    "lastBy": "assistant",
-   "lastMessage": "Add kill switch to automated workflows",
+   "lastMessage": "Add working standard to CLAUDE.md; personal-capacity wording",
    "recent": {
-    "you": 29,
-    "assistant": 1,
+    "you": 28,
+    "assistant": 2,
     "agent": 0,
     "script": 0,
     "of": 30
@@ -334,15 +334,15 @@
   "Starlane": {
    "repo": "Starlane",
    "url": "https://github.com/stuartokin/Starlane",
-   "updated": "2026-11-13T23:47:55Z",
-   "lastBy": "you",
-   "lastMessage": "Add .gitignore to exclude output and cache files",
+   "updated": "2026-11-15T20:40:14Z",
+   "lastBy": "assistant",
+   "lastMessage": "Battle display uses the whole screen (starlane-v9)",
    "recent": {
     "you": 10,
-    "assistant": 0,
+    "assistant": 5,
     "agent": 0,
     "script": 0,
-    "of": 10
+    "of": 15
    },
    "version": null,
    "switch": {
