@@ -31,3 +31,20 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 11. **Playwright in a Claude cloud sandbox:** Chromium is pre-installed; pin the Python package
     to the same version as the node one (`pip install playwright==1.63.0` in Nov 2026) instead of
     `playwright install`. (ApolloMaths, 2026-11-15)
+12. **Passing tests aren't the same as feeling right.** In Starlane the mouse was tracked across
+   the whole screen and the tests passed, but steering reached full turn inside a small area and
+   the aiming ring was clipped. To Stuart it looked broken. Check what the player sees, scale
+   controls to the area actually shown, and ask Stuart for a short screen recording when
+   something feels off. (Starlane, 2026-11-15)
+13. **Practice copies must hand back preferences.** Starlane's test mode plays a copy of the save,
+    and the copy also held key and display settings, so "Reset all keys" seemed not to work. Keep a
+    list of preferences that survive leaving a sandbox. (Starlane, 2026-11-15)
+14. **Random events make flaky tests.** Turn the randomness off in the test (a debug setting),
+    or loop until the condition holds, rather than retrying the whole suite.
+    (Starlane, 2026-11-15)
+15. **Moving a panel leaves things behind.** When a layout changes, search for everything placed
+    relative to the old one (Starlane's lasers and start-up shading hung off the console top).
+    (Starlane, 2026-11-15)
+16. **Cloud sessions may not be able to push tags.** Pushes to `main` worked, but `backup/…` tags
+    were refused (HTTP 403). Note the last good commit id in the reply as the way to undo.
+    (Starlane, 2026-11-15)
