@@ -81,6 +81,19 @@ the tiles were drawn first and then swapped for the carousel; then the CSS stand
 three.js had loaded. Fast local loads hid it; Stuart saw both on refresh. The head script now sets the
 view class, and the rig samples every frame from navigation start.
 
+**19. `Range.getClientRects()` returns whole element boxes, not just words.** Selecting a block's
+contents gives full-width boxes for any element fully inside, so a "does this touch the header text?"
+test failed everywhere. Walk the text nodes and measure each one.
+
+**20. A stray local server makes the rig fail silently.** A preview server left on port 8810 made
+`npm test` exit at once with only an "address in use" trace and no results. Stop it
+(`pkill -f lib/server.js`) and rerun; if a run prints nothing, look at the end of its output.
+
+**21. Mock up in the real renderer.** The light-source proofs were built inside the real WebGL
+carousel (a throwaway copy with a switch for each option), so what Stuart chose is exactly what
+shipped. Two surprises only showed that way: the canvas stopped just above the cards, so a source
+needed the view extended upwards; and option B reads edge-on from the camera's angle.
+
 ## Small but sticky
 
 - The title's ⓘ panel opened *behind* the sticky toolbar until the header got `z-index: 60`.

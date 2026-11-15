@@ -4,6 +4,12 @@ Status as of version **2026-11-15a**. Move items between sections as they change
 
 ## Open — needs Stuart
 
+- **Check on real devices (2026-11-15):** the lens and beam on the big monitor in dark and light,
+  the darker side cards, no flash on refresh, the Shrinking Gap opening, the remembered board, and
+  a copied board link opening on the Fold. All pass in the rig; none yet seen on his screens.
+- **Kill switch test:** set the master `automation.json` to `true`, check the next scheduled run
+  in cyber-attack-earth logs "Paused by master switch", then set it back.
+
 - **Articles still missing** for Quantum Observatory, Apollo's Maths Missions and Starlane Trader.
   Add when written (`"article"` in `tools/boards.json`).
 - **Confirm two article pairings** that were inferred, not confirmed:

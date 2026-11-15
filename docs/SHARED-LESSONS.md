@@ -48,3 +48,9 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 16. **Cloud sessions may not be able to push tags.** Pushes to `main` worked, but `backup/…` tags
     were refused (HTTP 403). Note the last good commit id in the reply as the way to undo.
     (Starlane, 2026-11-15)
+9. **Draw the right layout first.** If the starting view depends on the screen or a saved choice,
+   decide it in a tiny script in the page head, before first paint; otherwise visitors see the
+   default flash up and then swap. Test it by sampling every frame from navigation start. (hub)
+10. **Links into a page need a stable name.** Use a slug in the address (`#the-shrinking-gap`),
+    update it with `history.replaceState` as the view changes, and accept old forms (repo names) too.
+    Handy for LinkedIn articles. (hub)
