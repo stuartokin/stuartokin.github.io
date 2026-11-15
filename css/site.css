@@ -757,3 +757,8 @@ html.gl-wait .oring { visibility: hidden; }
 .statdlg__share input { flex: 1 1 12rem; min-width: 0; padding: 0.45rem 0.6rem; border-radius: 6px; border: 1px solid var(--hairline); background: var(--ground-raised); color: var(--ink); font-family: var(--mono); font-size: 0.72rem; }
 .statdlg__share button { color: var(--accent); }
 .card.target { border-color: var(--accent) !important; box-shadow: 0 0 0 2px var(--accent), 0 0 40px color-mix(in oklab, var(--accent) 30%, transparent); transition: box-shadow 0.4s; }
+
+/* The lens (carousel3d.js): when it fits between the toolbars the canvas reaches up above the stage,
+   so the stage mustn't clip it. Only upwards: the canvas is never wider than the stage. */
+.ostage.lens { overflow: visible; }
+.ostage.lens canvas.gl3d { pointer-events: auto; }

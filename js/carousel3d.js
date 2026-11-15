@@ -228,9 +228,33 @@ function init() {
     draw(c.getContext('2d'), w, h);
     const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
   }
+  function glowSprite(rgb, size, alpha) {
+    const tex = gradTex((ctx, w, h) => {
+      const g = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2);
+      g.addColorStop(0, `rgba(${rgb},${alpha})`); g.addColorStop(0.25, `rgba(${rgb},${alpha * 0.45})`); g.addColorStop(1, `rgba(${rgb},0)`);
+      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    }, 128, 128);
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    s.scale.set(size, size, 1); s.renderOrder = 410; return s;
+  }
+  /* An observatory lens: a glowing aperture ring with a bright core, an outer guide ring and six
+     small mounts, floating above the front card. */
+  function buildLens(D, accent, z, topY) {
+    const g = new THREE.Group(); g.position.set(0, topY, z); spot.add(g);
+    const ringMat = new THREE.MeshStandardMaterial({ color: accent, emissive: accent, emissiveIntensity: 0.9, roughness: 0.3 });
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.035, 16, 64), ringMat); ring.rotation.x = Math.PI / 2; g.add(ring);
+    const outer = new THREE.Mesh(new THREE.TorusGeometry(0.36, 0.008, 8, 64), ringMat); outer.rotation.x = Math.PI / 2; outer.position.y = 0.05; g.add(outer);
+    const core = new THREE.Mesh(new THREE.CircleGeometry(0.24, 48), new THREE.MeshBasicMaterial({ color: D ? '#bffff1' : '#fff8e6', transparent: true, opacity: 0.85, side: THREE.DoubleSide }));
+    core.rotation.x = Math.PI / 2; g.add(core);
+    for (let i = 0; i < 6; i++) {
+      const a = i * Math.PI / 3, m = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.02, 0.02), ringMat);
+      m.position.set(Math.cos(a) * 0.36, 0.05, Math.sin(a) * 0.36); m.rotation.y = -a; g.add(m);
+    }
+    g.add(glowSprite(D ? '170,255,238' : '255,246,220', 1.2, 0.9));
+  }
   function buildSpot(D, accent) {
-    spot.clear();
-    const z = R + 0.18, topY = CH + 1.9;
+    spot.clear(); lastTheme = [D, accent];
+    const z = R + 0.18, topY = lensOn ? LENS_Y : CH + 1.9;
     // the beam: an open cone, brightest at the top and fading towards the platform
     const beamTex = gradTex((ctx, w, h) => {
       const g = ctx.createLinearGradient(0, 0, 0, h);
@@ -242,12 +266,13 @@ function init() {
       ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = s; ctx.fillRect(0, 0, w, h);
     }, 64, 256);
     const coneH = topY - 0.02;
-    const cone = new THREE.CylinderGeometry(0.08, 0.78, coneH, 48, 1, true);
+    const cone = new THREE.CylinderGeometry(lensOn ? 0.22 : 0.08, 0.78, coneH, 48, 1, true);
     beam = new THREE.Mesh(cone, new THREE.MeshBasicMaterial({
       map: beamTex, transparent: true, depthWrite: false, side: THREE.DoubleSide,
       blending: D ? THREE.AdditiveBlending : THREE.NormalBlending, opacity: D ? 0.55 : 0.55 }));
     beam.position.set(0, coneH / 2 + 0.01, z); beam.renderOrder = 400;
     spot.add(beam);
+    if (lensOn) buildLens(D, accent, z, topY);
     // the pool of light on the platform
     const poolTex = gradTex((ctx, w, h) => {
       const g = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2);
@@ -297,7 +322,9 @@ function init() {
   function frame() {
     const w = stage.clientWidth, h = stage.clientHeight;
     if (!w || !h) return;
+    camera.clearViewOffset();
     renderer.setSize(w, h, false);
+    canvas.style.top = ''; canvas.style.height = '';
     camera.aspect = w / h;
     // points that must be visible
     const pts = [];
@@ -325,7 +352,51 @@ function init() {
       target.y += (v.y - v0.y) * 0.9;
     }
     place(dist);
+    fitLens(w, h);
     requestRender();
+  }
+
+  /* ---------- The lens: the beam's source, hung in the gap between the two toolbars ----------
+     The canvas reaches up above the stage by just enough to show it (the carousel itself doesn't
+     move: the camera's view is extended upwards). Only where it fits: two floating toolbars with a
+     wide enough gap, not in Fit to screen. Otherwise the beam fades out above the cards as before. */
+  const LENS_Y = CH + 1.0, LENS_R = 0.42;
+  let lensOn = false, lastTheme = null;
+  function fitLens(w, h) {
+    let on = false, E = 0;
+    const groups = [...document.querySelectorAll('.toolbar .tbgroup')].filter(g => g.offsetWidth);
+    const head = document.querySelector('header');
+    if (groups.length === 2 && !document.body.classList.contains('fit') && head) {
+      const z = R + 0.18, sr = stage.getBoundingClientRect();
+      let l = Infinity, r = -Infinity, top = Infinity;
+      for (let k = 0; k < 16; k++) {
+        const a = k / 16 * Math.PI * 2;
+        for (const dy of [-0.06, 0.12]) {
+          const v = new THREE.Vector3(Math.cos(a) * LENS_R, LENS_Y + dy, z + Math.sin(a) * LENS_R).project(camera);
+          const x = sr.left + (v.x + 1) / 2 * w, y = sr.top + (1 - v.y) / 2 * h;
+          l = Math.min(l, x); r = Math.max(r, x); top = Math.min(top, y);
+        }
+      }
+      const glowTop = top - 40;   // room for the halo
+      const a = groups[0].getBoundingClientRect(), b = groups[1].getBoundingClientRect();
+      const fitsSides = l > a.right + 24 && r < b.left - 24;
+      // the lens may sit beside the header, but not on any of its words (the glow may)
+      const box = { l: l - 10, r: r + 10, t: top - 10, b: sr.top };
+      const words = [], walk = document.createTreeWalker(head, NodeFilter.SHOW_TEXT), range = document.createRange();
+      for (let nd; (nd = walk.nextNode());) {
+        if (!nd.textContent.trim() || !nd.parentElement.offsetWidth) continue;
+        range.selectNodeContents(nd); words.push(...range.getClientRects());
+      }
+      const fitsTop = top > 0 && !words.some(q => q.width && q.right > box.l && q.left < box.r && q.bottom > box.t && q.top < box.b);
+      if (fitsSides && fitsTop) { on = true; E = Math.max(0, Math.ceil(sr.top - glowTop)); }
+    }
+    if (on && E) {
+      renderer.setSize(w, h + E, false);
+      canvas.style.top = -E + 'px'; canvas.style.height = `calc(100% + ${E}px)`;
+      camera.setViewOffset(w, h, 0, -E, w, h + E); camera.updateProjectionMatrix();
+    }
+    stage.classList.toggle('lens', on);
+    if (on !== lensOn) { lensOn = on; if (lastTheme) buildSpot(...lastTheme); }
   }
 
   /* ---------- Turning ---------- */
@@ -348,9 +419,10 @@ function init() {
         if (dark()) { side.emissiveIntensity = 0.18 + f * 1.1; side.opacity = 0.55 + f * 0.4; }
         else { side.emissiveIntensity = f * 0.35; }
       }
-      let dim = isFront ? 0 : Math.min(0.72, 0.18 + a / 230);
+      /* Cards outside the light are darker; more so in the dark theme. */
+      let dim = isFront ? 0 : dark() ? Math.min(0.8, 0.32 + a / 180) : Math.min(0.72, 0.18 + a / 230);
       if (focusing && !isFront) dim = 0.8;
-      const g = 1 - dim * (dark() ? 0.85 : 0.8);
+      const g = 1 - dim * (dark() ? 0.9 : 0.8);
       m.userData.face.color.setRGB(g, g, g);
       m.visible = !(focusing && isFront);
       m.renderOrder = Math.round(100 + Math.cos(t) * 50);

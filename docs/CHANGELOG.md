@@ -2,6 +2,16 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-15e
+- **The spotlight has a source:** an observatory lens (glowing aperture ring, bright core, outer
+  guide ring with six mounts) hangs between the two floating toolbars, and the beam starts from it.
+  The 3D view reaches up above the stage just far enough to show it; the carousel doesn't move.
+  Shown only where it fits between the toolbars without touching any header text (on now: laptop,
+  Stuart's window, iPad, QHD, 4K; off on the Fold and phones, and in Fit to screen).
+- **Darker side cards in the dark theme:** neighbours about 55% brightness (was 73%), the back
+  of the ring about 28% (was 39%). Light theme unchanged.
+- Rig: lens shown on the screens where it fits; toolbar and title still clickable above it.
+
 ## 2026-11-15d
 - **Opens on The Shrinking Gap** on a first visit (carousel front card; `DEFAULT_FRONT` in `site.js`).
 - **Remembers the front board** (`obs.front`), alongside the view, fit, theme and text size it

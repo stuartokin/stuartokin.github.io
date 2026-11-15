@@ -102,6 +102,19 @@ async function check(browser, URL, devName, dev) {
     if (basics.view !== 'carousel') { await page.click('[data-view="carousel"]'); await page.waitForTimeout(1500); }
     const gl = await page.evaluate(() => !!(window.HQ3D && window.HQ3D.ready));
     T('3D carousel (WebGL) running', gl, gl ? '' : 'fell back to CSS carousel');
+    // The lens (the beam's source) hangs between the two floating toolbars where it fits; the taller
+    // canvas must never cover the toolbar buttons or the title.
+    if (gl) {
+      const ln = await page.evaluate(() => {
+        const on = document.querySelector('.ostage').classList.contains('lens');
+        const hit = el => { const r = el.getBoundingClientRect(); const e = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return !!e && (el === e || el.contains(e)); };
+        const btns = [...document.querySelectorAll('.toolbar button')].filter(b => b.offsetWidth);
+        return { on, buttonsClickable: btns.every(hit), titleClickable: hit(document.querySelector('#hinfoBtn')) };
+      });
+      const want = ['laptop', 'stuart', 'qhd', '4k', 'ipad'].includes(devName);
+      T('lens shown where it fits', !want || ln.on, JSON.stringify(ln));
+      T('toolbar and title still clickable above the 3D view', ln.buttonsClickable && ln.titleClickable, JSON.stringify(ln));
+    }
     if (dev.kind !== 'phone') {
       const vs = await page.evaluate(() => document.documentElement.scrollHeight - innerHeight);
       T('carousel fits without scrolling', vs <= 2, `${vs}px`);

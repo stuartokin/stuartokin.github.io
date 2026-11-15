@@ -54,5 +54,7 @@ Status as of version **2026-11-15a**. Move items between sections as they change
 - 2026-11-15 Kill switches: one small `automation.json` per repo plus a master here (not repo
   variables). Status refreshed at release and daily. Steward answers only the owner.
 - 2026-11-15 **Claude pushes straight to `main`** in every repo; no zips. Backup tag first for major changes.
+- 2026-11-15 Beam source: **observatory lens** (option B of four: spotlight, lens, pendant, orb), both
+  themes; darker side cards in the dark theme.
 - 2026-11-15 **No employer or job title anywhere**, in any repo; personal capacity only. Ofgem may still be cited
   as a source. Working standard v1 (incl. "wrap up") in every repo's `CLAUDE.md`; master in `docs/STANDARDS.md`.

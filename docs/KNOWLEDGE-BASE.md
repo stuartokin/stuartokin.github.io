@@ -221,6 +221,16 @@ never wider than the screen, never above the toolbar or below the bottom edge. I
 the front card's on-screen rectangle (`HQ3D.frontRect()`). Leaving it, turning the ring,
 scrolling, Escape or a tap elsewhere closes it.
 
+### The lens (beam source)
+
+`fitLens()` in `carousel3d.js` runs after every framing. It projects the lens (`LENS_Y = CH + 1.0`,
+radius `LENS_R`) to the screen and shows it only if it sits between the two `.tbgroup` toolbars
+(24 px clear each side) and its body touches no header text (measured per text run, not per box).
+Then the canvas is made taller by `E` px upwards (`top: -E`), `camera.setViewOffset` extends the
+view so the ring stays put, and `.ostage.lens` lets the stage overflow upwards. If it doesn't fit,
+the beam goes back to fading out above the cards (top at `CH + 1.9`). Side cards in the dark
+theme dim as `min(0.8, 0.32 + angle/180)`, times 0.9.
+
 ## 8. Touch, phones and the Fold
 
 This is where most bugs have been. Current handling:
