@@ -22,3 +22,12 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 8. **Phones keep old copies.** Version every release, show the version somewhere visible, and
    put it on asset URLs (or bump the service-worker cache). Ask which version a bug report
    was on. (hub, ApolloMaths, Starlane)
+9. **When a setting changes, redraw everything that depends on it,** from one place every route
+   goes through, not in each control. ApolloMaths changed the exam but left the old exam's
+   question and plan on screen. (ApolloMaths, 2026-11-15)
+10. **Wide tables break on phones and tablets.** Turn edit tables into cards below ~1000 px and
+    screenshot grown-up/admin screens at 375 and 820 px too, not just the main page.
+    (ApolloMaths, 2026-11-15)
+11. **Playwright in a Claude cloud sandbox:** Chromium is pre-installed; pin the Python package
+    to the same version as the node one (`pip install playwright==1.63.0` in Nov 2026) instead of
+    `playwright install`. (ApolloMaths, 2026-11-15)
