@@ -346,7 +346,7 @@ version visible**, and if possible try Chrome on the same device to separate bro
    old file if offline; `--no-status` skips it)
 3. `cd tests && npm test` → all PASS; `npm run shots` and look.
 4. Add an entry to `docs/CHANGELOG.md`.
-5. Package for Stuart: only changed files, zip keeping folders (`index.html` alone if that's all).
+5. Commit and push to `main` (backup tag first if major; see `docs/STANDARDS.md`).
 6. Tell him the new version string so he can confirm it in the ⓘ panel on each device.
 
 ## 15. Automation status and kill switches

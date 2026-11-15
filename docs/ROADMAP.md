@@ -18,6 +18,8 @@ Status as of version **2026-11-15a**. Move items between sections as they change
   while he isn't working on it. Set `"paused": false` there when he picks it up again.
 
 ## Next — agreed or obvious
+- **Docs and smoke tests for the repos that have none** (Cyber Attack Earth, Energy Resilience, the five
+  single-page boards): each `CLAUDE.md` says to add them on the next change; or do a pass across all at once.
 
 - **Folded Fold (280px wide, original Fold) — Fit to screen in tiles** leaves ~20px below the
   screen. Current Folds (344px) are fine. Low priority.
@@ -52,3 +54,6 @@ Status as of version **2026-11-15a**. Move items between sections as they change
 - 2026-11-13 Knowledge base, lessons, roadmap, build tool and test rig added to the repo.
 - 2026-11-15 Kill switches: one small `automation.json` per repo plus a master here (not repo
   variables). Status refreshed at release and daily. Steward answers only the owner.
+- 2026-11-15 **Claude pushes straight to `main`** in every repo; no zips. Backup tag first for major changes.
+- 2026-11-15 **No employer or job title anywhere**, in any repo; personal capacity only. Ofgem may still be cited
+  as a source. Working standard v1 (incl. "wrap up") in every repo's `CLAUDE.md`; master in `docs/STANDARDS.md`.
