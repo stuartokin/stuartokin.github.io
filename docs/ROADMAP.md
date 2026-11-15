@@ -7,6 +7,10 @@ Status as of version **2026-11-15a**. Move items between sections as they change
 - **Check on real devices (2026-11-15):** the lens and beam on the big monitor in dark and light,
   the darker side cards, no flash on refresh, the Shrinking Gap opening, the remembered board, and
   a copied board link opening on the Fold. All pass in the rig; none yet seen on his screens.
+- **Backups from cloud sessions:** the standard says push a `backup/…` tag before major changes, but a
+  Starlane session found tag pushes refused (HTTP 403). Until settled, note the last good commit id in
+  the reply as the way back. Options: allow tag pushes for the session, or use backup branches;
+  then update the standard (v2) in every repo.
 - **Kill switch test:** set the master `automation.json` to `true`, check the next scheduled run
   in cyber-attack-earth logs "Paused by master switch", then set it back.
 
