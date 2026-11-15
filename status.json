@@ -1,0 +1,356 @@
+{
+ "generated": "2026-11-15T14:16:46+00:00",
+ "master": {
+  "paused": false
+ },
+ "boards": {
+  "quantum-observatory": {
+   "repo": "quantum-observatory",
+   "url": "https://github.com/stuartokin/quantum-observatory",
+   "updated": "2026-11-15T14:08:34Z",
+   "lastBy": "assistant",
+   "lastMessage": "Pause automation and limit Steward to the owner",
+   "recent": {
+    "you": 0,
+    "assistant": 1,
+    "agent": 29,
+    "script": 0,
+    "of": 30
+   },
+   "version": "0.59.0",
+   "switch": {
+    "local": true,
+    "master": false
+   },
+   "jobs": [
+    {
+     "file": "agents.yml",
+     "name": "Agents",
+     "what": "AI research agents look for new developments in quantum computing and post-quantum cryptography, check the sources and add them to the board. Everything they add is marked “not yet reviewed” until Stuart has read it.",
+     "ai": true,
+     "when": "Every Monday at 06:00 UTC",
+     "lastRun": {
+      "date": "2026-11-09T15:01:58Z",
+      "outcome": "worked",
+      "event": "schedule",
+      "url": "https://github.com/stuartokin/quantum-observatory/actions/runs/42640499028"
+     },
+     "lastWorked": "2026-11-09T15:01:58Z"
+    },
+    {
+     "file": "steward.yml",
+     "name": "Steward",
+     "what": "An AI steward reads new issues and comments on the board’s GitHub page and acts on them. It only responds to Stuart.",
+     "ai": true,
+     "when": "Runs when an issue is opened or commented on",
+     "lastRun": {
+      "date": "2026-08-19T21:57:39Z",
+      "outcome": "worked",
+      "event": "workflow_dispatch",
+      "url": "https://github.com/stuartokin/quantum-observatory/actions/runs/32306495846"
+     },
+     "lastWorked": "2026-08-19T21:57:39Z"
+    }
+   ],
+   "state": "paused"
+  },
+  "cyber-attack-earth": {
+   "repo": "cyber-attack-earth",
+   "url": "https://github.com/stuartokin/cyber-attack-earth",
+   "updated": "2026-11-15T14:08:34Z",
+   "lastBy": "assistant",
+   "lastMessage": "Add kill switch to automated workflows",
+   "recent": {
+    "you": 0,
+    "assistant": 1,
+    "agent": 0,
+    "script": 29,
+    "of": 30
+   },
+   "version": null,
+   "switch": {
+    "local": false,
+    "master": false
+   },
+   "jobs": [
+    {
+     "file": "update-cyber-data.yml",
+     "name": "Update cyber data pack",
+     "what": "A script downloads the latest recorded cyber incidents from public sources and rebuilds the data behind the map. No AI is involved.",
+     "ai": false,
+     "when": "Every day at 03:20 UTC",
+     "lastRun": {
+      "date": "2026-11-15T11:00:45Z",
+      "outcome": "worked",
+      "event": "schedule",
+      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/43706813210"
+     },
+     "lastWorked": "2026-11-15T11:00:45Z"
+    }
+   ],
+   "state": "on"
+  },
+  "energy-resilience": {
+   "repo": "energy-resilience",
+   "url": "https://github.com/stuartokin/energy-resilience",
+   "updated": "2026-11-15T14:08:34Z",
+   "lastBy": "assistant",
+   "lastMessage": "Add kill switch to automated workflows",
+   "recent": {
+    "you": 29,
+    "assistant": 1,
+    "agent": 0,
+    "script": 0,
+    "of": 30
+   },
+   "version": "4.3.0",
+   "switch": {
+    "local": false,
+    "master": false
+   },
+   "jobs": [
+    {
+     "file": "deploy.yml",
+     "name": "Deploy to GitHub Pages",
+     "what": "A script refreshes the OpenStreetMap snapshot of power and gas assets, grid supply areas and network operator lines, then republishes the map. No AI is involved.",
+     "ai": false,
+     "when": "Every Monday at 03:17 UTC",
+     "lastRun": {
+      "date": "2026-11-15T14:08:44Z",
+      "outcome": "worked",
+      "event": "push",
+      "url": "https://github.com/stuartokin/energy-resilience/actions/runs/43722731624"
+     },
+     "lastWorked": "2026-11-15T14:08:44Z"
+    }
+   ],
+   "state": "on"
+  },
+  "ResearchGap": {
+   "repo": "ResearchGap",
+   "url": "https://github.com/stuartokin/ResearchGap",
+   "updated": "2026-11-15T14:08:34Z",
+   "lastBy": "assistant",
+   "lastMessage": "Add kill switch to automated workflows",
+   "recent": {
+    "you": 16,
+    "assistant": 1,
+    "agent": 5,
+    "script": 8,
+    "of": 30
+   },
+   "version": "13.4 · data revision 37",
+   "switch": {
+    "local": false,
+    "master": false
+   },
+   "jobs": [
+    {
+     "file": "data-agents.yml",
+     "name": "Weekly data agents",
+     "what": "AI agents look for new research and evidence and update the data behind the board. Each update is published as a numbered data revision.",
+     "ai": true,
+     "when": "Every Monday at 05:17 UTC (with a back-up slot later the same day, in case GitHub drops the first)",
+     "lastRun": {
+      "date": "2026-11-09T20:06:03Z",
+      "outcome": "skipped",
+      "event": "schedule",
+      "url": "https://github.com/stuartokin/ResearchGap/actions/runs/42689673786"
+     },
+     "lastWorked": "2026-11-09T13:57:39Z"
+    },
+    {
+     "file": "deep-search.yml",
+     "name": "Deep search",
+     "what": "A broader AI sweep of worldwide research, in several languages, looking ten years back and ten years ahead.",
+     "ai": true,
+     "when": "On 1 January and 1 July at 04:41 UTC",
+     "lastRun": {
+      "date": "2026-10-31T14:42:24Z",
+      "outcome": "worked",
+      "event": "workflow_dispatch",
+      "url": "https://github.com/stuartokin/ResearchGap/actions/runs/41211369204"
+     },
+     "lastWorked": "2026-10-31T14:42:24Z"
+    },
+    {
+     "file": "ui-agent.yml",
+     "name": "AI-enhanced version (weekly)",
+     "what": "An AI coding agent (Claude Code) improves the experimental “AI-enhanced version” of the board. It can only change that version, never the main board.",
+     "ai": true,
+     "when": "Every Wednesday at 05:23 UTC (with a back-up slot later the same day, in case GitHub drops the first)",
+     "lastRun": {
+      "date": "2026-11-11T17:30:25Z",
+      "outcome": "skipped",
+      "event": "schedule",
+      "url": "https://github.com/stuartokin/ResearchGap/actions/runs/43068814355"
+     },
+     "lastWorked": "2026-11-11T12:50:06Z"
+    }
+   ],
+   "state": "on"
+  },
+  "qday-research": {
+   "repo": "qday-research",
+   "url": "https://github.com/stuartokin/Qday-Research",
+   "updated": "2026-07-16T21:04:15Z",
+   "lastBy": "you",
+   "lastMessage": "Add files via upload",
+   "recent": {
+    "you": 30,
+    "assistant": 0,
+    "agent": 0,
+    "script": 0,
+    "of": 30
+   },
+   "version": null,
+   "switch": {
+    "local": null,
+    "master": false
+   },
+   "jobs": [],
+   "state": "none"
+  },
+  "PatchPulse": {
+   "repo": "PatchPulse",
+   "url": "https://github.com/stuartokin/PatchPulse",
+   "updated": "2026-07-19T21:11:55Z",
+   "lastBy": "you",
+   "lastMessage": "Add files via upload",
+   "recent": {
+    "you": 3,
+    "assistant": 0,
+    "agent": 0,
+    "script": 0,
+    "of": 3
+   },
+   "version": null,
+   "switch": {
+    "local": null,
+    "master": false
+   },
+   "jobs": [],
+   "state": "none"
+  },
+  "AI-Model-Cortex": {
+   "repo": "AI-Model-Cortex",
+   "url": "https://github.com/stuartokin/AI-Model-Cortex",
+   "updated": "2026-07-13T16:49:53Z",
+   "lastBy": "you",
+   "lastMessage": "Add files via upload",
+   "recent": {
+    "you": 13,
+    "assistant": 0,
+    "agent": 0,
+    "script": 0,
+    "of": 13
+   },
+   "version": null,
+   "switch": {
+    "local": null,
+    "master": false
+   },
+   "jobs": [],
+   "state": "none"
+  },
+  "uk-ai-landscape": {
+   "repo": "uk-ai-landscape",
+   "url": "https://github.com/stuartokin/uk-ai-landscape",
+   "updated": "2026-06-21T08:51:37Z",
+   "lastBy": "you",
+   "lastMessage": "Add files via upload",
+   "recent": {
+    "you": 10,
+    "assistant": 0,
+    "agent": 0,
+    "script": 0,
+    "of": 10
+   },
+   "version": null,
+   "switch": {
+    "local": null,
+    "master": false
+   },
+   "jobs": [],
+   "state": "none"
+  },
+  "AI-vulnerability-research": {
+   "repo": "AI-vulnerability-research",
+   "url": "https://github.com/stuartokin/AI-vulnerability-research",
+   "updated": "2026-06-26T10:42:40Z",
+   "lastBy": "you",
+   "lastMessage": "Add files via upload",
+   "recent": {
+    "you": 7,
+    "assistant": 0,
+    "agent": 0,
+    "script": 0,
+    "of": 7
+   },
+   "version": null,
+   "switch": {
+    "local": null,
+    "master": false
+   },
+   "jobs": [],
+   "state": "none"
+  },
+  "ApolloMaths": {
+   "repo": "ApolloMaths",
+   "url": "https://github.com/stuartokin/ApolloMaths",
+   "updated": "2026-11-15T14:08:34Z",
+   "lastBy": "assistant",
+   "lastMessage": "Add kill switch to automated workflows",
+   "recent": {
+    "you": 29,
+    "assistant": 1,
+    "agent": 0,
+    "script": 0,
+    "of": 30
+   },
+   "version": "2.80",
+   "switch": {
+    "local": false,
+    "master": false
+   },
+   "jobs": [
+    {
+     "file": "exam-watch.yml",
+     "name": "Exam watch",
+     "what": "An AI agent checks the official exam pages and admissions news, updates key dates and drafts new practice questions. Its changes go live only if they load cleanly; otherwise they wait for a person.",
+     "ai": true,
+     "when": "On the 1st of every month at 06:00 UTC; every Monday from June to November at 06:00 UTC; on 15 February and 15 March at 06:00 UTC",
+     "lastRun": {
+      "date": "2026-11-13T18:39:33Z",
+      "outcome": "worked",
+      "event": "workflow_dispatch",
+      "url": "https://github.com/stuartokin/ApolloMaths/actions/runs/43484762133"
+     },
+     "lastWorked": "2026-11-13T18:39:33Z"
+    }
+   ],
+   "state": "on"
+  },
+  "Starlane": {
+   "repo": "Starlane",
+   "url": "https://github.com/stuartokin/Starlane",
+   "updated": "2026-11-13T23:47:55Z",
+   "lastBy": "you",
+   "lastMessage": "Add .gitignore to exclude output and cache files",
+   "recent": {
+    "you": 10,
+    "assistant": 0,
+    "agent": 0,
+    "script": 0,
+    "of": 10
+   },
+   "version": null,
+   "switch": {
+    "local": null,
+    "master": false
+   },
+   "jobs": [],
+   "state": "none"
+  }
+ }
+}

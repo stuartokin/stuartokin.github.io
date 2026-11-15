@@ -673,3 +673,72 @@ body.view-carousel .seg[aria-label="Tile text size"] { display: none; }
 /* The enlarged card handles its own taps and drags; stop the browser treating a wobbly tap
    as the start of a scroll (which cancelled the tap). */
 .card.ofloat { touch-action: none; }
+
+/* ---------- Automation status: a dot on each card's picture, top left ----------
+   Green: updates itself. Amber: paused by a kill switch. Red: last run failed. Grey: by hand only.
+   Tapping it opens the panel below (#statDlg), filled from status.json by site.js. */
+:root { --st-on: #34d399; --st-paused: #ff9e3d; --st-failed: #ff5d5d; --st-none: #8697b0; }
+:root[data-theme="light"] { --st-on: #0f8a5f; --st-paused: #b25a00; --st-failed: #c62828; --st-none: #6b6257; }
+.card .stat {
+  position: absolute; top: 0.6rem; left: 0.6rem; z-index: 4;
+  display: inline-flex; align-items: center; gap: 0.45rem; height: 2rem; padding: 0 0.7rem 0 0.55rem;
+  border-radius: 999px; cursor: pointer;
+  background: rgb(7 11 20 / 0.78); border: 1px solid rgb(230 237 247 / 0.22); color: #e6edf7;
+  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+  backdrop-filter: blur(4px); touch-action: manipulation;
+}
+.stat__dot {
+  width: 9px; height: 9px; border-radius: 50%; flex: none;
+  background: #8697b0;   /* on the dark picture, so fixed colours rather than theme ones */
+}
+.stat[data-state="on"] .stat__dot { background: #34d399; box-shadow: 0 0 0 0 rgb(52 211 153 / 0.6); animation: stat-pulse 2.4s ease-out infinite; }
+.stat[data-state="paused"] .stat__dot { background: #ff9e3d; }
+.stat[data-state="failed"] .stat__dot { background: #ff5d5d; }
+@keyframes stat-pulse { 70% { box-shadow: 0 0 0 7px rgb(52 211 153 / 0); } 100% { box-shadow: 0 0 0 0 rgb(52 211 153 / 0); } }
+@media (prefers-reduced-motion: reduce) { .stat[data-state="on"] .stat__dot { animation: none; } }
+.card .stat:hover, .card .stat:focus-visible { border-color: #3de0c0; outline: none; }
+.oring > .card .stat { transform: translateZ(3px); }
+.oring > .card:not(.ofront) .stat { opacity: 0; }
+.card.ofloat .stat { opacity: 1; }
+body.fit .fitgrid .stat__txt { display: none; }
+body.fit .fitgrid .stat { padding: 0; width: 1.8rem; justify-content: center; top: 0.4rem; left: 0.4rem; height: 1.8rem; }
+
+dialog.statdlg {
+  width: min(38rem, 100vw - 1.5rem); max-height: calc(100dvh - 1.5rem);
+  padding: 0; border: 1px solid var(--hairline); border-radius: 12px;
+  background: var(--ground-raised); color: var(--ink); overflow: auto; overscroll-behavior: contain;
+}
+dialog.statdlg::backdrop { background: rgb(3 5 10 / 0.7); }
+.statdlg__body { padding: 1rem 1.2rem 1.2rem; font-size: 0.95rem; line-height: 1.55; }
+.statdlg__body h4 {
+  margin: 1.2rem 0 0.5rem; font-family: var(--mono); font-size: 0.66rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint);
+}
+.statdlg__lead { display: flex; gap: 0.7rem; align-items: flex-start; margin: 0; }
+.statdlg__lead .stat__dot { margin-top: 0.45rem; width: 12px; height: 12px; }
+.statdlg__lead[data-state="on"] .stat__dot { background: var(--st-on); }
+.statdlg__lead[data-state="paused"] .stat__dot { background: var(--st-paused); }
+.statdlg__lead[data-state="failed"] .stat__dot { background: var(--st-failed); }
+.statdlg__lead[data-state="none"] .stat__dot { background: var(--st-none); }
+.statdlg__lead b { display: block; font-family: var(--display); }
+.statdlg__job { padding: 0.75rem 0.9rem; margin: 0 0 0.6rem; border: 1px solid var(--hairline); border-radius: 8px; background: var(--ground-panel); }
+.statdlg__job p { margin: 0.25rem 0 0; }
+.statdlg__job .nm { font-family: var(--display); font-weight: 700; }
+.statdlg__ai {
+  display: inline-block; margin-left: 0.4rem; padding: 0.05rem 0.4rem; border-radius: 3px; vertical-align: 0.1em;
+  font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid currentColor; color: var(--accent);
+}
+.statdlg__ai--no { color: var(--ink-faint); }
+.statdlg__facts { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.35rem 1rem; }
+.statdlg__facts dt { color: var(--ink-faint); }
+.statdlg__facts dd { margin: 0; overflow-wrap: anywhere; }
+.statdlg__muted { color: var(--ink-muted); font-size: 0.85em; }
+.statdlg__bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 0.4rem 0 0.3rem; background: var(--hairline); }
+.statdlg__bar i { display: block; height: 100%; }
+.statdlg__bar .you { background: #4aa3f0; } .statdlg__bar .assistant { background: #b78cf0; }
+.statdlg__bar .agent { background: var(--accent); } .statdlg__bar .script { background: var(--st-none); }
+.statdlg__key { display: flex; flex-wrap: wrap; gap: 0.2rem 0.9rem; font-size: 0.85em; color: var(--ink-muted); }
+.statdlg__key i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 0.35rem; }
+.statdlg__body a { color: var(--accent); }
+.statdlg__foot { margin: 1.1rem 0 0; color: var(--ink-faint); font-size: 0.8rem; }

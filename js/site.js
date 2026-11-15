@@ -44,6 +44,114 @@
   Promise.allSettled(cards.map(c => fetchOne(c.dataset.repo).then(d => (dates[c.dataset.repo] = d))))
     .then(() => { store.set(CACHE_KEY, JSON.stringify(cache)); paint(); });
 
+  /* ---------- Automation status: the dot on each card and its panel ----------
+     status.json is written by tools/status.py at each release and daily by a workflow.
+     The build puts each card's starting state in the page; this refreshes it. */
+  const STAT_LABEL = { on: 'Automated', paused: 'Paused', failed: 'Needs a look', none: 'Manual' };
+  const WHO = {
+    you: '👤 Stuart',
+    assistant: '✨ Claude (AI), in a session Stuart started',
+    agent: '🤖 An AI agent, running on its own',
+    script: '⚙️ An automated script (no AI)',
+  };
+  const WHO_SHORT = { you: 'Stuart', assistant: 'Claude for Stuart', agent: 'AI agents', script: 'scripts' };
+  let status = null;
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  const day = iso => {
+    const d = new Date(iso);
+    const rel = ago(d).replace('Updated ', '');
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) + (/\d{4}$/.test(rel) ? '' : ` (${rel})`);
+  };
+  const RUN_WORD = { worked: 'worked', failed: 'failed', cancelled: 'was cancelled', running: 'is running now' };
+  const STARTED = { workflow_dispatch: ', started by hand', push: ', after an upload', issues: ', after an issue was opened', issue_comment: ', after a comment', schedule: ', on its schedule' };
+  function applyStatus() {
+    if (!status) return;
+    for (const c of cards) {
+      const s = status.boards[c.dataset.repo], b = c.querySelector('.stat');
+      if (!s || !b) continue;
+      if (s.updated) dates[c.dataset.repo] = new Date(s.updated);
+      b.dataset.state = s.state;
+      b.querySelector('.stat__txt').textContent = STAT_LABEL[s.state];
+      b.setAttribute('aria-label', `${STAT_LABEL[s.state]}: automation and update details for ${c.querySelector('h3').textContent}`);
+    }
+    paint();
+    if (window.HQ3D && window.HQ3D.repaint) window.HQ3D.repaint();
+  }
+  fetch('status.json?d=' + Math.floor(Date.now() / 6e5), { cache: 'no-cache' })
+    .then(r => (r.ok ? r.json() : null)).then(j => { if (j && j.boards) { status = j; applyStatus(); } }).catch(() => {});
+
+  function statusHtml(card, s) {
+    const title = card.querySelector('h3').textContent;
+    if (!s) return `<p class="statdlg__lead" data-state="${esc(card.querySelector('.stat').dataset.state)}"><i class="stat__dot"></i><span><b>Details not available yet</b>They are collected once a day; try again later.</span></p>`;
+    const sw = s.switch || {};
+    const lead = {
+      on: ['Updates itself', 'Something runs on its own to keep this board current. What it is, and when it last ran, is below.'],
+      paused: sw.master
+        ? ['Paused by the master switch', 'Automatic updates are switched off for all of Stuart’s boards at the moment. Nothing below runs on its own until they are switched back on.']
+        : ['Paused', 'Automatic updates for this board are switched off at the moment. Nothing below runs on its own until they are switched back on.'],
+      failed: ['Last automatic run failed', 'Something went wrong the last time it ran, so the newest updates may be missing.'],
+      none: ['Updated by hand', 'Nothing runs on its own here. The board changes only when Stuart publishes a new version.'],
+    }[s.state];
+    let h = `<p class="statdlg__lead" data-state="${s.state}"><i class="stat__dot"></i><span><b>${lead[0]}</b>${lead[1]}</span></p>`;
+    if (s.jobs && s.jobs.length) {
+      h += `<h4>What runs on its own</h4>`;
+      for (const j of s.jobs) {
+        const ai = j.ai ? '<span class="statdlg__ai">Uses AI</span>' : '<span class="statdlg__ai statdlg__ai--no">No AI</span>';
+        let last = 'Has not run yet.';
+        if (j.lastRun) {
+          const lr = j.lastRun, how = STARTED[lr.event] || '';
+          last = lr.outcome === 'skipped'
+            ? `Last checked ${day(lr.date)}${how}: skipped, as there was nothing to do${s.state === 'paused' ? ' or it was paused' : ''}.`
+            : `Last ran ${day(lr.date)}${how}: ${RUN_WORD[lr.outcome] || lr.outcome}.`;
+          if (j.lastWorked && j.lastWorked !== lr.date) last += ` Last did its work ${day(j.lastWorked)}.`;
+        }
+        h += `<div class="statdlg__job"><span class="nm">${esc(j.name)}</span>${ai}`
+          + (j.what ? `<p>${esc(j.what)}</p>` : '')
+          + (j.when ? `<p class="statdlg__muted"><b>When:</b> ${esc(j.when)}.</p>` : '')
+          + `<p class="statdlg__muted">${last}</p></div>`;
+      }
+    }
+    h += `<h4>About this board</h4><dl class="statdlg__facts">`;
+    if (s.updated) h += `<dt>Last updated</dt><dd>${day(s.updated)}</dd>`;
+    h += `<dt>Version</dt><dd>${s.version ? esc(s.version) : '<span class="statdlg__muted">Not numbered</span>'}</dd>`;
+    if (s.lastBy) h += `<dt>Last change by</dt><dd>${WHO[s.lastBy]}${s.lastMessage ? `<br><span class="statdlg__muted">“${esc(s.lastMessage)}”</span>` : ''}</dd>`;
+    h += `</dl>`;
+    const r = s.recent;
+    if (r && r.of) {
+      const parts = ['you', 'assistant', 'agent', 'script'].filter(k => r[k]);
+      h += `<h4>Who made the last ${r.of} changes</h4><div class="statdlg__bar" role="img" aria-label="${parts.map(k => `${r[k]} by ${WHO_SHORT[k]}`).join(', ')}">`
+        + parts.map(k => `<i class="${k}" style="width:${(100 * r[k] / r.of).toFixed(1)}%"></i>`).join('') + `</div>`
+        + `<div class="statdlg__key">${parts.map(k => `<span><i class="${k}" style="background:${k === 'you' ? '#4aa3f0' : k === 'assistant' ? '#b78cf0' : k === 'agent' ? 'var(--accent)' : 'var(--st-none)'}"></i>${r[k]} by ${WHO_SHORT[k]}</span>`).join('')}</div>`
+        + `<p class="statdlg__muted">Changes Stuart uploads himself count as his, even where an AI helped write them.</p>`;
+    }
+    const gh = s.url || `https://github.com/${OWNER}/${card.dataset.repo}`;
+    h += `<p class="statdlg__foot">Checked ${status && status.generated ? day(status.generated) : 'daily'}. <a href="${esc(gh)}${s.jobs && s.jobs.length ? '/actions' : ''}" target="_blank" rel="noopener">See it on GitHub ↗</a></p>`;
+    return h;
+  }
+  const statDlg = document.getElementById('statDlg');
+  let statFrom = null;
+  function openStatus(card) {
+    statFrom = document.activeElement;
+    document.getElementById('statTitle').textContent = card.querySelector('h3').textContent;
+    document.getElementById('statBody').innerHTML = statusHtml(card, status && status.boards[card.dataset.repo]);
+    statDlg.showModal();
+    statDlg.scrollTop = 0;
+  }
+  const closeStatus = () => { statDlg.close(); if (statFrom && statFrom.focus && document.contains(statFrom)) statFrom.focus(); };
+  document.getElementById('statClose').addEventListener('click', closeStatus);
+  statDlg.addEventListener('click', e => { if (e.target === statDlg) closeStatus(); });
+  statDlg.addEventListener('cancel', e => { e.preventDefault(); closeStatus(); });
+  document.addEventListener('click', e => {
+    const b = e.target.closest && e.target.closest('.stat');
+    if (!b || statDlg.open) return;
+    const c = b.closest('.card');
+    /* The enlarged carousel card is a copy: find the real card by its repo. */
+    const real = cards.find(x => x.dataset.repo === c.dataset.repo) || c;
+    e.preventDefault(); e.stopPropagation();
+    if (c.classList.contains('ofloat')) focusFront(false);
+    openStatus(real);
+  });
+
   /* ---------- Info icons: title (about + links) and each section's note ---------- */
   const hBtn = document.getElementById('hinfoBtn'), hPanel = document.getElementById('hinfo');
   const setH = open => { hPanel.hidden = !open; hBtn.setAttribute('aria-expanded', String(open)); };
@@ -316,7 +424,7 @@
     let tapDone = 0;
     fc.addEventListener('pointerup', e => {
       if (e.pointerType === 'mouse' || dragged()) return;
-      const t = e.target.closest('a, .media'); if (!t) return;
+      const t = e.target.closest('a, .media, .stat'); if (!t) return;
       tapDone = Date.now(); e.preventDefault();
       /* Run just after the browser's own click (if any) has passed, so that click can't land on
          the video player's backdrop and close it again. */

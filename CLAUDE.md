@@ -63,6 +63,8 @@ Stuart uploads files himself through GitHub's web **"Add files → Upload files"
 | Change behaviour (toolbar, fit, focus, touch) | `js/site.js` |
 | Change the 3D carousel | `js/carousel3d.js` |
 | Change header, toolbar, footer, player | `tools/page.html`, then build |
+| Pause / resume automation | `automation.json` in a repo (`"paused": true`), or this repo's for all (KNOWLEDGE-BASE §15) |
+| Change the automation panel wording | `"automation"` in `tools/boards.json` (public: "Stuart", not "you") |
 | Check the live site, not the local copy | `cd tests && npm test -- --url=https://stuartokin.github.io/` |
 
 ## Setting up (any machine, any new session)

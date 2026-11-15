@@ -70,6 +70,7 @@ function init() {
     lines.forEach((l, i) => ctx.fillText(l, x, y + i * lh));
     return y + lines.length * lh;
   }
+  const STAT_DOT = { on: '#34d399', paused: '#ff9e3d', failed: '#ff5d5d', none: '#8697b0' };
   function paintFace(card, tex) {
     const c = tex.image, ctx = c.getContext('2d');
     const panel = css('--ground-panel'), ink = css('--ink'), muted = css('--ink-muted'), faint = css('--ink-faint');
@@ -103,6 +104,15 @@ function init() {
       const lw = ctx.measureText('ARTICLE').width + 84;
       pill(TW - 28 - lw, 26, 'ARTICLE', true);
       ctx.fillStyle = '#4aa3f0'; ctx.font = `700 26px ${disp}`; ctx.fillText('in', TW - 28 - lw + 20, 60);
+    }
+    // automation status, top left (see .stat in site.css)
+    const st = card.querySelector('.stat');
+    if (st) {
+      ctx.font = `500 22px ${mono}`;
+      const label = (st.querySelector('.stat__txt')?.textContent || '').trim().toUpperCase();
+      pill(28, 26, label, true);
+      ctx.fillStyle = STAT_DOT[st.dataset.state] || STAT_DOT.none;
+      ctx.beginPath(); ctx.arc(56, 51, 9, 0, Math.PI * 2); ctx.fill();
     }
     // text block
     let y = imgH + 64; const x = 44, maxW = TW - 88;
@@ -385,6 +395,7 @@ function init() {
       requestRender();
     },
     resize() { frame(); },
+    repaint() { meshes.forEach(m => { paintFace(m.userData.card, m.userData.tex); m.userData.tex.needsUpdate = true; }); requestRender(); },
     pick(x, y) {
       const r = canvas.getBoundingClientRect();
       ndc.set(((x - r.left) / r.width) * 2 - 1, -((y - r.top) / r.height) * 2 + 1);

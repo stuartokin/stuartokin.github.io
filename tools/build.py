@@ -3,6 +3,7 @@
 
     python3 tools/build.py            # uses the version in tools/VERSION
     python3 tools/build.py --bump     # moves the version on one step first (…-13g → …-13h, or today + 'a')
+                                      # and refreshes status.json (tools/status.py); add --no-status to skip
 
 Inputs   tools/page.html   the page around the cards (header, toolbar, carousel, footer, player)
          tools/boards.json the cards themselves (one entry per board) and the section headings
@@ -35,8 +36,25 @@ def bump(v):
     return today + "a"
 
 
-def card(b, boards, base):
+STAT_LABEL = {"on": "Automated", "paused": "Paused", "failed": "Needs a look", "none": "Manual"}
+
+
+def load_status():
+    """status.json (written by tools/status.py) gives each card's starting dot; the page refreshes it."""
+    f = ROOT / "status.json"
+    try:
+        return json.loads(f.read_text(encoding="utf-8")).get("boards", {})
+    except (OSError, ValueError):
+        return {}
+
+
+def card(b, boards, base, status=None):
     e = html.escape
+    title = e(b["title"])
+    state = ((status or {}).get(b["repo"]) or {}).get("state") or ("none" if not b.get("automation") else "on")
+    stat = (f'          <button class="stat" type="button" data-state="{state}" aria-haspopup="dialog" '
+            f'aria-label="{STAT_LABEL[state]}: automation and update details for {title}" title="Automation and updates">'
+            f'<i class="stat__dot" aria-hidden="true"></i><span class="stat__txt">{STAT_LABEL[state]}</span></button>\n')
     vids = json.dumps([[v["label"], f"media/{v['media']}.mp4"] for v in b["videos"]])
     alone = sum(1 for x in boards if x["sec"] == b["sec"]) == 1
     cls = "card" + (" card--lead" if b.get("lead") else "") + (" card--wide" if alone else "")
@@ -56,7 +74,7 @@ def card(b, boards, base):
             <video muted loop playsinline preload="none" data-src="media/{b['media']}-preview.mp4"></video>
             <span class="watch">{PLAY}<span class="wl">Watch demo</span></span>
           </button>
-{art}          <a class="body" href="{e(href)}">
+{stat}{art}          <a class="body" href="{e(href)}">
             <span class="meta">{tag} <span>{e(b['topic'])}</span></span>
             <span class="upd" data-fallback="{b['fallback']}"></span>
             <h3>{e(b['title'])}</h3>
@@ -100,10 +118,15 @@ def main():
     if problems:
         print("Not built — fix these first:\n  " + "\n  ".join(problems))
         sys.exit(1)
+    if "--bump" in sys.argv and "--no-status" not in sys.argv:
+        # A release refreshes the automation status too (needs the internet; keeps the old file if offline).
+        import subprocess
+        subprocess.run([sys.executable, str(TOOLS / "status.py")], check=False)
     boards, base = data["boards"], data.get("base", "https://stuartokin.github.io/")
+    status = load_status()
     sections = []
     for s in data["sections"]:
-        cards = "\n".join(card(b, boards, base) for b in boards if b["sec"] == s["key"])
+        cards = "\n".join(card(b, boards, base, status) for b in boards if b["sec"] == s["key"])
         if not cards:
             continue
         sections.append(f'''      <section class="group" data-group="{s['key']}">

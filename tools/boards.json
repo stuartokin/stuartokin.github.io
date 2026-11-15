@@ -33,7 +33,19 @@
           "media": "quantum-observatory"
         }
       ],
-      "desc": "How close quantum computing, sensing, communications and post-quantum cryptography are to being real, graded by evidence. Includes Q-Day: what a machine capable of breaking RSA still needs, every regulator's migration deadline against it, and a Mosca self-assessment. Maintained by six research agents whose work is marked as unreviewed until a human reads it."
+      "desc": "How close quantum computing, sensing, communications and post-quantum cryptography are to being real, graded by evidence. Includes Q-Day: what a machine capable of breaking RSA still needs, every regulator's migration deadline against it, and a Mosca self-assessment. Maintained by six research agents whose work is marked as unreviewed until a human reads it.",
+      "automation": [
+        {
+          "workflow": "agents.yml",
+          "ai": true,
+          "what": "AI research agents look for new developments in quantum computing and post-quantum cryptography, check the sources and add them to the board. Everything they add is marked “not yet reviewed” until Stuart has read it."
+        },
+        {
+          "workflow": "steward.yml",
+          "ai": true,
+          "what": "An AI steward reads new issues and comments on the board’s GitHub page and acts on them. It only responds to Stuart."
+        }
+      ]
     },
     {
       "sec": "live",
@@ -52,7 +64,14 @@
         "title": "What Would Earth Look Like If You Could See the Cyber Attacks?",
         "url": "https://www.linkedin.com/pulse/what-would-earth-look-like-you-could-see-cyber-attacks-stuart-okin-0wrxc"
       },
-      "desc": "Publicly documented cyber incidents from 2000 onwards, drawn from five independent sources and shown on a globe you can play through time. Disclosed incidents are a small and uneven fraction of what occurred, and the map says so throughout."
+      "desc": "Publicly documented cyber incidents from 2000 onwards, drawn from five independent sources and shown on a globe you can play through time. Disclosed incidents are a small and uneven fraction of what occurred, and the map says so throughout.",
+      "automation": [
+        {
+          "workflow": "update-cyber-data.yml",
+          "ai": false,
+          "what": "A script downloads the latest recorded cyber incidents from public sources and rebuilds the data behind the map. No AI is involved."
+        }
+      ]
     },
     {
       "sec": "live",
@@ -72,7 +91,14 @@
         "title": "AI vibe coding – “Oh, the ecstasy…oh the agony”",
         "url": "https://www.linkedin.com/pulse/ai-vibe-coding-oh-ecstasyoh-agony-stuart-okin-c5n5e"
       },
-      "desc": "A live picture of the GB energy system — infrastructure, power cuts, generator outages, flows and warnings — built only from public open data, with 'what if' disruption scenarios on top. Every figure comes straight from its publisher; scenario impacts are modelled illustrations, not forecasts."
+      "desc": "A live picture of the GB energy system — infrastructure, power cuts, generator outages, flows and warnings — built only from public open data, with 'what if' disruption scenarios on top. Every figure comes straight from its publisher; scenario impacts are modelled illustrations, not forecasts.",
+      "automation": [
+        {
+          "workflow": "deploy.yml",
+          "ai": false,
+          "what": "A script refreshes the OpenStreetMap snapshot of power and gas assets, grid supply areas and network operator lines, then republishes the map. No AI is involved."
+        }
+      ]
     },
     {
       "sec": "live",
@@ -91,7 +117,24 @@
         "title": "From Apprentices to AI agents - the importance of Human Connection",
         "url": "https://www.linkedin.com/pulse/from-apprentices-ai-agents-importance-human-connection-stuart-okin-hmlje"
       },
-      "desc": "How long research takes to become real-world change, across eleven fields from 1925 to ten years ahead, as an interactive 3D model. Two AI agents research and independently check new breakthroughs every week, with automated guardrails instead of human review — and the board says so."
+      "desc": "How long research takes to become real-world change, across eleven fields from 1925 to ten years ahead, as an interactive 3D model. Two AI agents research and independently check new breakthroughs every week, with automated guardrails instead of human review — and the board says so.",
+      "automation": [
+        {
+          "workflow": "data-agents.yml",
+          "ai": true,
+          "what": "AI agents look for new research and evidence and update the data behind the board. Each update is published as a numbered data revision."
+        },
+        {
+          "workflow": "deep-search.yml",
+          "ai": true,
+          "what": "A broader AI sweep of worldwide research, in several languages, looking ten years back and ten years ahead."
+        },
+        {
+          "workflow": "ui-agent.yml",
+          "ai": true,
+          "what": "An AI coding agent (Claude Code) improves the experimental “AI-enhanced version” of the board. It can only change that version, never the main board."
+        }
+      ]
     },
     {
       "sec": "studies",
@@ -206,7 +249,14 @@
           "media": "apollo-maths"
         }
       ],
-      "desc": "A football-mad maths game built for my son's 11+ preparation: hundreds of questions, step-by-step hints, mock exams and a kit shop to spend the points in. Any family can set it up for their own child and exam."
+      "desc": "A football-mad maths game built for my son's 11+ preparation: hundreds of questions, step-by-step hints, mock exams and a kit shop to spend the points in. Any family can set it up for their own child and exam.",
+      "automation": [
+        {
+          "workflow": "exam-watch.yml",
+          "ai": true,
+          "what": "An AI agent checks the official exam pages and admissions news, updates key dates and drafts new practice questions. Its changes go live only if they load cleanly; otherwise they wait for a person."
+        }
+      ]
     },
     {
       "sec": "fun",

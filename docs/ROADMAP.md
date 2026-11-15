@@ -1,6 +1,6 @@
 # Roadmap
 
-Status as of version **2026-11-13g**. Move items between sections as they change; date decisions.
+Status as of version **2026-11-15a**. Move items between sections as they change; date decisions.
 
 ## Open — needs Stuart
 
@@ -13,6 +13,9 @@ Status as of version **2026-11-13g**. Move items between sections as they change
   run, remove `"tag"` so it shows "Live" and counts as agent-maintained.
 - **Re-record demos when boards change.** Energy Resilience and Apollo's Maths Missions were
   re-recorded on 2026-11-13. Others date from 2026-11-11.
+
+- **Quantum Observatory automation is paused** (its `automation.json`), at Stuart's request
+  while he isn't working on it. Set `"paused": false` there when he picks it up again.
 
 ## Next — agreed or obvious
 
@@ -47,3 +50,5 @@ Status as of version **2026-11-13g**. Move items between sections as they change
 - 2026-11-13 Front-card emphasis: spotlight + lift + lit edges + first-visit hint; no floating bob.
 - 2026-11-13 Text size hidden in carousel view.
 - 2026-11-13 Knowledge base, lessons, roadmap, build tool and test rig added to the repo.
+- 2026-11-15 Kill switches: one small `automation.json` per repo plus a master here (not repo
+  variables). Status refreshed at release and daily. Steward answers only the owner.

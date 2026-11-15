@@ -2,6 +2,17 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-15a
+- **Automation status on every card.** A pill on each picture (top left): green "Automated",
+  amber "Paused", red "Needs a look", grey "Manual". Tap it for a plain-English panel: what runs
+  on its own and when, whether it uses AI, when it last ran, last update, version, and who made
+  recent changes (Stuart, Claude for Stuart, AI agents, scripts). Data in `status.json`, from
+  `tools/status.py`, refreshed at each release and daily by `.github/workflows/status.yml`.
+- **Kill switches.** `automation.json` here is the master; each automated repo has its own.
+  Quantum Observatory is paused, and its Steward now responds only to Stuart.
+- Rig: status dot on every card, matches status.json, panel opens from a tile and from the
+  enlarged carousel card (wobbly tap), stays on screen, closes with Escape.
+
 ## 2026-11-13g
 - Repo now carries its own documentation (`CLAUDE.md`, `docs/`), the card data and build tool
   (`tools/`), a media script and a portable Playwright test rig (`tests/`). No visible change.

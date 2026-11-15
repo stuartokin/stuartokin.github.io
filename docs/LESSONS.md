@@ -66,6 +66,16 @@ side by side in dark and light. When he says "no proofs, go ahead", don't send t
 can't be recorded from a sandbox — they come out blank. Ask Stuart for a screen recording and
 trim it (`tools/make_media.sh`). Static boards record well with Playwright.
 
+**15. A run that finishes in seconds isn't necessarily switched off.** ResearchGap's 8-second
+scheduled runs looked like the agents were disabled; they were the back-up slot finding the
+day's run already done. Check the jobs (`status.py` does) before concluding anything.
+
+**16. `build.py` must run on Python 3.8+.** An f-string with quotes nested inside
+(`f'{e(b['title'])}'`) only works from Python 3.12; compute the value first.
+
+**17. Push access needs pushing to `main`.** GitHub only runs scheduled workflows from the
+default branch, so kill-switch changes on a side branch do nothing.
+
 ## Small but sticky
 
 - The title's ⓘ panel opened *behind* the sticky toolbar until the header got `z-index: 60`.

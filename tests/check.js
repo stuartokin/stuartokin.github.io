@@ -18,6 +18,7 @@ const OUT = path.join(__dirname, 'out');
 fs.mkdirSync(OUT, { recursive: true });
 const boards = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'boards.json'), 'utf8')).boards;
 const VERSION = fs.readFileSync(path.join(ROOT, 'tools', 'VERSION'), 'utf8').trim();
+const STATUS = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'status.json'), 'utf8')); } catch (e) { return {}; } })();
 // Software WebGL, so the 3D carousel renders on machines without a GPU (CI, cloud, headless).
 const GL_ARGS = ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'];
 
@@ -110,6 +111,19 @@ async function check(browser, URL, devName, dev) {
     }
     await shoot('carousel');
 
+    // --- automation status dot: opens its panel from the enlarged card (wobbly finger on touch) ---
+    if (touch) await tap(fx, fy); else { await page.mouse.move(5, 5); await page.mouse.move(fx, fy, { steps: 4 }); }
+    await page.waitForTimeout(1300);
+    const fst = await page.$('.card.ofloat .stat');
+    if (fst) {
+      const sb = await fst.boundingBox();
+      await tap(sb.x + sb.width / 2, sb.y + sb.height / 2, touch ? 6 : 0); await page.waitForTimeout(700);
+      const sd = await page.evaluate(() => { const d = document.getElementById('statDlg'), r = d.getBoundingClientRect(); return { open: d.open, inView: r.left >= -1 && r.right <= innerWidth + 1 && r.top >= -1 && r.bottom <= innerHeight + 1, about: d.textContent.includes('About this board'), player: document.getElementById('player').open }; });
+      T('status panel opens from the enlarged card', sd.open && sd.inView && sd.about && !sd.player, JSON.stringify(sd));
+      await shoot('status-carousel');
+      if (sd.open) { await page.click('#statClose'); await page.waitForTimeout(300); }
+    } else T('status panel opens from the enlarged card', false, 'no status dot on the enlarged card');
+
     // Open from the enlarged card goes to the board
     if (touch) await tap(fx, fy); else { await page.mouse.move(5, 5); await page.mouse.move(fx, fy, { steps: 4 }); }
     await page.waitForTimeout(1200);
@@ -132,6 +146,24 @@ async function check(browser, URL, devName, dev) {
       await shoot(`fit-${view}`);
     }
     await page.click('#fitBtn'); await page.waitForTimeout(800);
+
+    // --- automation status dot in the tiles view ---
+    const st = await page.evaluate(() => ({ dots: document.querySelectorAll('.card[data-repo] > .stat').length, states: [...document.querySelectorAll('.card[data-repo] > .stat')].map(b => b.dataset.state) }));
+    T('status dot on every card', st.dots === boards.length && st.states.every(s => ['on', 'paused', 'failed', 'none'].includes(s)), JSON.stringify(st));
+    const expectState = Object.fromEntries(Object.entries(STATUS.boards || {}).map(([r, s]) => [r, s.state]));
+    const shown = await page.$$eval('.card[data-repo]', cs => cs.map(c => [c.dataset.repo, c.querySelector('.stat').dataset.state]));
+    const wrong = shown.filter(([r, s]) => expectState[r] && expectState[r] !== s);
+    T('status dots match status.json', wrong.length === 0, wrong.map(x => x.join('=')).join(', '));
+    const tile = await page.$('.group:not([hidden]) .card[data-repo="quantum-observatory"] > .stat');
+    if (tile) {
+      await tile.scrollIntoViewIfNeeded(); const tb = await tile.boundingBox();
+      await tap(tb.x + tb.width / 2, tb.y + tb.height / 2, touch ? 6 : 0); await page.waitForTimeout(600);
+      const sd = await page.evaluate(() => { const d = document.getElementById('statDlg'), r = d.getBoundingClientRect(); return { open: d.open, inView: r.left >= -1 && r.right <= innerWidth + 1 && r.top >= -1 && r.bottom <= innerHeight + 1, paused: d.textContent.includes('Paused'), side: document.documentElement.scrollWidth - innerWidth, url: location.href }; });
+      T('status panel opens from a tile, on screen', sd.open && sd.inView && sd.paused && sd.side <= 0 && sd.url === URL, JSON.stringify(sd));
+      await shoot('status-tiles');
+      await page.keyboard.press('Escape'); await page.waitForTimeout(300);
+      T('status panel closes with Escape', await page.evaluate(() => !document.getElementById('statDlg').open));
+    } else T('status panel opens from a tile, on screen', false, 'no tile dot found');
 
     // --- theme ---
     await page.click('[data-theme-set="light"]'); await page.waitForTimeout(400);
