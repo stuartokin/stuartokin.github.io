@@ -80,3 +80,26 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     can list an openly licensed dataset whose records are hidden until you sign in. Check the portal's
     catalogue API and the licence field before writing a source off. Keys go in Worker or GitHub secrets.
     (energy-resilience, 2026-11-16)
+27. **`git add -A -- . ':!folder'` fails when that folder is git-ignored.** Git treats naming an ignored
+    path as an error. RetroArcade's first AI run passed every check and was then lost at the commit
+    step. Use plain `git add -A` and let `.gitignore` do the work. Have a workflow upload its work as a
+    download if publishing fails, and test the publish step, not just the build. (RetroArcade, 2026-11-16)
+28. **Adding a secret doesn't start any workflow.** After adding or changing a secret, run the workflow
+    that uses it by hand (or push a change it watches). (hub, 2026-11-16)
+29. **A private repo on GitHub Pro still publishes a public website.** Only the code goes private. To
+    keep the site itself private, seal what it publishes:
+    - the hub's hidden cards: `tools/seal.py` and `js/unlock.js`
+    - Energy Resilience: a key screen plus a service worker that opens sealed files
+      (`scripts/seal-site.mjs`)
+
+    Go private only after Pro is active, or the site goes offline straight away. (energy-resilience,
+    2026-11-16)
+30. **Playwright: `goto()` with only a new `#…` doesn't reload the page.** Load `about:blank` in between,
+    and handle `hashchange` in the page too, because people paste links into open tabs. (hub, 2026-11-16)
+31. **Don't name commercial products on the sites, even in hidden search terms or test files.**
+    Stuart's decision, after a search that matched classic arcade titles. Describe genres instead.
+    (RetroArcade, 2026-11-16)
+32. **Wide content in tall tiles: `object-fit: cover` blows up the middle.** For landscape pictures in
+    portrait tiles, switch those to `contain` (e.g. a `.wide` class set from the image's own size), and
+    check the CSS specificity actually wins. (RetroArcade, 2026-11-16)
+
