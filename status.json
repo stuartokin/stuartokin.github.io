@@ -1,9 +1,81 @@
 {
- "generated": "2026-11-16T13:09:26+00:00",
+ "generated": "2026-11-16T14:43:13+00:00",
  "master": {
   "paused": false
  },
  "boards": {
+  "ApolloMaths": {
+   "repo": "ApolloMaths",
+   "url": "https://github.com/stuartokin/ApolloMaths",
+   "updated": "2026-11-16T14:31:20Z",
+   "lastBy": "agent",
+   "lastMessage": "🤖 AI-maintained: exam watch update (#1)",
+   "recent": {
+    "you": 24,
+    "assistant": 5,
+    "agent": 1,
+    "script": 0,
+    "of": 30
+   },
+   "version": "2.82",
+   "switch": {
+    "local": false,
+    "master": false
+   },
+   "jobs": [
+    {
+     "file": "exam-watch.yml",
+     "name": "Exam watch",
+     "what": "An AI agent checks the official exam pages and admissions news, updates key dates and drafts new practice questions. Its changes go live only if they load cleanly; otherwise they wait for a person.",
+     "ai": true,
+     "when": "On the 1st of every month at 06:00 UTC; every Monday from June to November at 06:00 UTC; on 15 February and 15 March at 06:00 UTC",
+     "lastRun": {
+      "date": "2026-11-16T14:29:43Z",
+      "outcome": "worked",
+      "event": "schedule",
+      "url": "https://github.com/stuartokin/ApolloMaths/actions/runs/43886306037"
+     },
+     "lastWorked": "2026-11-16T14:29:43Z"
+    }
+   ],
+   "state": "on"
+  },
+  "RetroArcade": {
+   "repo": "RetroArcade",
+   "url": "https://github.com/stuartokin/RetroArcade",
+   "updated": "2026-11-16T14:41:10Z",
+   "lastBy": "assistant",
+   "lastMessage": "1.2.0: moving game previews, search by classic names, \"inspired_by\" for AI games",
+   "recent": {
+    "you": 1,
+    "assistant": 3,
+    "agent": 1,
+    "script": 1,
+    "of": 6
+   },
+   "version": "1.2.0",
+   "switch": {
+    "local": false,
+    "master": false
+   },
+   "jobs": [
+    {
+     "file": "evolve.yml",
+     "name": "Evolve the games",
+     "what": "An AI agent reworks the games each week with no fixed brief. Its changes go live only if every game passes the test rig on phones, the Fold, tablets and laptops; otherwise they wait for a person.",
+     "ai": true,
+     "when": "Every Sunday at 05:17 UTC",
+     "lastRun": {
+      "date": "2026-11-16T12:55:42Z",
+      "outcome": "worked",
+      "event": "workflow_dispatch",
+      "url": "https://github.com/stuartokin/RetroArcade/actions/runs/43870990844"
+     },
+     "lastWorked": "2026-11-16T12:55:42Z"
+    }
+   ],
+   "state": "on"
+  },
   "quantum-observatory": {
    "repo": "quantum-observatory",
    "url": "https://github.com/stuartokin/quantum-observatory",
@@ -294,42 +366,6 @@
    },
    "jobs": [],
    "state": "none"
-  },
-  "ApolloMaths": {
-   "repo": "ApolloMaths",
-   "url": "https://github.com/stuartokin/ApolloMaths",
-   "updated": "2026-11-15T21:44:19Z",
-   "lastBy": "assistant",
-   "lastMessage": "Wrap up: docs current for 2.82",
-   "recent": {
-    "you": 25,
-    "assistant": 5,
-    "agent": 0,
-    "script": 0,
-    "of": 30
-   },
-   "version": "2.82",
-   "switch": {
-    "local": false,
-    "master": false
-   },
-   "jobs": [
-    {
-     "file": "exam-watch.yml",
-     "name": "Exam watch",
-     "what": "An AI agent checks the official exam pages and admissions news, updates key dates and drafts new practice questions. Its changes go live only if they load cleanly; otherwise they wait for a person.",
-     "ai": true,
-     "when": "On the 1st of every month at 06:00 UTC; every Monday from June to November at 06:00 UTC; on 15 February and 15 March at 06:00 UTC",
-     "lastRun": {
-      "date": "2026-11-13T18:39:33Z",
-      "outcome": "worked",
-      "event": "workflow_dispatch",
-      "url": "https://github.com/stuartokin/ApolloMaths/actions/runs/43484762133"
-     },
-     "lastWorked": "2026-11-13T18:39:33Z"
-    }
-   ],
-   "state": "on"
   },
   "Starlane": {
    "repo": "Starlane",

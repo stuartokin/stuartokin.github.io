@@ -274,6 +274,29 @@
       ],
       "desc": "Command your own starship in Starlane Trader: fly, trade, explore… and learn. Battle pirates, meet alien civilisations and solve the puzzles hidden among the stars, with your ship's computer Nova by your side.",
       "about": "Starlane Trader is a space trading and exploration game in the spirit of the classic Elite. You command your own starship across a galaxy of worlds: buying low and selling high, taking on missions, fighting off pirates and upgrading your ship. Along the way you meet strange factions, from peaceful explorers to crystalline aliens, and stumble into adventures such as alien signals, nebula storms and black holes. Each adventure is a puzzle of maths, science and logic. Nova, your ship's computer, guides you with training tours, and the game plays on laptop, tablet or phone in a sleek 3D style or two retro looks."
+    },
+    {
+      "sec": "fun",
+      "repo": "RetroArcade",
+      "title": "Retro Arcade",
+      "media": "retro-arcade",
+      "topic": "Games · AI experiment",
+      "go": "Play",
+      "fallback": "2026-11-16",
+      "videos": [
+        {
+          "label": "Trailer",
+          "media": "retro-arcade"
+        }
+      ],
+      "desc": "Retro arcade games and an experiment: every Sunday an AI agent gets free rein to improve them or invent new ones. Play each original next to the AI's latest version, and see exactly what changed, when and why.",
+      "automation": [
+        {
+          "workflow": "evolve.yml",
+          "ai": true,
+          "what": "An AI agent reworks the games each week with no fixed brief. Its changes go live only if every game passes the test rig on phones, the Fold, tablets and laptops; otherwise they wait for a person."
+        }
+      ]
     }
   ]
 }

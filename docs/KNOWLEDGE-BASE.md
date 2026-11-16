@@ -349,6 +349,7 @@ for a screen recording instead.
 | Zero-Day AI-Assisted Observatory | AI-vulnerability-research | studies | scripted recording | AI is finding zero-day bugs fast |
 | Apollo's Maths Missions | ApolloMaths | fun, "Play" | Stuart's square LinkedIn trailer (`Starlane-ApolloMaths-LinkedIn.mp4`, 90 s, with sound); still and hover preview still from the earlier scripted recording | — |
 | Starlane Trader | Starlane | fun, "Play", long "about" text | Stuart's trailer (`Starlane Trailer.mp4`) | — |
+| Retro Arcade | RetroArcade | fun, "Play" | scripted Playwright recording of the RetroArcade site (home, search, carousel, Snake original vs AI, log), pause cut | — |
 
 Apollo's Maths Missions is Stuart's son's 11+ prep app; keep its card light-hearted and don't
 add more personal detail than is already there.
