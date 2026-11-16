@@ -4,11 +4,9 @@ Status as of version **2026-11-15a**. Move items between sections as they change
 
 ## Open — needs Stuart
 
-- **Custom domain horizonqltd.com (2026-11-16):** repo side is ready (version 2026-11-16a, `CNAME`
-  file, card links on the new domain) but **not released to `main` until Stuart's GoDaddy DNS
-  records are in** — releasing first would redirect visitors to a domain that doesn't answer yet.
-  Then: Settings → Pages shows the domain green → tick Enforce HTTPS → check
-  `npm test -- --url=https://horizonqltd.com/`.
+- **Custom domain horizonqltd.com (2026-11-16):** live; DNS check passes. **Enforce HTTPS** was
+  waiting for GitHub's certificate. Once ticked, check `npm test -- --url=https://horizonqltd.com/`
+  and an old `stuartokin.github.io/<repo>/` link redirects.
 - **Check on real devices (2026-11-15):** the lens and beam on the big monitor in dark and light,
   the darker side cards, no flash on refresh, the Shrinking Gap opening, the remembered board, and
   a copied board link opening on the Fold. All pass in the rig; none yet seen on his screens.
