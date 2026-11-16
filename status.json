@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-16T14:43:13+00:00",
+ "generated": "2026-11-16T15:30:31+00:00",
  "master": {
   "paused": false
  },
@@ -43,17 +43,17 @@
   "RetroArcade": {
    "repo": "RetroArcade",
    "url": "https://github.com/stuartokin/RetroArcade",
-   "updated": "2026-11-16T14:41:10Z",
+   "updated": "2026-11-16T15:29:09Z",
    "lastBy": "assistant",
-   "lastMessage": "1.2.0: moving game previews, search by classic names, \"inspired_by\" for AI games",
+   "lastMessage": "1.2.1: search by our own names only; wide games shown whole in tiles",
    "recent": {
     "you": 1,
-    "assistant": 3,
+    "assistant": 4,
     "agent": 1,
     "script": 1,
-    "of": 6
+    "of": 7
    },
-   "version": "1.2.0",
+   "version": "1.2.1",
    "switch": {
     "local": false,
     "master": false

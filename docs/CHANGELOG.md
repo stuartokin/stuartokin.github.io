@@ -2,13 +2,17 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-16c
+- Retro Arcade trailer re-recorded: the search now types "planet" (no commercial game names anywhere,
+  Stuart's request). Its tiles show wide games whole.
+
 ## 2026-11-16b
 - **New card: Retro Arcade** ("Just for fun", Play):
   - Retro arcade games, with an AI agent that reworks them every Sunday
   - automation line for `evolve.yml`
   - trailer recorded with Playwright from the RetroArcade site (48 s): home tiles playing, search
-    "Defender", carousel, Snake original vs the AI version, evolution log
-  - `make_media.sh retro-arcade <rec> "0:33.8,35.6:50.3" 12.5 3`
+    "planet", carousel, Snake original vs the AI version, evolution log
+  - `make_media.sh retro-arcade <rec> "0:33.2,35.0:49.5" 12 3`
 
 ## 2026-11-16a
 - **Moves to horizonqltd.com.** `CNAME` file added; card links, preview image and the rig now use
