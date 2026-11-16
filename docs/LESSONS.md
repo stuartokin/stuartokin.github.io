@@ -100,6 +100,9 @@ site (and every project repo under it) would vanish. Get DNS in first, then push
 Also: the cloud sandbox couldn't resolve the domain itself (DNS lookup sites blocked), and its
 `tests/node_modules` Playwright was newer than the installed browser — run the rig with the global
 Playwright (`NODE_PATH=$(npm root -g)`, local copy moved aside) when that happens.
+Setting the domain in Settings → Pages commits its own `CNAME` to `main`; merging a branch that
+also adds one gives an add/add conflict. Never `commit -a` after a merge without checking
+`git status` — that's how conflict markers reached the live `CNAME` for a minute.
 
 ## Small but sticky
 
