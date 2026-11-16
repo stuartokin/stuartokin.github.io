@@ -54,3 +54,21 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 18. **Links into a page need a stable name.** Use a slug in the address (`#the-shrinking-gap`),
     update it with `history.replaceState` as the view changes, and accept old forms (repo names) too.
     Handy for LinkedIn articles. (hub)
+19. **When tags are refused, back up with a branch.** The GitHub tool (create_branch) can make
+    `backup/YYYY-MM-DD-what` from `main` even when git refuses tag pushes (lesson 16). To undo, reset
+    `main` to that branch. (energy-resilience, 2026-11-15)
+20. **A silent fallback can hide a broken build for weeks.** NESO renamed a dataset; the build logged
+    "skipped" and the site quietly used coarser data. Write what each build step did (fresh / kept /
+    failed) somewhere the site shows, and keep the last good copy rather than publishing nothing.
+    (energy-resilience, 2026-11-15)
+21. **Don't cache a fallback as if it were a success.** A weekly cache saved last week's kept copy as
+    "this week's build", so nothing retried. Cache only what a successful download wrote.
+    (energy-resilience, 2026-11-16)
+22. **Tailwind only generates the opacity steps it knows** (`/90`, `/95`). `bg-slate-950/92` made no
+    background at all, so a panel was see-through. (energy-resilience, 2026-11-16)
+23. **`flex-1` inside a box with no height shrinks to nothing.** Pop-out charts drew blank until the
+    window was resized. Give the body a fixed starting height, and test the first open, not just after
+    interacting. (energy-resilience, 2026-11-15)
+24. **Never cite a link you haven't opened.** Research agents return search snippets; open each source
+    before it goes in the app, and label any you couldn't open (some sites block automated checks).
+    (energy-resilience, 2026-11-16)
