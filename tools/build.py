@@ -122,7 +122,10 @@ def main():
         # A release refreshes the automation status too (needs the internet; keeps the old file if offline).
         import subprocess
         subprocess.run([sys.executable, str(TOOLS / "status.py")], check=False)
-    boards, base = data["boards"], data.get("base", "https://horizonqltd.com/")
+    base = data.get("base", "https://horizonqltd.com/")
+    # Hidden cards ("hidden": true) are never written into the page: tools/seal.py seals them into
+    # sealed.json and js/unlock.js shows them to whoever has the key.
+    boards = [b for b in data["boards"] if not b.get("hidden")]
     status = load_status()
     sections = []
     for s in data["sections"]:
@@ -141,7 +144,8 @@ def main():
               .replace("<!--COUNT-->", str(len(boards)))
               .replace("__VER__", ver))
     (ROOT / "index.html").write_text(out, encoding="utf-8")
-    print(f"index.html written — {len(boards)} boards, version {ver}")
+    hidden = len(data["boards"]) - len(boards)
+    print(f"index.html written — {len(boards)} boards{f' (+{hidden} hidden)' if hidden else ''}, version {ver}")
 
 
 if __name__ == "__main__":

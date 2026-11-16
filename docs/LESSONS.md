@@ -115,3 +115,8 @@ also adds one gives an add/add conflict. Never `commit -a` after a merge without
   own site (`/Starlane/`) and the code isn't mentioned anywhere.
 - Light mode first looked "too white": the page, cards and toolbar were near-identical whites.
   Warm paper (stone ground, cream panels, darker shading for distant cards) fixed it.
+
+1. **`page.goto()` to the same page with only a new `#…` doesn't reload it.** The first test of the
+    `#key=` unlock link "failed" because the page never reloaded. Load `about:blank` in between, and
+    handle `hashchange` in the page too, because a person can paste the link into an open tab.
+    (2026-11-16)

@@ -118,6 +118,8 @@ before first paint, so nothing flashes.
       "desc": "One or two sentences.",
       "note": "…",                          // optional: dashed callout on the card
       "about": "Long description …",        // optional: shown under the video in the player
+      "hidden": true,                       // optional: never written into the page; sealed into
+                                           //   sealed.json and shown only after unlocking (§14d)
       "automation": [                       // optional: plain-English line per automatic workflow,
         { "workflow": "agents.yml", "ai": true, "what": "AI agents look for …" }
       ]                                     //   shown in the status panel (§15). Written for the
@@ -397,6 +399,37 @@ has WebGL, `gl-wait` (hides the CSS ring; `carousel3d.js` removes it when ready 
 - The address bar follows the carousel (`history.replaceState`, so Back isn't filled with turns).
 - The status panel's "Copy link" box gives `https://stuartokin.github.io/#<slug>`. For LinkedIn
   articles, paste that link.
+
+## 14d. Hidden cards (key to unlock)
+
+A card with `"hidden": true` in `boards.json` (Energy Resilience, since 2026-11-16) is never written
+into `index.html`, the card count or `status.json`. Instead:
+
+- **Sealing.** `tools/seal.py` renders it with `build.card()`, adds where it goes (its section and the
+  visible card it follows) and encrypts that with AES-256-GCM, under a key derived from the
+  `HUB_UNLOCK_KEY` secret (PBKDF2-SHA256, 600,000 rounds). The result goes in `sealed.json`.
+  - The workflow `.github/workflows/seal.yml` runs it on pushes that change the cards, and by hand.
+    Run it by hand after adding or changing the secret.
+  - While the key is unchanged the salt is kept, so a card edit doesn't lock out devices.
+  - No key set: `{"sealed": false}`, and the card stays hidden for everyone.
+- **Unlocking.** `js/unlock.js` loads before `site.js`. If this device holds the unlock, it decrypts
+  `sealed.json`, inserts the card in its place, and then starts `site.js` and the carousel, so tiles,
+  carousel, counts and links all treat it like any other card.
+  - Unlock with the key field in the ⓘ panel, or a link ending `#key=…`. The key is wiped from the
+    address at once, and a link pasted into an open tab works too.
+  - The device stores the derived AES key and salt (`obs.unlock`), not the key itself. "Lock" in the
+    ⓘ panel forgets it; a new key makes stored unlocks stop fitting.
+- **Limits.** This hides the card from the hub only.
+  - The board itself is still public at its own address and on GitHub, and its media files are still
+    in `media/`.
+  - The sealed file is public, so a short key could be guessed offline: use 10+ characters or a few
+    random words.
+- **Rig.** `tests/check.js` seals the card with a made-up key and checks:
+  - the card isn't in the page or its source without the key
+  - a wrong key shows nothing
+  - the link unlocks, wipes the key, places the card and survives a reload
+  - a link pasted into an open tab works
+  - the ⓘ field works and Lock re-hides the card
 
 ## 15. Automation status and kill switches
 

@@ -162,42 +162,6 @@
    ],
    "state": "on"
   },
-  "energy-resilience": {
-   "repo": "energy-resilience",
-   "url": "https://github.com/stuartokin/energy-resilience",
-   "updated": "2026-11-16T13:06:05Z",
-   "lastBy": "assistant",
-   "lastMessage": "4.17.0: full-screen intro that scales to big screens; joke size A-/A+",
-   "recent": {
-    "you": 5,
-    "assistant": 25,
-    "agent": 0,
-    "script": 0,
-    "of": 30
-   },
-   "version": "4.17.0",
-   "switch": {
-    "local": false,
-    "master": false
-   },
-   "jobs": [
-    {
-     "file": "deploy.yml",
-     "name": "Deploy to GitHub Pages",
-     "what": "A script refreshes the OpenStreetMap snapshot of power and gas assets, grid supply areas and network operator lines, then republishes the map. No AI is involved.",
-     "ai": false,
-     "when": "Every Monday at 03:17 UTC",
-     "lastRun": {
-      "date": "2026-11-16T13:06:10Z",
-      "outcome": "running",
-      "event": "push",
-      "url": "https://github.com/stuartokin/energy-resilience/actions/runs/43872577432"
-     },
-     "lastWorked": "2026-11-16T12:05:20Z"
-    }
-   ],
-   "state": "on"
-  },
   "ResearchGap": {
    "repo": "ResearchGap",
    "url": "https://github.com/stuartokin/ResearchGap",

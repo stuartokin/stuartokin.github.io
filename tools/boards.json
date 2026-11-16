@@ -75,6 +75,7 @@
     },
     {
       "sec": "live",
+      "hidden": true,
       "repo": "energy-resilience",
       "title": "Energy Resilience",
       "media": "energy-resilience",

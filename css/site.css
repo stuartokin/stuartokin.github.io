@@ -762,3 +762,12 @@ html.gl-wait .oring { visibility: hidden; }
    so the stage mustn't clip it. Only upwards: the canvas is never wider than the stage. */
 .ostage.lens { overflow: visible; }
 .ostage.lens canvas.gl3d { pointer-events: auto; }
+
+/* ---- hidden cards: the key field in the ⓘ panel (js/unlock.js) ---- */
+.hinfo__unlock{margin-top:.8rem;font-family:var(--mono);font-size:.7rem;color:var(--ink-muted)}
+.unlock__form{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.unlock__form input{width:140px;padding:5px 8px;border-radius:8px;border:1px solid var(--hairline);background:transparent;color:inherit;font:inherit}
+.unlock__btn{padding:5px 10px;border-radius:8px;border:1px solid var(--hairline);background:transparent;color:inherit;font:inherit;cursor:pointer}
+.unlock__btn:hover{border-color:var(--accent);color:var(--accent)}
+.unlock__msg{opacity:.75}
+.hinfo__unlock .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}

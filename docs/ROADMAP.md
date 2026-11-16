@@ -4,6 +4,11 @@ Status as of version **2026-11-15a**. Move items between sections as they change
 
 ## Open — needs Stuart
 
+- **Hidden Energy Resilience card (2026-11-16):** add the secret `HUB_UNLOCK_KEY` in this repo
+  (Settings → Secrets and variables → Actions), then run **Actions → Seal hidden cards → Run
+  workflow**. Until then the card is hidden for everyone. Unlock on each device with the ⓘ key field or
+  `https://horizonqltd.com/#key=…`. To show it to everyone again, remove `"hidden": true`.
+
 - **Check on real devices (2026-11-15):** the lens and beam on the big monitor in dark and light,
   the darker side cards, no flash on refresh, the Shrinking Gap opening, the remembered board, and
   a copied board link opening on the Fold. All pass in the rig; none yet seen on his screens.

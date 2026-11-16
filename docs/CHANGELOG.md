@@ -2,6 +2,16 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-16d
+- **Hidden cards:** Energy Resilience is hidden from the hub (`"hidden": true`).
+  - It isn't in the page, the count or `status.json`; it's sealed into `sealed.json` with the
+    `HUB_UNLOCK_KEY` secret (`tools/seal.py`, workflow `seal.yml`).
+  - It unlocks per device with the key field in the ⓘ panel or a link ending `#key=…`; "Lock" hides it
+    again.
+  - `js/unlock.js` now loads first and starts `site.js` and the carousel after it.
+- Rig: hidden-card checks on laptop and the folded Fold (no card or title without the key; wrong key;
+  link; pasted link; reload; ⓘ field; Lock).
+
 ## 2026-11-16c
 - Retro Arcade trailer re-recorded: the search now types "planet" (no commercial game names anywhere,
   Stuart's request). Its tiles show wide games whole.

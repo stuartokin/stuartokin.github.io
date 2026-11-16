@@ -17,7 +17,8 @@ const args = Object.fromEntries(process.argv.slice(2).map(a => a.replace(/^--/, 
 const OUT = path.join(__dirname, 'out');
 fs.mkdirSync(OUT, { recursive: true });
 const BOARDS_JSON = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'boards.json'), 'utf8'));
-const boards = BOARDS_JSON.boards;
+const boards = BOARDS_JSON.boards.filter(b => !b.hidden);   // hidden cards are only on the page after unlocking
+const HIDDEN = BOARDS_JSON.boards.filter(b => b.hidden);
 const BASE = BOARDS_JSON.base || 'https://horizonqltd.com/';
 const VERSION = fs.readFileSync(path.join(ROOT, 'tools', 'VERSION'), 'utf8').trim();
 const STATUS = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'status.json'), 'utf8')); } catch (e) { return {}; } })();
@@ -263,6 +264,59 @@ async function check(browser, URL, devName, dev) {
   const fb = await p.evaluate(() => ({ gl: !!window.HQ3D, cards: document.querySelectorAll('.oring > .card').length, carousel: document.body.classList.contains('view-carousel') }));
   record('no-webgl', 'falls back to the CSS carousel', !fb.gl && fb.cards > 0 && fb.carousel, JSON.stringify(fb));
   await nogl.close();
+
+  // Hidden cards: sealed with a made-up key for the test, then unlocked by link and by the ⓘ field.
+  if (HIDDEN.length && !args.url) {
+    const KEY = 'rig-test-key', sealedFile = path.join(OUT, 'sealed-test.json');
+    require('child_process').execFileSync('python3', [path.join(ROOT, 'tools', 'seal.py'), `--key=${KEY}`, `--out=${sealedFile}`]);
+    const h = HIDDEN[0], all = BOARDS_JSON.boards, idx = all.indexOf(h);
+    const prev = all.slice(0, idx).filter(b => b.sec === h.sec && !b.hidden).pop();
+    for (const [dn, dev] of [['laptop', DEVICES.laptop], ['fold-cover', DEVICES['fold-cover']]].filter(([, d]) => d)) {
+      const R = (n, ok, d) => record(`hidden ${dn}`, n, ok, d);
+      const hc = await browser.newContext({ viewport: dev.viewport, deviceScaleFactor: dev.deviceScaleFactor, isMobile: dev.isMobile, hasTouch: dev.hasTouch });
+      await setupRoutes(hc);
+      await hc.route(/\/sealed\.json(\?.*)?$/, r => r.fulfill({ contentType: 'application/json', body: fs.readFileSync(sealedFile, 'utf8') }));
+      const hp = await hc.newPage(); const errs = []; hp.on('pageerror', e => errs.push(e.message));
+      const shown = () => hp.evaluate(r => !!document.querySelector(`.card[data-repo="${r}"]`), h.repo);
+      const ready = () => hp.waitForFunction(() => window.HQ && window.HQ.cards, null, { timeout: 15000 }).catch(() => {});
+      try {
+        await hp.goto(URL); await ready();
+        R('hidden card not on the page without the key', !(await shown()));
+        R('hidden card not even in the page source', !(await hp.content()).includes(h.title));
+        await hp.goto('about:blank'); await hp.goto(URL + '#key=not-the-key'); await ready();
+        R('a wrong key shows nothing', !(await shown()));
+        await hp.goto('about:blank'); await hp.goto(URL + '#key=' + KEY); await ready(); await hp.waitForTimeout(400);
+        R('the #key= link shows the hidden card', await shown());
+        R('the key is wiped from the address', !(await hp.evaluate(() => location.href)).includes(KEY));
+        const place = await hp.evaluate(([r, p]) => { const c = document.querySelector(`.card[data-repo="${r}"]`); const pr = c && c.previousElementSibling; return { after: pr ? pr.dataset.repo : null, inHQ: window.HQ.cards.some(x => x.dataset.repo === r) }; }, [h.repo, prev ? prev.repo : null]);
+        R('the card goes back in its place', place.after === (prev ? prev.repo : null), JSON.stringify(place));
+        R('tiles and carousel both know the card', place.inHQ);
+        await hp.reload(); await ready();
+        R('the device stays unlocked after a reload', await shown());
+        // a key link pasted into an already-open tab works too
+        await hp.evaluate(() => localStorage.removeItem('obs.unlock')); await hp.goto('about:blank'); await hp.goto(URL); await ready();
+        await hp.evaluate(k => { location.hash = 'key=' + k; }, KEY);
+        const pasted = await hp.waitForFunction(r => !!document.querySelector(`.card[data-repo="${r}"]`) && window.HQ && window.HQ.cards.length, h.repo, { timeout: 20000 }).then(() => true, () => false);
+        await hp.waitForTimeout(500); await ready();
+        R('a #key= link pasted into an open tab unlocks it', pasted);
+        R('the stored unlock is not the key itself', !(await hp.evaluate(() => localStorage.getItem('obs.unlock') || '')).includes(KEY));
+        await hp.evaluate(() => document.getElementById('hinfoBtn').click()); await hp.waitForTimeout(200);
+        R('the ⓘ panel offers Lock', await hp.isVisible('#lockBtn'));
+        await Promise.all([hp.waitForNavigation().catch(() => {}), hp.click('#lockBtn')]); await ready();
+        R('Lock hides it again', !(await shown()));
+        await hp.evaluate(() => document.getElementById('hinfoBtn').click()); await hp.waitForTimeout(200);
+        await hp.fill('#unlockKey', 'wrong'); await hp.click('.unlock__btn'); await hp.waitForFunction(() => /fit/.test(document.getElementById('unlockMsg').textContent), null, { timeout: 8000 }).catch(() => {});
+        R('a wrong key in the ⓘ field says so', /fit/.test(await hp.textContent('#unlockMsg')));
+        await hp.fill('#unlockKey', KEY);
+        await Promise.all([hp.waitForNavigation({ timeout: 15000 }).catch(() => {}), hp.click('.unlock__btn')]); await ready();
+        R('the right key in the ⓘ field shows the card', await shown());
+        const w = await hp.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - innerWidth);
+        R('not wider than the screen when unlocked', w <= 1, `${w}px`);
+      } catch (e) { R('run completed', false, e.message.split('\n')[0]); }
+      R('no script errors', errs.length === 0, errs.slice(0, 3).join(' | '));
+      await hc.close();
+    }
+  }
   await browser.close();
   if (server) server.close();
 
