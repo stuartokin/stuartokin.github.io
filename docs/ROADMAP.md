@@ -4,6 +4,11 @@ Status as of version **2026-11-15a**. Move items between sections as they change
 
 ## Open — needs Stuart
 
+- **Energy Resilience is private (2026-11-16):** the repo is private (Stuart's GitHub Pro) and the board
+  is sealed with the `BOARD_UNLOCK_KEY` secret in that repo, so it opens only with the key (see its
+  `docs/HANDOVER.md`). The hub can no longer read its dates or status without logging in.
+  - Its card is hidden here.
+  - If it's shown again, give `status.yml` a read token, or accept fixed dates.
 - **Hidden Energy Resilience card (2026-11-16):** add the secret `HUB_UNLOCK_KEY` in this repo
   (Settings → Secrets and variables → Actions), then run **Actions → Seal hidden cards → Run
   workflow**. Until then the card is hidden for everyone. Unlock on each device with the ⓘ key field or

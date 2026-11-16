@@ -342,7 +342,7 @@ for a screen recording instead.
 |---|---|---|---|---|
 | Quantum Observatory | quantum-observatory | live (lead) | scripted recording (Frontier, item, Q-Day) | — |
 | Cyber Attack Earth | cyber-attack-earth | live | `cae_cover_16x9.mp4` from ResearchGap repo | What Would Earth Look Like If You Could See the Cyber Attacks? |
-| Energy Resilience | energy-resilience | live, tag "Live data" | Stuart's recording, pauses cut (76 s → 44 s) | AI vibe coding – "Oh, the ecstasy…oh the agony" |
+| Energy Resilience (hidden; private repo, board opens with a key since 2026-11-16) | energy-resilience | live, tag "Live data" | Stuart's recording, pauses cut (76 s → 44 s) | AI vibe coding – "Oh, the ecstasy…oh the agony" |
 | The Shrinking Gap | ResearchGap | live | scripted recording (Play the century) | From Apprentices to AI agents – the importance of Human Connection |
 | Q-Day Research | qday-research | studies | `QDayDemo.mp4` + `QDayIntro.mp4` from its repo | I Built a Q-Day Clock. It Kept Speeding Up. |
 | Patch Pulse | PatchPulse | studies | scripted recording (chapters) | The Patch Wave isn't coming, it landed Tuesday |
