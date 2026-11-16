@@ -4,9 +4,6 @@ Status as of version **2026-11-15a**. Move items between sections as they change
 
 ## Open — needs Stuart
 
-- **Custom domain horizonqltd.com (2026-11-16):** live; DNS check passes. **Enforce HTTPS** was
-  waiting for GitHub's certificate. Once ticked, check `npm test -- --url=https://horizonqltd.com/`
-  and an old `stuartokin.github.io/<repo>/` link redirects.
 - **Check on real devices (2026-11-15):** the lens and beam on the big monitor in dark and light,
   the darker side cards, no flash on refresh, the Shrinking Gap opening, the remembered board, and
   a copied board link opening on the Fold. All pass in the rig; none yet seen on his screens.
@@ -54,6 +51,7 @@ Status as of version **2026-11-15a**. Move items between sections as they change
 ## Decided / done (don't reopen without a reason)
 
 - 2026-11-16 Custom domain **horizonqltd.com**, bare domain as the main address (www redirects).
+  Live and confirmed working by Stuart the same day (setup in KNOWLEDGE-BASE §1).
 - 2026-11-11 Renamed to **HorizonQ Observatories**; personal-capacity footer; no employer named.
 - 2026-11-11 "Talks and evidence" section **removed**.
 - 2026-11-11 Light theme = **warm paper** (option B of three).
