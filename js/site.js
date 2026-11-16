@@ -710,7 +710,7 @@
   dlg.addEventListener('cancel', e => { e.preventDefault(); close(); });
 
   /* ---------- Which board is in front: remembered, and in the address bar for sharing ----------
-     A link like https://stuartokin.github.io/#the-shrinking-gap opens the hub on that board (the
+     A link like https://horizonqltd.com/#the-shrinking-gap opens the hub on that board (the
      carousel turns to it; the tiles scroll to it). As the carousel turns, the address bar follows,
      so the current address is always a link to the board in front. First visit: The Shrinking Gap. */
   const DEFAULT_FRONT = 'ResearchGap';

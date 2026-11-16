@@ -64,7 +64,7 @@ publishes within a minute or two. Stuart doesn't upload files any more.
 | Change header, toolbar, footer, player | `tools/page.html`, then build |
 | Pause / resume automation | `automation.json` in a repo (`"paused": true`), or this repo's for all (KNOWLEDGE-BASE §15) |
 | Change the automation panel wording | `"automation"` in `tools/boards.json` (public: "Stuart", not "you") |
-| Check the live site, not the local copy | `cd tests && npm test -- --url=https://stuartokin.github.io/` |
+| Check the live site, not the local copy | `cd tests && npm test -- --url=https://horizonqltd.com/` |
 
 ## Setting up (any machine, any new session)
 

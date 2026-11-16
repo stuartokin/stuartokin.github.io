@@ -94,6 +94,13 @@ carousel (a throwaway copy with a switch for each option), so what Stuart chose 
 shipped. Two surprises only showed that way: the canvas stopped just above the cards, so a source
 needed the view extended upwards; and option B reads edge-on from the camera's angle.
 
+**22. A custom domain goes live the moment `CNAME` lands on `main`.** GitHub redirects
+`stuartokin.github.io` to the domain at once, even if DNS isn't pointing there yet, so the whole
+site (and every project repo under it) would vanish. Get DNS in first, then push the `CNAME`.
+Also: the cloud sandbox couldn't resolve the domain itself (DNS lookup sites blocked), and its
+`tests/node_modules` Playwright was newer than the installed browser — run the rig with the global
+Playwright (`NODE_PATH=$(npm root -g)`, local copy moved aside) when that happens.
+
 ## Small but sticky
 
 - The title's ⓘ panel opened *behind* the sticky toolbar until the header got `z-index: 60`.

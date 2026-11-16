@@ -2,6 +2,12 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-16a
+- **Moves to horizonqltd.com.** `CNAME` file added; card links, preview image and the rig now use
+  `https://horizonqltd.com/` (from `"base"` in `boards.json`). `stuartokin.github.io` links
+  redirect, so nothing shared before breaks. DNS set-up at GoDaddy in KNOWLEDGE-BASE §1.
+- Rig: board links and "Open goes to the board" follow `base` instead of a fixed address.
+
 ## 2026-11-15e
 - **The spotlight has a source:** an observatory lens (glowing aperture ring, bright core, outer
   guide ring with six mounts) hangs between the two floating toolbars, and the beam starts from it.

@@ -16,7 +16,7 @@ npm run setup        # Playwright, its Chromium, and the three site fonts
 npm test                                     # every device (~5 min)
 npm run test:quick                           # laptop, open Fold, phone
 npm test -- --devices=fold-open,stuart       # pick devices (names in lib/devices.js)
-npm test -- --url=https://stuartokin.github.io/   # the live site instead of this folder
+npm test -- --url=https://horizonqltd.com/   # the live site instead of this folder
 ONLINE=1 npm test                            # allow internet (GitHub dates etc.)
 npm run shots                                # screenshots: tests/out/shots/<device>-<theme>-<view>.png
 npm run serve                                # look at it yourself: http://localhost:8810/

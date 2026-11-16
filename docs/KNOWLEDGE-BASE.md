@@ -22,9 +22,9 @@ Read `CLAUDE.md` first. Sections:
 
 ## 1. What the site is
 
-`https://stuartokin.github.io/` — the GitHub Pages "user site" for the `stuartokin` account,
-titled **HorizonQ Observatories**. One page that lists Stuart's public boards and apps
-(each in its own repo, served at `https://stuartokin.github.io/<repo>/`) with:
+`https://horizonqltd.com/` — the GitHub Pages "user site" for the `stuartokin` account (repo
+`stuartokin.github.io`), titled **HorizonQ Observatories**. One page that lists Stuart's public
+boards and apps (each in its own repo, served at `https://horizonqltd.com/<repo>/`) with:
 
 - a card per board: still image, 8-second hover preview, **Watch demo** (full video in a pop-up
   player), **Open** (goes to the board), optional **in ARTICLE** badge (his LinkedIn article),
@@ -32,6 +32,20 @@ titled **HorizonQ Observatories**. One page that lists Stuart's public boards an
 - two views: **Tiles** (grouped into sections) and **Carousel** (a 3D ring drawn with WebGL);
 - **Fit to screen** (everything on one screen), **text size** (tiles only), **music**, **dark/light**;
 - an ⓘ panel by the title with GitHub + LinkedIn links and the page version.
+
+### Custom domain (from 2026-11-16)
+
+- `CNAME` in the repo root holds `horizonqltd.com`; GitHub Pages serves the site there and
+  redirects `stuartokin.github.io/...` (and every project repo's `stuartokin.github.io/<repo>/`)
+  to the same path on the domain. Old links keep working.
+- DNS is at **GoDaddy** (Stuart's account): four `A` records for `@` → `185.199.108.153`,
+  `.109.153`, `.110.153`, `.111.153`; `CNAME www` → `stuartokin.github.io`; a `TXT`
+  `_github-pages-challenge-stuartokin` record for GitHub domain verification. **Never touch the
+  MX / SPF / DKIM / DMARC / autodiscover records** — they carry his email.
+- Repo settings → Pages: custom domain `horizonqltd.com`, **Enforce HTTPS** on.
+- `"base"` in `boards.json` builds the card links; the og:image in `tools/page.html` and the
+  rig (`tests/check.js` reads `base`) follow it.
+- The kill switch is read from `raw.githubusercontent.com`, so the domain doesn't affect it.
 
 Tagline: *"Research boards on cyber, quantum, cryptography, and AI. Every claim carries its
 source, its date, and whether anyone has actually checked it."*

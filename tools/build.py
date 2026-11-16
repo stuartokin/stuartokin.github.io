@@ -122,7 +122,7 @@ def main():
         # A release refreshes the automation status too (needs the internet; keeps the old file if offline).
         import subprocess
         subprocess.run([sys.executable, str(TOOLS / "status.py")], check=False)
-    boards, base = data["boards"], data.get("base", "https://stuartokin.github.io/")
+    boards, base = data["boards"], data.get("base", "https://horizonqltd.com/")
     status = load_status()
     sections = []
     for s in data["sections"]:

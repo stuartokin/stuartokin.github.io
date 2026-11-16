@@ -2,7 +2,7 @@
 //
 //   npm test                         every device in lib/devices.js
 //   npm test -- --devices=laptop,fold-open
-//   npm test -- --url=https://stuartokin.github.io/    check the live site instead of the local copy
+//   npm test -- --url=https://horizonqltd.com/        check the live site instead of the local copy
 //   ONLINE=1 npm test                let the page reach the internet (GitHub dates, etc.)
 //
 // Prints a PASS/FAIL table and exits non-zero if anything failed. Screenshots of failures go to tests/out/.
@@ -16,7 +16,9 @@ const DEVICES = require('./lib/devices');
 const args = Object.fromEntries(process.argv.slice(2).map(a => a.replace(/^--/, '').split('=')));
 const OUT = path.join(__dirname, 'out');
 fs.mkdirSync(OUT, { recursive: true });
-const boards = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'boards.json'), 'utf8')).boards;
+const BOARDS_JSON = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'boards.json'), 'utf8'));
+const boards = BOARDS_JSON.boards;
+const BASE = BOARDS_JSON.base || 'https://horizonqltd.com/';
 const VERSION = fs.readFileSync(path.join(ROOT, 'tools', 'VERSION'), 'utf8').trim();
 const STATUS = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'status.json'), 'utf8')); } catch (e) { return {}; } })();
 // Software WebGL, so the 3D carousel renders on machines without a GPU (CI, cloud, headless).
@@ -89,7 +91,7 @@ async function check(browser, URL, devName, dev) {
 
     // --- every card's links point where boards.json says ---
     const hrefs = await page.$$eval('.card[data-repo] a.body', as => as.map(a => [a.closest('.card').dataset.repo, a.href]));
-    const bad = hrefs.filter(([repo, href]) => { const b = boards.find(x => x.repo === repo); return !b || href !== (b.url || `https://stuartokin.github.io/${b.repo}/`); });
+    const bad = hrefs.filter(([repo, href]) => { const b = boards.find(x => x.repo === repo); return !b || href !== (b.url || `${BASE}${b.repo}/`); });
     T('card links', bad.length === 0, bad.map(x => x.join(' → ')).join('; '));
 
     // --- info panel opens above the toolbar ---
@@ -170,7 +172,7 @@ async function check(browser, URL, devName, dev) {
     const g = await page.$('.card.ofloat .go');
     if (g) {
       const gb = await g.boundingBox();
-      const req = page.waitForRequest(r => r.url().startsWith('https://stuartokin.github.io/'), { timeout: 4000 }).catch(() => null);
+      const req = page.waitForRequest(r => r.url().startsWith(BASE), { timeout: 4000 }).catch(() => null);
       await tap(gb.x + gb.width / 2, gb.y + gb.height / 2, touch ? 6 : 0);
       const r = await req;
       T('Open goes to the board', !!r, r ? r.url() : 'no navigation');

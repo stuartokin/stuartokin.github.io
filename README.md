@@ -1,6 +1,6 @@
 # stuartokin.github.io — HorizonQ Observatories
 
-The hub page for my public research boards and apps: https://stuartokin.github.io/
+The hub page for my public research boards and apps: https://horizonqltd.com/
 
 Each board has a card with a demo video and a link to the board itself, shown as tiles or as a
 3D carousel, in dark or light, on anything from a folded phone to a 4K monitor.
