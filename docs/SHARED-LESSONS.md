@@ -76,3 +76,7 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     API that only allows `https://stuartokin.github.io` (CORS `ALLOWED_ORIGINS`) silently fails for visitors.
     Add `https://horizonqltd.com` (and `www.`) to every allow-list, then re-paste the Worker.
     (energy-resilience, 2026-11-16)
+26. **"Not open" often means "needs a free key".** Open-data portals (Opendatasoft, Azure API Management)
+    can list an openly licensed dataset whose records are hidden until you sign in. Check the portal's
+    catalogue API and the licence field before writing a source off. Keys go in Worker or GitHub secrets.
+    (energy-resilience, 2026-11-16)
