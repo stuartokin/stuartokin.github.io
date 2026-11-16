@@ -72,3 +72,7 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 24. **Never cite a link you haven't opened.** Research agents return search snippets; open each source
     before it goes in the app, and label any you couldn't open (some sites block automated checks).
     (energy-resilience, 2026-11-16)
+25. **A new domain breaks allow-lists.** When the sites moved to horizonqltd.com, any Cloudflare Worker or
+    API that only allows `https://stuartokin.github.io` (CORS `ALLOWED_ORIGINS`) silently fails for visitors.
+    Add `https://horizonqltd.com` (and `www.`) to every allow-list, then re-paste the Worker.
+    (energy-resilience, 2026-11-16)
