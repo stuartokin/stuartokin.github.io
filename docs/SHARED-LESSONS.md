@@ -109,3 +109,6 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 34. **Test where you land after every screen change, not just that a screen opens.** Record the whole state
     (mode, page, overlay, sub-page, camera, style) before and after each step, on every screen size; with one
     overlay at a time, "close" easily goes somewhere surprising. (Starlane, 2026-11-16)
+35. **Settings that depend on the device must be stored per device kind, and checked on every load.** A
+    setting fixed when a profile was created follows the player to other devices (a laptop's 3D cockpit and
+    mouse controls on a Fold). Keep phone / tablet / desktop copies and swap them on load. (Starlane, 2026-11-16)
