@@ -103,3 +103,9 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     portrait tiles, switch those to `contain` (e.g. a `.wide` class set from the image's own size), and
     check the CSS specificity actually wins. (RetroArcade, 2026-11-16)
 
+33. **A `<dialog>` game can swallow Escape.** If the page calls `preventDefault()` on every keydown the game
+    handles, the dialog's Escape `cancel` event never fires, so "Esc pauses" silently does nothing. Handle
+    Escape in the game itself, and test it with a real key press. (Starlane, 2026-11-16)
+34. **Test where you land after every screen change, not just that a screen opens.** Record the whole state
+    (mode, page, overlay, sub-page, camera, style) before and after each step, on every screen size; with one
+    overlay at a time, "close" easily goes somewhere surprising. (Starlane, 2026-11-16)
