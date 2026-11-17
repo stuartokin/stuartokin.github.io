@@ -282,7 +282,8 @@ def main():
     status = {"generated": datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat(),
               "master": {"paused": bool(master)}, "boards": {}}
     failed = []
-    data["boards"] = [b for b in data["boards"] if not b.get("hidden")]   # hidden cards stay out of the public status file
+    # hidden and restricted cards stay out of the public status file (their repos are private; commit messages could say too much)
+    data["boards"] = [b for b in data["boards"] if not b.get("hidden") and not b.get("restricted")]
     for b in data["boards"]:
         s = repo_status(b, bool(master))
         if s is None:

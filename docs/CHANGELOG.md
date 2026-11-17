@@ -2,6 +2,20 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-17a
+- **Energy Resilience is back on the hub, by request** (Stuart, 2026-11-17). It's no longer hidden
+  (`"hidden"` removed); it now uses `"restricted": { "email", "keydb" }` in `boards.json`.
+  - The card shows a blurred picture, a softened summary, "🔒 Access by request", a "Request access" email
+    button (stuart@horizonqltd.com) and "Have a key? Open ↗".
+  - The picture and Open both go to the board's key screen; the demo video and hover preview stay off.
+  - `js/access.js`: if this device has opened the board with its key (its IndexedDB `er-seal`, same
+    address), and that key still fits the board's `seal.json`, the card turns clear. An old key keeps it
+    dimmed.
+  - The 3D carousel draws it the same way (`carousel3d.js`); the enlarged front card keeps the state (`site.js`).
+  - Restricted cards stay out of `status.json` (private repo; commit messages could say too much).
+- Rig: restricted-card checks on laptop and phone (dimmed, email link, picture opens the board, old key
+  stays dimmed, clear with the key, no overflow, no errors).
+
 ## 2026-11-16d
 - **Hidden cards:** Energy Resilience is hidden from the hub (`"hidden": true`).
   - It isn't in the page, the count or `status.json`; it's sealed into `sealed.json` with the

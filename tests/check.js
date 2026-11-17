@@ -317,6 +317,55 @@ async function check(browser, URL, devName, dev) {
       await hc.close();
     }
   }
+  // Restricted cards ("restricted" in boards.json): dimmed with "Access by request" until this device holds the
+  // board's key (its IndexedDB key store, checked against the board's seal.json).
+  for (const rb of BOARDS_JSON.boards.filter(b => b.restricted && !b.hidden)) {
+    if (args.url) break;
+    const crypto = require('crypto');
+    const raw = crypto.randomBytes(32), iv = crypto.randomBytes(12), c = crypto.createCipheriv('aes-256-gcm', raw, iv);
+    const check = Buffer.concat([iv, c.update('energy-resilience-unlocked'), c.final(), c.getAuthTag()]).toString('base64');
+    for (const [dn, dev] of [['laptop', DEVICES.laptop], ['phone', DEVICES.phone]].filter(([, d]) => d)) {
+      const R = (n, ok, d) => record(`restricted ${dn}`, n, ok, d);
+      const rc = await browser.newContext({ viewport: dev.viewport, deviceScaleFactor: dev.deviceScaleFactor, isMobile: dev.isMobile, hasTouch: dev.hasTouch });
+      await setupRoutes(rc);
+      await rc.route(new RegExp(`/${rb.repo}/seal\\.json`), r => r.fulfill({ contentType: 'application/json', body: JSON.stringify({ check }) }));
+      await rc.route(new RegExp(`^${BASE.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')}${rb.repo}/`), r => r.fulfill({ contentType: 'text/html', body: '<title>board</title>key screen' }));
+      await rc.addInitScript(() => { try { localStorage.setItem('obs.view', 'tiles'); } catch (e) {} });
+      const rp = await rc.newPage(); const errs = []; rp.on('pageerror', e => errs.push(e.message));
+      const state = () => rp.evaluate(r => {
+        const c = document.querySelector(`.group .card[data-repo="${r}"], .card[data-repo="${r}"]`); if (!c) return null;
+        const img = c.querySelector('.media img'), req = c.querySelector('.request');
+        return { restricted: c.classList.contains('card--restricted'), blur: getComputedStyle(img).filter, req: !!req && req.offsetParent !== null, mail: req ? req.getAttribute('href') : '', go: c.querySelector('.go').textContent.trim() };
+      }, rb.repo);
+      try {
+        await rp.goto(URL); await rp.waitForTimeout(1500);
+        let st = await state();
+        R('the card is on the page', !!st);
+        R('dimmed and blurred without the key', st && st.restricted && /blur/.test(st.blur), JSON.stringify(st));
+        R('"Request access" link by email', st && st.req && st.mail.startsWith(`mailto:${rb.restricted.email}`), JSON.stringify(st));
+        // the picture opens the board's key screen, not the demo video
+        const media = await rp.$(`.card[data-repo="${rb.repo}"] .media`);
+        if (media) {
+          await media.scrollIntoViewIfNeeded();
+          await Promise.all([rp.waitForNavigation({ timeout: 10000 }).catch(() => {}), media.click()]);
+          R('the picture opens the board (key screen), not the video', rp.url().includes(`/${rb.repo}/`), rp.url());
+          await rp.goto(URL); await rp.waitForTimeout(800);
+        }
+        // a stored key that no longer fits keeps it dimmed
+        const put = k => rp.evaluate(([name, bytes]) => new Promise(ok => { const r = indexedDB.open(name, 1); r.onupgradeneeded = () => r.result.createObjectStore('k'); r.onsuccess = () => { const t = r.result.transaction('k', 'readwrite'); t.objectStore('k').put(new Uint8Array(bytes).buffer, 'raw'); t.oncomplete = () => { r.result.close(); ok(); }; }; }), [rb.restricted.keydb, [...k]]);
+        await put(crypto.randomBytes(32)); await rp.reload(); await rp.waitForTimeout(1500);
+        st = await state();
+        R('an old key keeps it dimmed', st && st.restricted, JSON.stringify(st));
+        await put(raw); await rp.reload(); await rp.waitForTimeout(1500);
+        st = await state();
+        R('clear once the board has been opened with its key', st && !st.restricted && !/blur/.test(st.blur) && !st.req && /^Open/.test(st.go), JSON.stringify(st));
+        const w = await rp.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - innerWidth);
+        R('not wider than the screen', w <= 1, `${w}px`);
+      } catch (e) { R('run completed', false, e.message.split('\n')[0]); }
+      R('no script errors', errs.length === 0, errs.slice(0, 3).join(' | '));
+      await rc.close();
+    }
+  }
   await browser.close();
   if (server) server.close();
 

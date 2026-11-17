@@ -75,7 +75,7 @@
     },
     {
       "sec": "live",
-      "hidden": true,
+      "restricted": { "email": "stuart@horizonqltd.com", "keydb": "er-seal" },
       "repo": "energy-resilience",
       "title": "Energy Resilience",
       "media": "energy-resilience",

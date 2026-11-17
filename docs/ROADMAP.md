@@ -59,6 +59,7 @@ Status as of version **2026-11-15a**. Move items between sections as they change
   refreshed with one command.
 
 ## Decided / done (don't reopen without a reason)
+- 2026-11-17: Energy Resilience shown on the hub as **restricted** (dimmed, "Access by request", email stuart@horizonqltd.com), clear on devices that have opened the board with its key. Replaces hiding it (16 Nov).
 
 - 2026-11-16 Custom domain **horizonqltd.com**, bare domain as the main address (www redirects).
   Live and confirmed working by Stuart the same day (setup in KNOWLEDGE-BASE §1).

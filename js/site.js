@@ -425,7 +425,7 @@
     if (gl()) window.HQ3D.update(angle, frontIndex(), false, true);
     const fc = f.cloneNode(true);
     fc.querySelector('.slab')?.remove();
-    fc.className = 'card ofloat'; fc.removeAttribute('aria-hidden'); fc.removeAttribute('style');
+    fc.className = 'card ofloat' + (f.classList.contains('card--restricted') ? ' card--restricted' : ''); fc.removeAttribute('aria-hidden'); fc.removeAttribute('style');
     fc.querySelectorAll('[tabindex]').forEach(el => el.removeAttribute('tabindex'));
     fc.querySelectorAll('video').forEach(v => v.remove());
     fc.querySelector('.media').addEventListener('click', () => { focusFront(false); passThrough = true; f.querySelector('.media').click(); passThrough = false; });
@@ -646,6 +646,7 @@
     for (const c of cards) {
       const m = c.querySelector('.media'), v = m.querySelector('video');
       c.addEventListener('mouseenter', () => {
+        if (c.classList.contains('card--restricted')) return; // no preview until the board's key is on this device
         if (reduce() || (view === 'carousel' && !c.classList.contains('ofront'))) return;
         if (!v.src) v.src = v.dataset.src;
         v.play().then(() => m.classList.add('playing')).catch(() => {});
@@ -686,6 +687,9 @@
   };
   for (const m of document.querySelectorAll('.media')) {
     m.addEventListener('click', () => {
+      // Restricted (access by request): the demo stays closed; the picture opens the board's key screen
+      const rc = m.closest('.card');
+      if (rc && rc.classList.contains('card--restricted')) { location.href = rc.querySelector('a.body').href; return; }
       const vids = JSON.parse(m.dataset.videos);
       document.getElementById('playerTitle').textContent = m.dataset.title;
       const about = document.getElementById('playerAbout');

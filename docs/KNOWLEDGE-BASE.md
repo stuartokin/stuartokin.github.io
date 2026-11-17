@@ -342,7 +342,7 @@ for a screen recording instead.
 |---|---|---|---|---|
 | Quantum Observatory | quantum-observatory | live (lead) | scripted recording (Frontier, item, Q-Day) | — |
 | Cyber Attack Earth | cyber-attack-earth | live | `cae_cover_16x9.mp4` from ResearchGap repo | What Would Earth Look Like If You Could See the Cyber Attacks? |
-| Energy Resilience (hidden; private repo, board opens with a key since 2026-11-16) | energy-resilience | live, tag "Live data" | Stuart's recording, pauses cut (76 s → 44 s) | AI vibe coding – "Oh, the ecstasy…oh the agony" |
+| Energy Resilience (restricted: on the hub dimmed, "Access by request", since 2026-11-17; private repo, board opens with a key) | energy-resilience | live, tag "Live data" | Stuart's recording, pauses cut (76 s → 44 s) | AI vibe coding – "Oh, the ecstasy…oh the agony" |
 | The Shrinking Gap | ResearchGap | live | scripted recording (Play the century) | From Apprentices to AI agents – the importance of Human Connection |
 | Q-Day Research | qday-research | studies | `QDayDemo.mp4` + `QDayIntro.mp4` from its repo | I Built a Q-Day Clock. It Kept Speeding Up. |
 | Patch Pulse | PatchPulse | studies | scripted recording (chapters) | The Patch Wave isn't coming, it landed Tuesday |
@@ -402,7 +402,7 @@ has WebGL, `gl-wait` (hides the CSS ring; `carousel3d.js` removes it when ready 
 
 ## 14d. Hidden cards (key to unlock)
 
-A card with `"hidden": true` in `boards.json` (Energy Resilience, since 2026-11-16) is never written
+A card with `"hidden": true` in `boards.json` (none at present; Energy Resilience was hidden 16–17 Nov 2026, now restricted, §14e) is never written
 into `index.html`, the card count or `status.json`. Instead:
 
 - **Sealing.** `tools/seal.py` renders it with `build.card()`, adds where it goes (its section and the
@@ -430,6 +430,24 @@ into `index.html`, the card count or `status.json`. Instead:
   - the link unlocks, wipes the key, places the card and survives a reload
   - a link pasted into an open tab works
   - the ⓘ field works and Lock re-hides the card
+
+## 14e. Restricted cards (access by request)
+
+Added 2026-11-17 for Energy Resilience: `"restricted": { "email": "…", "keydb": "er-seal" }` in `boards.json`.
+The card is on the page and in the counts, but shown dimmed until this device has opened the board itself.
+- **Build** (`tools/build.py`): class `card--restricted`, `data-keydb`, a "🔒 Access by request" badge on the
+  picture, a "Request access" mailto button, and "Have a key? Open ↗" (the normal label is in `data-open`).
+- **Look** (`css/site.css`, end): picture blurred and darkened, summary softened, Watch demo hidden. The 3D
+  carousel (`carousel3d.js` `paintFace`) blurs the picture and summary and draws the badge; the enlarged front
+  card copies the class (`site.js`).
+- **Clicks** (`site.js`): the picture opens the board (its key screen), not the video; no hover preview.
+- **Turning clear** (`js/access.js`): the board at `/<repo>/` shares this site's address, so its key store
+  (IndexedDB named in `data-keydb`, value `raw`) is readable here. If present and it still fits the board's
+  `seal.json` check, the card's class is removed and the carousel repainted. Nothing is sent anywhere.
+- **Limits:** the dimming is presentation, not protection. The board protects itself with its keys; its media
+  files in `media/` are public.
+- **Status:** restricted (and hidden) cards stay out of `status.json`.
+- **Rig** (`tests/check.js`, "restricted laptop/phone"): fakes the board's `seal.json` and key store.
 
 ## 15. Automation status and kill switches
 

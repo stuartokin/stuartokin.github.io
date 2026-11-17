@@ -13,6 +13,7 @@ Output   index.html        at the repo root — the file GitHub Pages serves
 css/ and js/ are not generated: edit them directly.
 Standard library only, so it runs anywhere Python 3.8+ does.
 """
+import urllib.parse
 import datetime, html, json, pathlib, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -58,6 +59,13 @@ def card(b, boards, base, status=None):
     vids = json.dumps([[v["label"], f"media/{v['media']}.mp4"] for v in b["videos"]])
     alone = sum(1 for x in boards if x["sec"] == b["sec"]) == 1
     cls = "card" + (" card--lead" if b.get("lead") else "") + (" card--wide" if alone else "")
+    # Restricted cards ("restricted" in boards.json): shown dimmed and blurred with "Access by request" until this
+    # device has opened the board with its key (js/access.js checks the board's own key store, which shares
+    # this site's address). Clicking opens the board's key screen; the demo video stays closed.
+    rs = b.get("restricted")
+    if rs:
+        cls += " card--restricted"
+    rattr = f' data-keydb="{e(rs.get("keydb", ""))}"' if rs else ""
     about = f' data-about="{e(b["about"])}"' if b.get("about") else ""
     note = f'\n            <span class="note">{e(b["note"])}</span>' if b.get("note") else ""
     agents = " data-agents" if b["sec"] == "live" and not b.get("tag") else ""
@@ -68,18 +76,24 @@ def card(b, boards, base, status=None):
                f'title="Read my LinkedIn article: {e(t)}" aria-label="Read the LinkedIn article: {e(t)}">{LI_ICON}<span>Article</span></a>\n')
     tag = TAG[b["sec"]].replace(">Live<", ">" + b["tag"] + "<") if b.get("tag") else TAG[b["sec"]]
     href = b.get("url") or f"{base}{b['repo']}/"
-    return f'''        <article class="{cls}" data-repo="{b['repo']}" data-section="{SEC_SHORT[b['sec']]}"{agents}>
+    lock = '\n            <span class="lockbadge" aria-hidden="true">🔒 Access by request</span>' if rs else ""
+    req = ""
+    if rs and rs.get("email"):
+        subj = urllib.parse.quote(f"Access to {b['title']}")
+        req = (f'          <a class="request" href="mailto:{e(rs["email"])}?subject={subj}" '
+               f'title="Ask Stuart for access to {title}">Request access</a>\n')
+    return f'''        <article class="{cls}" data-repo="{b['repo']}" data-section="{SEC_SHORT[b['sec']]}"{agents}{rattr}>
           <button class="media" type="button" data-title="{e(b['title'])}" data-videos='{e(vids)}'{about} aria-label="Watch the {e(b['title'])} demo">
             <img src="media/{b['media']}.jpg" alt="" loading="lazy" width="1280" height="720" />
             <video muted loop playsinline preload="none" data-src="media/{b['media']}-preview.mp4"></video>
-            <span class="watch">{PLAY}<span class="wl">Watch demo</span></span>
+            <span class="watch">{PLAY}<span class="wl">Watch demo</span></span>{lock}
           </button>
-{stat}{art}          <a class="body" href="{e(href)}">
+{stat}{art}{req}          <a class="body" href="{e(href)}">
             <span class="meta">{tag} <span>{e(b['topic'])}</span></span>
             <span class="upd" data-fallback="{b['fallback']}"></span>
             <h3>{e(b['title'])}</h3>
             <span class="desc">{e(b['desc'])}</span>{note}
-            <span class="go">{b.get('go', 'Open')} ↗</span>
+            <span class="go" data-open="{b.get('go', 'Open')} ↗">{"Have a key? Open" if rs else b.get('go', 'Open')} ↗</span>
           </a>
         </article>'''
 

@@ -771,3 +771,24 @@ html.gl-wait .oring { visibility: hidden; }
 .unlock__btn:hover{border-color:var(--accent);color:var(--accent)}
 .unlock__msg{opacity:.75}
 .hinfo__unlock .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---------- Restricted cards (Energy Resilience since 2026-11-17) ----------
+   Visible but not readable until this device has opened the board with its key (js/access.js removes
+   .card--restricted then). The picture is blurred, the summary softened, and "Access by request" shown. */
+.card .lockbadge, .card .request { display: none; }
+.card--restricted .media img, .card--restricted .media video { filter: blur(8px) saturate(0.5) brightness(0.55); transform: scale(1.08); }
+.card--restricted .media .watch { display: none; }
+.card--restricted .lockbadge {
+  display: flex; position: absolute; inset: 0; z-index: 3; align-items: center; justify-content: center; pointer-events: none;
+  font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: #e6edf7;
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.8);
+}
+.card--restricted .desc { filter: blur(2.5px); opacity: 0.75; user-select: none; }
+.card--restricted .request {
+  display: inline-flex; align-self: flex-start; align-items: center; gap: 0.4rem; margin: 0 1.1rem 1rem; padding: 0.45em 0.9em;
+  border-radius: 999px; border: 1px solid color-mix(in oklab, var(--amber) 60%, var(--hairline)); color: var(--ink);
+  font-family: var(--mono); font-size: 0.68em; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
+}
+.card--restricted .request::before { content: "✉"; }
+.card--restricted .request:hover, .card--restricted .request:focus-visible { background: var(--amber); color: #111; outline: none; }
+body.fit .fitgrid .card--restricted .request { display: none; }

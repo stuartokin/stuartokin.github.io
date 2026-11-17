@@ -40,7 +40,7 @@
       href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/site.css?v=2026-11-16d" />
+    <link rel="stylesheet" href="css/site.css?v=2026-11-17a" />
   </head>
   <body class="view-tiles">
     <div class="fitbox">
@@ -51,20 +51,20 @@
           <button type="button" class="infobtn infobtn--title" id="hinfoBtn" aria-expanded="false" aria-controls="hinfo" title="About and links" aria-label="About this site and links"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="4.6" r="1" fill="currentColor"/><path d="M8 7v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
           <div class="hinfo" id="hinfo" hidden>
             <p class="hinfo__claim small-only">Every claim carries its source, its date, and whether anyone has actually checked it.</p>
-            <p class="hinfo__pulse small-only" data-pulse>11 boards · 3 maintained by agents</p>
+            <p class="hinfo__pulse small-only" data-pulse>12 boards · 3 maintained by agents</p>
             <div class="hinfo__links">
               <a href="https://github.com/stuartokin"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>github.com/stuartokin</a>
               <a href="https://www.linkedin.com/in/stuart-okin-b37ab69/"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg>linkedin.com/in/stuart-okin-b37ab69</a>
             </div>
             <div class="hinfo__unlock" id="unlockBox"></div>
-            <p class="hinfo__ver">Page version 2026-11-16d</p>
+            <p class="hinfo__ver">Page version 2026-11-17a</p>
           </div>
         </div>
         <p class="standfirst">
           Research boards on cyber, quantum, cryptography, and AI. <b class="big-only">Every claim carries its
           source, its date, and whether anyone has actually checked it.</b>
         </p>
-        <p class="pulse-line big-only" data-pulse>11 boards · 3 maintained by agents · every one has a demo video</p>
+        <p class="pulse-line big-only" data-pulse>12 boards · 3 maintained by agents · every one has a demo video</p>
       </header>
 
       <div class="toolbar" role="toolbar" aria-label="Display options">
@@ -113,7 +113,7 @@
             <span class="upd" data-fallback="2026-11-10"></span>
             <h3>Quantum Observatory</h3>
             <span class="desc">How close quantum computing, sensing, communications and post-quantum cryptography are to being real, graded by evidence. Includes Q-Day: what a machine capable of breaking RSA still needs, every regulator&#x27;s migration deadline against it, and a Mosca self-assessment. Maintained by six research agents whose work is marked as unreviewed until a human reads it.</span>
-            <span class="go">Open ↗</span>
+            <span class="go" data-open="Open ↗">Open ↗</span>
           </a>
         </article>
         <article class="card" data-repo="cyber-attack-earth" data-section="Live" data-agents>
@@ -129,7 +129,25 @@
             <span class="upd" data-fallback="2026-11-11"></span>
             <h3>Cyber Attack Earth</h3>
             <span class="desc">Publicly documented cyber incidents from 2000 onwards, drawn from five independent sources and shown on a globe you can play through time. Disclosed incidents are a small and uneven fraction of what occurred, and the map says so throughout.</span>
-            <span class="go">Open ↗</span>
+            <span class="go" data-open="Open ↗">Open ↗</span>
+          </a>
+        </article>
+        <article class="card card--restricted" data-repo="energy-resilience" data-section="Live" data-keydb="er-seal">
+          <button class="media" type="button" data-title="Energy Resilience" data-videos='[[&quot;Walkthrough&quot;, &quot;media/energy-resilience.mp4&quot;]]' aria-label="Watch the Energy Resilience demo">
+            <img src="media/energy-resilience.jpg" alt="" loading="lazy" width="1280" height="720" />
+            <video muted loop playsinline preload="none" data-src="media/energy-resilience-preview.mp4"></video>
+            <span class="watch"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg><span class="wl">Watch demo</span></span>
+            <span class="lockbadge" aria-hidden="true">🔒 Access by request</span>
+          </button>
+          <button class="stat" type="button" data-state="on" aria-haspopup="dialog" aria-label="Automated: automation and update details for Energy Resilience" title="Automation and updates"><i class="stat__dot" aria-hidden="true"></i><span class="stat__txt">Automated</span></button>
+          <a class="article" href="https://www.linkedin.com/pulse/ai-vibe-coding-oh-ecstasyoh-agony-stuart-okin-c5n5e" target="_blank" rel="noopener" title="Read my LinkedIn article: AI vibe coding – “Oh, the ecstasy…oh the agony”" aria-label="Read the LinkedIn article: AI vibe coding – “Oh, the ecstasy…oh the agony”"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 14H.9V5.3h2.7V14ZM2.2 4.1a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2ZM15 14h-2.7V9.8c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V14H6.6V5.3h2.6v1.2h.03c.36-.68 1.24-1.4 2.56-1.4 2.74 0 3.24 1.8 3.24 4.15V14Z"/></svg><span>Article</span></a>
+          <a class="request" href="mailto:stuart@horizonqltd.com?subject=Access%20to%20Energy%20Resilience" title="Ask Stuart for access to Energy Resilience">Request access</a>
+          <a class="body" href="https://horizonqltd.com/energy-resilience/">
+            <span class="meta"><span class="tag--live">Live data</span> <span>Energy · resilience</span></span>
+            <span class="upd" data-fallback="2026-11-12"></span>
+            <h3>Energy Resilience</h3>
+            <span class="desc">A live picture of the GB energy system — infrastructure, power cuts, generator outages, flows and warnings — built only from public open data, with &#x27;what if&#x27; disruption scenarios on top. Every figure comes straight from its publisher; scenario impacts are modelled illustrations, not forecasts.</span>
+            <span class="go" data-open="Open ↗">Have a key? Open ↗</span>
           </a>
         </article>
         <article class="card" data-repo="ResearchGap" data-section="Live" data-agents>
@@ -145,7 +163,7 @@
             <span class="upd" data-fallback="2026-11-10"></span>
             <h3>The Shrinking Gap</h3>
             <span class="desc">How long research takes to become real-world change, across eleven fields from 1925 to ten years ahead, as an interactive 3D model. Two AI agents research and independently check new breakthroughs every week, with automated guardrails instead of human review — and the board says so.</span>
-            <span class="go">Open ↗</span>
+            <span class="go" data-open="Open ↗">Open ↗</span>
           </a>
         </article>
         </div>
@@ -168,7 +186,7 @@
             <span class="upd" data-fallback="2026-07-16"></span>
             <h3>Q-Day Research</h3>
             <span class="desc">A planning app tracking the estimated arrival of a cryptographically relevant quantum computer against global post-quantum migration deadlines — how RSA and elliptic-curve cryptography would be broken, and what it would take. Built from verified public sources.</span>
-            <span class="go">Open ↗</span>
+            <span class="go" data-open="Open ↗">Open ↗</span>
           </a>
         </article>
         <article class="card" data-repo="PatchPulse" data-section="Study">
@@ -184,7 +202,7 @@
             <span class="upd" data-fallback="2026-07-19"></span>
             <h3>Patch Pulse</h3>
             <span class="desc">Fifteen years of security patch cadence across thirty-nine vendors, in eight chapters, with a confidence badge on every series.</span>
-            <span class="go">Open ↗</span>
+            <span class="go" data-open="Open ↗">Open ↗</span>
           </a>
         </article>
         <article class="card" data-repo="AI-Model-Cortex" data-section="Study">
@@ -200,7 +218,7 @@
             <span class="upd" data-fallback="2026-07-13"></span>
             <h3>AI Model Cortex</h3>
             <span class="desc">An interactive field guide to AI model architectures — how they relate, what they cost to run, and the known weaknesses and best practice for securing each.</span>
-            <span class="go">Open ↗</span>
+            <span class="go" data-open="Open ↗">Open ↗</span>
           </a>
         </article>
         <article class="card" data-repo="uk-ai-landscape" data-section="Study">
@@ -216,7 +234,7 @@
             <span class="upd" data-fallback="2026-06-21"></span>
             <h3>UK AI Landscape</h3>
             <span class="desc">A force-directed map of the UK&#x27;s AI governance landscape — the bodies, strategies, frameworks and guidance, and the relationships between them — with the international standards layer alongside.</span>
-            <span class="go">Open ↗</span>
+            <span class="go" data-open="Open ↗">Open ↗</span>
           </a>
         </article>
         <article class="card" data-repo="AI-vulnerability-research" data-section="Study">
@@ -232,7 +250,7 @@
             <span class="upd" data-fallback="2026-06-26"></span>
             <h3>Zero-Day AI-Assisted Observatory</h3>
             <span class="desc">A catalogue of programmes using AI to find software vulnerabilities, and what their published results actually show.</span>
-            <span class="go">Open ↗</span>
+            <span class="go" data-open="Open ↗">Open ↗</span>
           </a>
         </article>
         </div>
@@ -254,7 +272,7 @@
             <span class="upd" data-fallback="2026-11-08"></span>
             <h3>Apollo&#x27;s Maths Missions</h3>
             <span class="desc">A football-mad maths game built for my son&#x27;s 11+ preparation: hundreds of questions, step-by-step hints, mock exams and a kit shop to spend the points in. Any family can set it up for their own child and exam.</span>
-            <span class="go">Play ↗</span>
+            <span class="go" data-open="Play ↗">Play ↗</span>
           </a>
         </article>
         <article class="card" data-repo="Starlane" data-section="For fun">
@@ -269,7 +287,7 @@
             <span class="upd" data-fallback="2026-11-12"></span>
             <h3>Starlane Trader</h3>
             <span class="desc">Command your own starship in Starlane Trader: fly, trade, explore… and learn. Battle pirates, meet alien civilisations and solve the puzzles hidden among the stars, with your ship&#x27;s computer Nova by your side.</span>
-            <span class="go">Play ↗</span>
+            <span class="go" data-open="Play ↗">Play ↗</span>
           </a>
         </article>
         <article class="card" data-repo="RetroArcade" data-section="For fun">
@@ -284,7 +302,7 @@
             <span class="upd" data-fallback="2026-11-16"></span>
             <h3>Retro Arcade</h3>
             <span class="desc">Retro arcade games and an experiment: every Sunday an AI agent gets free rein to improve them or invent new ones. Play each original next to the AI&#x27;s latest version, and see exactly what changed, when and why.</span>
-            <span class="go">Play ↗</span>
+            <span class="go" data-open="Play ↗">Play ↗</span>
           </a>
         </article>
         </div>
@@ -341,6 +359,7 @@
     </dialog>
 
     <!-- unlock.js shows hidden cards to whoever holds the key, then starts site.js and the carousel -->
-    <script src="js/unlock.js?v=2026-11-16d" data-site="js/site.js?v=2026-11-16d" data-c3d="js/carousel3d.js?v=2026-11-16d"></script>
+    <script src="js/access.js?v=2026-11-17a" defer></script>
+    <script src="js/unlock.js?v=2026-11-17a" data-site="js/site.js?v=2026-11-17a" data-c3d="js/carousel3d.js?v=2026-11-17a"></script>
   </body>
 </html>

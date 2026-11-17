@@ -79,13 +79,15 @@ function init() {
     ctx.clearRect(0, 0, TW, TH);
     rr(ctx, 0, 0, TW, TH, 38); ctx.fillStyle = panel; ctx.fill();
     // picture
-    const imgH = 372, img = card.querySelector('.media img');
+    const imgH = 372, img = card.querySelector('.media img'), locked = card.classList.contains('card--restricted');
     ctx.save(); rr(ctx, 0, 0, TW, TH, 38); ctx.clip();
     ctx.fillStyle = '#0b0f17'; ctx.fillRect(0, 0, TW, imgH);
     const im = img && poster(img.getAttribute('src'), () => { paintFace(card, tex); tex.needsUpdate = true; requestRender(); });
     if (im && im.complete && im.naturalWidth) {
       const s = Math.max(TW / im.naturalWidth, imgH / im.naturalHeight), w = im.naturalWidth * s, h = im.naturalHeight * s;
+      if (locked) ctx.filter = 'blur(16px) saturate(0.5) brightness(0.55)'; // access by request (see .card--restricted)
       ctx.drawImage(im, (TW - w) / 2, (imgH - h) / 2, w, h);
+      ctx.filter = 'none';
     }
     ctx.restore();
     ctx.fillStyle = hair; ctx.fillRect(0, imgH, TW, 2);
@@ -98,8 +100,13 @@ function init() {
       ctx.fillStyle = '#e6edf7'; ctx.fillText(label, x + (ic ? 58 : 24), y + 33);
       return w;
     };
-    const w1 = pill(28, imgH - 74, 'WATCH DEMO', true);
-    ctx.fillStyle = '#3de0c0'; ctx.beginPath(); ctx.moveTo(48, imgH - 61); ctx.lineTo(48, imgH - 37); ctx.lineTo(68, imgH - 49); ctx.closePath(); ctx.fill();
+    if (locked) {
+      const lw = ctx.measureText('🔒 ACCESS BY REQUEST').width + 48;
+      pill((TW - lw) / 2, imgH / 2 - 25, '🔒 ACCESS BY REQUEST', false);
+    } else {
+      pill(28, imgH - 74, 'WATCH DEMO', true);
+      ctx.fillStyle = '#3de0c0'; ctx.beginPath(); ctx.moveTo(48, imgH - 61); ctx.lineTo(48, imgH - 37); ctx.lineTo(68, imgH - 49); ctx.closePath(); ctx.fill();
+    }
     if (card.querySelector('.article')) {
       const lw = ctx.measureText('ARTICLE').width + 84;
       pill(TW - 28 - lw, 26, 'ARTICLE', true);
@@ -138,7 +145,9 @@ function init() {
     y = wrapText(ctx, card.querySelector('h3').textContent.trim(), x, y, maxW, 58, 2) + 16;
     ctx.fillStyle = muted; ctx.font = `400 32px ${body}`;
     const lines = Math.max(2, Math.floor((TH - 130 - y) / 42));
+    if (locked) ctx.filter = 'blur(5px)';
     wrapText(ctx, card.querySelector('.desc').textContent.trim(), x, y, maxW, 42, lines);
+    ctx.filter = 'none';
     // Open
     ctx.font = `500 24px ${mono}`;
     const go = (card.querySelector('.go')?.textContent || 'Open ↗').trim().toUpperCase();
