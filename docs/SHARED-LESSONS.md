@@ -112,3 +112,16 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 35. **Settings that depend on the device must be stored per device kind, and checked on every load.** A
     setting fixed when a profile was created follows the player to other devices (a laptop's 3D cockpit and
     mouse controls on a Fold). Keep phone / tablet / desktop copies and swap them on load. (Starlane, 2026-11-16)
+36. **"Keep the last good copy" must cover the index, not just the file.** A data build kept a failed
+    source's file on disk but rebuilt its manifest from that night's results only, so the layer vanished
+    from the site. Carry the old manifest entry forward too, and add a shrink guard (hold back a result
+    far smaller than last time). (cyber-attack-earth, 2026-11-17)
+37. **A green status light must check the age of the inputs, not just the run.** Every source said "ok"
+    while two hand-downloaded exports were four months old. Show export age, and say on screen where each
+    source's coverage ends. (cyber-attack-earth, 2026-11-17)
+38. **Actions jobs calling api.github.com anonymously share a 60-an-hour limit.** Send the workflow's
+    `GITHUB_TOKEN`. Also: cap retries on "slow down" replies and set `timeout-minutes` (the default is six
+    hours), and sort rows before committing data so an unchanged night is a no-op. (cyber-attack-earth,
+    2026-11-17)
+39. **Some data providers' APIs need a key: ask them, don't scrape their dashboards.** (cyber-attack-earth,
+    2026-11-17)
