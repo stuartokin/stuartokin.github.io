@@ -144,3 +144,9 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 43. **Test the repo's rules, not just its code.** A small test can assert every self-starting workflow has
     the kill-switch job and a timeout, and that no secret is written into a workflow — see
     cyber-attack-earth `tests/test_workflows.py`. (cyber-attack-earth, 2026-11-17)
+44. **Test AI features with a fake reply.** Playwright can answer the model's request itself
+    (`page.route`), so tests check labelling, HTML escaping and that the visitor's key goes in a header
+    — no real key, no cost. Same "visitor's own key, facts computed in code" pattern as Energy Resilience.
+    (cyber-attack-earth, 2026-11-17)
+45. **Insights must say what they count.** Separate verified incidents from attacker claims, drop
+    "Other/unknown" from top-N lists, and put coverage caveats first. (cyber-attack-earth, 2026-11-17)
