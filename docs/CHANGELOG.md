@@ -2,6 +2,15 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-17b
+- The ⓘ panel no longer shows the hub key field when no card is hidden (`unlock.js`); it comes back if a
+  card is hidden again.
+- **Lock a restricted board from the hub:** on a device where Energy Resilience is open, the ⓘ panel shows
+  "🔓 Energy Resilience open on this device · Lock" (`access.js`). Lock forgets the board's stored keys
+  (both: site and feature) and stops its unlock helper, so the card dims and the board shows its key screen.
+  Same as visiting `/energy-resilience/?lock`.
+- Rig: no key field, Lock offered, Lock dims the card and forgets the key (laptop, phone).
+
 ## 2026-11-17a
 - **Energy Resilience is back on the hub, by request** (Stuart, 2026-11-17). It's no longer hidden
   (`"hidden"` removed); it now uses `"restricted": { "email", "keydb" }` in `boards.json`.

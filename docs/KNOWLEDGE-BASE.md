@@ -444,6 +444,10 @@ The card is on the page and in the counts, but shown dimmed until this device ha
 - **Turning clear** (`js/access.js`): the board at `/<repo>/` shares this site's address, so its key store
   (IndexedDB named in `data-keydb`, value `raw`) is readable here. If present and it still fits the board's
   `seal.json` check, the card's class is removed and the carousel repainted. Nothing is sent anywhere.
+- **Locking again** (`access.js`): on an unlocked device the ⓘ panel shows "🔓 <title> open on this device ·
+  Lock". Lock deletes `raw` and `raw2` from the board's key store and unregisters the board's service worker,
+  then reloads: card dimmed, board back to its key screen. (Or visit `/<repo>/?lock`.) The hub key field in
+  the ⓘ panel only appears when a card is hidden (§14d).
 - **Limits:** the dimming is presentation, not protection. The board protects itself with its keys; its media
   files in `media/` are public.
 - **Status:** restricted (and hidden) cards stay out of `status.json`.
