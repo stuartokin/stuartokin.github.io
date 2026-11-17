@@ -150,3 +150,16 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     (cyber-attack-earth, 2026-11-17)
 45. **Insights must say what they count.** Separate verified incidents from attacker claims, drop
     "Other/unknown" from top-N lists, and put coverage caveats first. (cyber-attack-earth, 2026-11-17)
+46. **Lock sensitive parts by building them separately, not by hiding buttons.** Anything in the
+    public bundle can be read. Put the locked code behind one dynamic import, give it its own output folder,
+    seal that folder at publish, and test that no public file contains its names. With Vite/Rollup, also
+    give shared code and libraries their own chunks, or they get pulled into the locked one.
+    (energy-resilience, 2026-11-17)
+47. **A new secret does nothing until the site is rebuilt.** After asking Stuart to add one, start the
+    deploy yourself, and make the app say plainly when a feature is missing because of that.
+    (energy-resilience, 2026-11-17)
+48. **Service workers must not keep keys in memory.** Re-read stored keys on every page load, or a
+    lock done elsewhere (another tab, the hub) won't take effect. Test it by deleting the key from
+    storage and reloading. (energy-resilience, 2026-11-17)
+49. **A new source folder needs adding to Tailwind's `content` list**, or its classes silently don't
+    exist. Add a test that every component folder is listed. (energy-resilience, 2026-11-17)
