@@ -43,10 +43,12 @@
     panel();
   }
 
-  // ---- the ⓘ panel: a key field, or "Hidden cards shown · Lock" ----
-  function panel() {
+  // ---- the ⓘ panel: a key field, or "Hidden cards shown · Lock" (nothing when no card is hidden) ----
+  async function panel() {
     const box = document.getElementById('unlockBox'); if (!box) return;
     const on = !!get();
+    // no hidden cards to unlock: no key field (it only confused people; restricted cards use js/access.js)
+    if (!on) { const s = await sealed(); if (!s || !s.sealed) { box.hidden = true; return; } }
     box.innerHTML = on
       ? '<span class="unlock__on">🔓 Hidden cards shown on this device</span> <button type="button" class="unlock__btn" id="lockBtn">Lock</button>'
       : '<form class="unlock__form" id="unlockForm" autocomplete="off"><label class="sr" for="unlockKey">Key</label>' +

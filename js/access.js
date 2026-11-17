@@ -23,6 +23,24 @@
       return true;
     } catch (e) { return false; }
   };
+  // Lock again on this device: forget the board's stored keys and stop its unlock helper, so both the board
+  // (key screen) and this card (dimmed) are locked, as for someone who has never had the key.
+  const lock = async (keydb, repo) => {
+    await new Promise(ok => { try { const r = indexedDB.open(keydb, 1); r.onupgradeneeded = () => r.result.createObjectStore('k');
+      r.onsuccess = () => { const t = r.result.transaction('k', 'readwrite'); t.objectStore('k').delete('raw'); t.objectStore('k').delete('raw2'); t.oncomplete = () => { r.result.close(); ok(); }; t.onerror = () => ok(); };
+      r.onerror = () => ok(); } catch (e) { ok(); } });
+    try { for (const reg of await navigator.serviceWorker.getRegistrations()) if (new URL(reg.scope).pathname.startsWith(`/${repo}/`)) await reg.unregister(); } catch (e) { /* none */ }
+    location.reload();
+  };
+  const showLock = (title, keydb, repo) => {
+    const box = document.getElementById('accessBox'); if (!box) return;
+    const row = document.createElement('div'); row.className = 'unlock__form';
+    row.innerHTML = '<span class="unlock__on"></span> <button type="button" class="unlock__btn"></button>';
+    row.firstChild.textContent = `🔓 ${title} open on this device`;
+    const b = row.querySelector('button'); b.textContent = 'Lock'; b.setAttribute('aria-label', `Lock ${title} on this device`);
+    b.addEventListener('click', () => lock(keydb, repo));
+    box.appendChild(row); box.hidden = false;
+  };
   const open = repo => {
     for (const c of document.querySelectorAll(`.card--restricted[data-repo="${repo}"]`)) {
       c.classList.remove('card--restricted');
@@ -36,7 +54,7 @@
     for (const c of cards()) {
       const repo = c.dataset.repo; if (seen.has(repo)) continue; seen.add(repo);
       const raw = await stored(c.dataset.keydb);
-      if (raw && await fits(raw, repo)) open(repo);
+      if (raw && await fits(raw, repo)) { open(repo); showLock(c.querySelector('h3')?.textContent.trim() || repo, c.dataset.keydb, repo); }
     }
   };
   window.HQAccess = { run, open };

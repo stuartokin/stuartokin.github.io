@@ -361,6 +361,17 @@ async function check(browser, URL, devName, dev) {
         R('clear once the board has been opened with its key', st && !st.restricted && !/blur/.test(st.blur) && !st.req && /^Open/.test(st.go), JSON.stringify(st));
         const w = await rp.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - innerWidth);
         R('not wider than the screen', w <= 1, `${w}px`);
+        // the ⓘ panel: no hub key field (no hidden cards), and a Lock for the board open on this device
+        await rp.evaluate(() => document.getElementById('hinfoBtn').click()); await rp.waitForTimeout(300);
+        const panel = await rp.evaluate(() => ({ keyField: !!document.getElementById('unlockKey') && document.getElementById('unlockKey').offsetParent !== null, lock: !!document.querySelector('#accessBox:not([hidden]) .unlock__btn') }));
+        R('the ⓘ panel has no key field when no card is hidden', !panel.keyField || BOARDS_JSON.boards.some(b => b.hidden), JSON.stringify(panel));
+        R('the ⓘ panel offers Lock for the board', panel.lock, JSON.stringify(panel));
+        if (panel.lock) {
+          await Promise.all([rp.waitForNavigation({ timeout: 10000 }).catch(() => {}), rp.click('#accessBox .unlock__btn')]); await rp.waitForTimeout(1500);
+          st = await state();
+          const left = await rp.evaluate(name => new Promise(ok => { const r = indexedDB.open(name, 1); r.onsuccess = () => { const q = r.result.transaction('k').objectStore('k').get('raw'); q.onsuccess = () => ok(!!q.result); q.onerror = () => ok(false); }; r.onerror = () => ok(false); }), rb.restricted.keydb);
+          R('Lock dims the card again and forgets the board key', st && st.restricted && !left, JSON.stringify({ st, left }));
+        }
       } catch (e) { R('run completed', false, e.message.split('\n')[0]); }
       R('no script errors', errs.length === 0, errs.slice(0, 3).join(' | '));
       await rc.close();
