@@ -125,3 +125,11 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     2026-11-17)
 39. **Some data providers' APIs need a key: ask them, don't scrape their dashboards.** (cyber-attack-earth,
     2026-11-17)
+36. **Local tests hide download time.** A rig that serves files from disk never sees a slow first load, so a
+    feature that waits on a big file (a 3D engine, fonts, video) can look broken only on a real phone. Delay the
+    file with Playwright's `page.route` and block the service worker (`service_workers='block'`), or the offline
+    cache answers and the delay never applies. (Starlane, 2026-11-17)
+37. **"Do it for me" features need to meet the real map.** An autopilot that flew in a straight line hit the
+    station on the way to the planet and pushed against a rock until the ship was destroyed. Test helpers like
+    this from several starting points, with obstacles, and make them stop and hand back control on any bump.
+    (Starlane, 2026-11-17)
