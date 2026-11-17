@@ -2,6 +2,9 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-17c
+- Card renamed **GB Energy Map** (was Energy Resilience; the board's repo, address and media names are unchanged). The ⓘ Lock line and the request email subject follow the new name.
+
 ## 2026-11-17b
 - The ⓘ panel no longer shows the hub key field when no card is hidden (`unlock.js`); it comes back if a
   card is hidden again.
