@@ -133,3 +133,14 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     station on the way to the planet and pushed against a rock until the ship was destroyed. Test helpers like
     this from several starting points, with obstacles, and make them stop and hand back control on any bump.
     (Starlane, 2026-11-17)
+40. **When a data provider gives sample code, follow it over their API page.** CISSM's documented endpoint
+    was broken; the route in their own R example worked. Page in a fixed sort order and drop repeats by id.
+    (cyber-attack-earth, 2026-11-17)
+41. **Test a new API key from the session first.** Save it as a network secret on the session environment
+    (the proxy adds it; Claude never sees it), run the build with a placeholder variable, and only then rely
+    on the scheduled job. (cyber-attack-earth, 2026-11-17)
+42. **Check curated research on the publisher's own page before showing Stuart.** Search summaries carried
+    counts, attributions and dates the cited sources did not state. (cyber-attack-earth, 2026-11-17)
+43. **Test the repo's rules, not just its code.** A small test can assert every self-starting workflow has
+    the kill-switch job and a timeout, and that no secret is written into a workflow — see
+    cyber-attack-earth `tests/test_workflows.py`. (cyber-attack-earth, 2026-11-17)
