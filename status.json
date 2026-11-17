@@ -1,81 +1,9 @@
 {
- "generated": "2026-11-16T15:30:31+00:00",
+ "generated": "2026-11-17T13:51:14+00:00",
  "master": {
   "paused": false
  },
  "boards": {
-  "ApolloMaths": {
-   "repo": "ApolloMaths",
-   "url": "https://github.com/stuartokin/ApolloMaths",
-   "updated": "2026-11-16T14:31:20Z",
-   "lastBy": "agent",
-   "lastMessage": "🤖 AI-maintained: exam watch update (#1)",
-   "recent": {
-    "you": 24,
-    "assistant": 5,
-    "agent": 1,
-    "script": 0,
-    "of": 30
-   },
-   "version": "2.82",
-   "switch": {
-    "local": false,
-    "master": false
-   },
-   "jobs": [
-    {
-     "file": "exam-watch.yml",
-     "name": "Exam watch",
-     "what": "An AI agent checks the official exam pages and admissions news, updates key dates and drafts new practice questions. Its changes go live only if they load cleanly; otherwise they wait for a person.",
-     "ai": true,
-     "when": "On the 1st of every month at 06:00 UTC; every Monday from June to November at 06:00 UTC; on 15 February and 15 March at 06:00 UTC",
-     "lastRun": {
-      "date": "2026-11-16T14:29:43Z",
-      "outcome": "worked",
-      "event": "schedule",
-      "url": "https://github.com/stuartokin/ApolloMaths/actions/runs/43886306037"
-     },
-     "lastWorked": "2026-11-16T14:29:43Z"
-    }
-   ],
-   "state": "on"
-  },
-  "RetroArcade": {
-   "repo": "RetroArcade",
-   "url": "https://github.com/stuartokin/RetroArcade",
-   "updated": "2026-11-16T15:29:09Z",
-   "lastBy": "assistant",
-   "lastMessage": "1.2.1: search by our own names only; wide games shown whole in tiles",
-   "recent": {
-    "you": 1,
-    "assistant": 4,
-    "agent": 1,
-    "script": 1,
-    "of": 7
-   },
-   "version": "1.2.1",
-   "switch": {
-    "local": false,
-    "master": false
-   },
-   "jobs": [
-    {
-     "file": "evolve.yml",
-     "name": "Evolve the games",
-     "what": "An AI agent reworks the games each week with no fixed brief. Its changes go live only if every game passes the test rig on phones, the Fold, tablets and laptops; otherwise they wait for a person.",
-     "ai": true,
-     "when": "Every Sunday at 05:17 UTC",
-     "lastRun": {
-      "date": "2026-11-16T12:55:42Z",
-      "outcome": "worked",
-      "event": "workflow_dispatch",
-      "url": "https://github.com/stuartokin/RetroArcade/actions/runs/43870990844"
-     },
-     "lastWorked": "2026-11-16T12:55:42Z"
-    }
-   ],
-   "state": "on"
-  },
   "quantum-observatory": {
    "repo": "quantum-observatory",
    "url": "https://github.com/stuartokin/quantum-observatory",
@@ -102,10 +30,10 @@
      "ai": true,
      "when": "Every Monday at 06:00 UTC",
      "lastRun": {
-      "date": "2026-11-09T15:01:58Z",
-      "outcome": "worked",
+      "date": "2026-11-16T14:38:46Z",
+      "outcome": "skipped",
       "event": "schedule",
-      "url": "https://github.com/stuartokin/quantum-observatory/actions/runs/42640499028"
+      "url": "https://github.com/stuartokin/quantum-observatory/actions/runs/43887907476"
      },
      "lastWorked": "2026-11-09T15:01:58Z"
     },
@@ -129,14 +57,14 @@
   "cyber-attack-earth": {
    "repo": "cyber-attack-earth",
    "url": "https://github.com/stuartokin/cyber-attack-earth",
-   "updated": "2026-11-16T11:37:19Z",
-   "lastBy": "script",
-   "lastMessage": "Refresh cyber data pack (2026-11-16)",
+   "updated": "2026-11-17T13:42:01Z",
+   "lastBy": "assistant",
+   "lastMessage": "Builder 3.19.2: CISSM by API; stop carrying the old export's age once the API is used",
    "recent": {
     "you": 0,
-    "assistant": 2,
+    "assistant": 8,
     "agent": 0,
-    "script": 28,
+    "script": 22,
     "of": 30
    },
    "version": null,
@@ -150,14 +78,14 @@
      "name": "Update cyber data pack",
      "what": "A script downloads the latest recorded cyber incidents from public sources and rebuilds the data behind the map. No AI is involved.",
      "ai": false,
-     "when": "Every day at 03:20 UTC",
+     "when": "Every day at 02:17 UTC; every Sunday at 03:47 UTC",
      "lastRun": {
-      "date": "2026-11-16T11:29:57Z",
+      "date": "2026-11-17T11:40:50Z",
       "outcome": "worked",
-      "event": "schedule",
-      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/43858276836"
+      "event": "workflow_dispatch",
+      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/44076180746"
      },
-     "lastWorked": "2026-11-16T11:29:57Z"
+     "lastWorked": "2026-11-17T11:40:50Z"
     }
    ],
    "state": "on"
@@ -165,17 +93,17 @@
   "ResearchGap": {
    "repo": "ResearchGap",
    "url": "https://github.com/stuartokin/ResearchGap",
-   "updated": "2026-11-15T15:01:48Z",
-   "lastBy": "assistant",
-   "lastMessage": "Add working standard to CLAUDE.md; personal-capacity wording",
+   "updated": "2026-11-16T14:15:28Z",
+   "lastBy": "script",
+   "lastMessage": "Build index.html from src",
    "recent": {
-    "you": 16,
+    "you": 15,
     "assistant": 2,
-    "agent": 5,
+    "agent": 6,
     "script": 7,
     "of": 30
    },
-   "version": "13.4 · data revision 37",
+   "version": "13.4 · data revision 38",
    "switch": {
     "local": false,
     "master": false
@@ -188,12 +116,12 @@
      "ai": true,
      "when": "Every Monday at 05:17 UTC (with a back-up slot later the same day, in case GitHub drops the first)",
      "lastRun": {
-      "date": "2026-11-09T20:06:03Z",
+      "date": "2026-11-16T19:51:22Z",
       "outcome": "skipped",
       "event": "schedule",
-      "url": "https://github.com/stuartokin/ResearchGap/actions/runs/42689673786"
+      "url": "https://github.com/stuartokin/ResearchGap/actions/runs/43943677744"
      },
-     "lastWorked": "2026-11-09T13:57:39Z"
+     "lastWorked": "2026-11-16T13:42:55Z"
     },
     {
      "file": "deep-search.yml",
@@ -331,18 +259,54 @@
    "jobs": [],
    "state": "none"
   },
+  "ApolloMaths": {
+   "repo": "ApolloMaths",
+   "url": "https://github.com/stuartokin/ApolloMaths",
+   "updated": "2026-11-16T14:31:20Z",
+   "lastBy": "agent",
+   "lastMessage": "🤖 AI-maintained: exam watch update (#1)",
+   "recent": {
+    "you": 24,
+    "assistant": 5,
+    "agent": 1,
+    "script": 0,
+    "of": 30
+   },
+   "version": "2.82",
+   "switch": {
+    "local": false,
+    "master": false
+   },
+   "jobs": [
+    {
+     "file": "exam-watch.yml",
+     "name": "Exam watch",
+     "what": "An AI agent checks the official exam pages and admissions news, updates key dates and drafts new practice questions. Its changes go live only if they load cleanly; otherwise they wait for a person.",
+     "ai": true,
+     "when": "On the 1st of every month at 06:00 UTC; every Monday from June to November at 06:00 UTC; on 15 February and 15 March at 06:00 UTC",
+     "lastRun": {
+      "date": "2026-11-16T14:29:43Z",
+      "outcome": "worked",
+      "event": "schedule",
+      "url": "https://github.com/stuartokin/ApolloMaths/actions/runs/43886306037"
+     },
+     "lastWorked": "2026-11-16T14:29:43Z"
+    }
+   ],
+   "state": "on"
+  },
   "Starlane": {
    "repo": "Starlane",
    "url": "https://github.com/stuartokin/Starlane",
-   "updated": "2026-11-15T23:28:29Z",
+   "updated": "2026-11-17T12:39:25Z",
    "lastBy": "assistant",
-   "lastMessage": "Wrap-up: docs brought up to date (starlane-v14)",
+   "lastMessage": "v18: fly to target, VIEW (F4), simpler phone console; flaky cheat tests made reliable; docs",
    "recent": {
-    "you": 10,
-    "assistant": 11,
+    "you": 7,
+    "assistant": 23,
     "agent": 0,
     "script": 0,
-    "of": 21
+    "of": 30
    },
    "version": null,
    "switch": {
@@ -351,6 +315,42 @@
    },
    "jobs": [],
    "state": "none"
+  },
+  "RetroArcade": {
+   "repo": "RetroArcade",
+   "url": "https://github.com/stuartokin/RetroArcade",
+   "updated": "2026-11-16T18:16:54Z",
+   "lastBy": "assistant",
+   "lastMessage": "Wrap-up: lessons and roadmap from 16 Nov session",
+   "recent": {
+    "you": 1,
+    "assistant": 5,
+    "agent": 1,
+    "script": 1,
+    "of": 8
+   },
+   "version": "1.2.1",
+   "switch": {
+    "local": false,
+    "master": false
+   },
+   "jobs": [
+    {
+     "file": "evolve.yml",
+     "name": "Evolve the games",
+     "what": "An AI agent reworks the games each week with no fixed brief. Its changes go live only if every game passes the test rig on phones, the Fold, tablets and laptops; otherwise they wait for a person.",
+     "ai": true,
+     "when": "Every Sunday at 05:17 UTC",
+     "lastRun": {
+      "date": "2026-11-16T12:55:42Z",
+      "outcome": "worked",
+      "event": "workflow_dispatch",
+      "url": "https://github.com/stuartokin/RetroArcade/actions/runs/43870990844"
+     },
+     "lastWorked": "2026-11-16T12:55:42Z"
+    }
+   ],
+   "state": "on"
   }
  }
 }
