@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-17T13:51:14+00:00",
+ "generated": "2026-11-18T13:27:11+00:00",
  "master": {
   "paused": false
  },
@@ -57,14 +57,14 @@
   "cyber-attack-earth": {
    "repo": "cyber-attack-earth",
    "url": "https://github.com/stuartokin/cyber-attack-earth",
-   "updated": "2026-11-17T13:42:01Z",
-   "lastBy": "assistant",
-   "lastMessage": "Builder 3.19.2: CISSM by API; stop carrying the old export's age once the API is used",
+   "updated": "2026-11-18T10:15:28Z",
+   "lastBy": "script",
+   "lastMessage": "Refresh cyber data pack (2026-11-18, nightly)",
    "recent": {
     "you": 0,
-    "assistant": 8,
+    "assistant": 13,
     "agent": 0,
-    "script": 22,
+    "script": 17,
     "of": 30
    },
    "version": null,
@@ -80,12 +80,12 @@
      "ai": false,
      "when": "Every day at 02:17 UTC; every Sunday at 03:47 UTC",
      "lastRun": {
-      "date": "2026-11-17T11:40:50Z",
+      "date": "2026-11-18T10:14:19Z",
       "outcome": "worked",
-      "event": "workflow_dispatch",
-      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/44076180746"
+      "event": "schedule",
+      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/44283470627"
      },
-     "lastWorked": "2026-11-17T11:40:50Z"
+     "lastWorked": "2026-11-18T10:14:19Z"
     }
    ],
    "state": "on"
@@ -298,12 +298,12 @@
   "Starlane": {
    "repo": "Starlane",
    "url": "https://github.com/stuartokin/Starlane",
-   "updated": "2026-11-17T12:39:25Z",
+   "updated": "2026-11-18T13:01:12Z",
    "lastBy": "assistant",
-   "lastMessage": "v18: fly to target, VIEW (F4), simpler phone console; flaky cheat tests made reliable; docs",
+   "lastMessage": "Tours test: the key-words filter no longer mistakes 'an arrow points to the gate' for arrow keys",
    "recent": {
-    "you": 7,
-    "assistant": 23,
+    "you": 0,
+    "assistant": 30,
     "agent": 0,
     "script": 0,
     "of": 30
@@ -319,15 +319,15 @@
   "RetroArcade": {
    "repo": "RetroArcade",
    "url": "https://github.com/stuartokin/RetroArcade",
-   "updated": "2026-11-16T18:16:54Z",
-   "lastBy": "assistant",
-   "lastMessage": "Wrap-up: lessons and roadmap from 16 Nov session",
+   "updated": "2026-11-17T16:03:19Z",
+   "lastBy": "script",
+   "lastMessage": "🤖 AI run 2 — A proper touch controller: a slide-able D-pad and thumb buttons that fit every screen, Fold included (#1)",
    "recent": {
     "you": 1,
     "assistant": 5,
     "agent": 1,
-    "script": 1,
-    "of": 8
+    "script": 2,
+    "of": 9
    },
    "version": "1.2.1",
    "switch": {
@@ -342,12 +342,12 @@
      "ai": true,
      "when": "Every Sunday at 05:17 UTC",
      "lastRun": {
-      "date": "2026-11-16T12:55:42Z",
+      "date": "2026-11-17T15:22:22Z",
       "outcome": "worked",
       "event": "workflow_dispatch",
-      "url": "https://github.com/stuartokin/RetroArcade/actions/runs/43870990844"
+      "url": "https://github.com/stuartokin/RetroArcade/actions/runs/44113563975"
      },
-     "lastWorked": "2026-11-16T12:55:42Z"
+     "lastWorked": "2026-11-17T15:22:22Z"
     }
    ],
    "state": "on"
