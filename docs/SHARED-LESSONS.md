@@ -163,3 +163,15 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     storage and reloading. (energy-resilience, 2026-11-17)
 49. **A new source folder needs adding to Tailwind's `content` list**, or its classes silently don't
     exist. Add a test that every component folder is listed. (energy-resilience, 2026-11-17)
+50. **AI keys live on a Worker, never in the site.** Anything built into a page reaches the browser,
+    sealed or not. Let the Worker accept only data (not prompts), add a daily limit set on the Worker,
+    and a fallback model if the chosen one fails. Test the Worker in Node with a fake `env` and stubbed
+    `fetch`. (energy-resilience, 2026-11-18/19)
+51. **When one AI checks another, separate claims from background.** "Use only the facts" plus "explain
+    jargon" made the checker reject plain explanations. Claims about now and numbers come from the data;
+    well-established background is allowed. Gemini 2.5 Flash was a lenient checker. (energy-resilience, 2026-11-19)
+52. **Browser MP4 recording can be silently broken** (grey blocks in Edge) when the size isn't a
+    multiple of 16. Redraw to a canvas of that size, or use WebM; check a recording frame by frame with
+    ffmpeg. (energy-resilience, 2026-11-19)
+53. **Browser speech: split sentences only at ". " (full stop then space)**, or decimals like 35.6 are
+    read as two numbers; say units in words for the voice ("mcm/d" reads badly). (energy-resilience, 2026-11-19)
