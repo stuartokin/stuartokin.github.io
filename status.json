@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-18T13:27:11+00:00",
+ "generated": "2026-11-19T13:54:17+00:00",
  "master": {
   "paused": false
  },
@@ -57,9 +57,9 @@
   "cyber-attack-earth": {
    "repo": "cyber-attack-earth",
    "url": "https://github.com/stuartokin/cyber-attack-earth",
-   "updated": "2026-11-18T10:15:28Z",
+   "updated": "2026-11-19T10:27:09Z",
    "lastBy": "script",
-   "lastMessage": "Refresh cyber data pack (2026-11-18, nightly)",
+   "lastMessage": "Refresh cyber data pack (2026-11-19, nightly)",
    "recent": {
     "you": 0,
     "assistant": 13,
@@ -80,12 +80,12 @@
      "ai": false,
      "when": "Every day at 02:17 UTC; every Sunday at 03:47 UTC",
      "lastRun": {
-      "date": "2026-11-18T10:14:19Z",
+      "date": "2026-11-19T10:25:44Z",
       "outcome": "worked",
       "event": "schedule",
-      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/44283470627"
+      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/44505568658"
      },
-     "lastWorked": "2026-11-18T10:14:19Z"
+     "lastWorked": "2026-11-19T10:25:44Z"
     }
    ],
    "state": "on"
@@ -93,13 +93,13 @@
   "ResearchGap": {
    "repo": "ResearchGap",
    "url": "https://github.com/stuartokin/ResearchGap",
-   "updated": "2026-11-16T14:15:28Z",
-   "lastBy": "script",
-   "lastMessage": "Build index.html from src",
+   "updated": "2026-11-18T14:45:45Z",
+   "lastBy": "agent",
+   "lastMessage": "Publish the AI-enhanced version",
    "recent": {
-    "you": 15,
+    "you": 14,
     "assistant": 2,
-    "agent": 6,
+    "agent": 7,
     "script": 7,
     "of": 30
    },
@@ -144,12 +144,12 @@
      "ai": true,
      "when": "Every Wednesday at 05:23 UTC (with a back-up slot later the same day, in case GitHub drops the first)",
      "lastRun": {
-      "date": "2026-11-11T17:30:25Z",
+      "date": "2026-11-18T18:26:33Z",
       "outcome": "skipped",
       "event": "schedule",
-      "url": "https://github.com/stuartokin/ResearchGap/actions/runs/43068814355"
+      "url": "https://github.com/stuartokin/ResearchGap/actions/runs/44369747821"
      },
-     "lastWorked": "2026-11-11T12:50:06Z"
+     "lastWorked": "2026-11-18T14:20:08Z"
     }
    ],
    "state": "on"
@@ -262,12 +262,12 @@
   "ApolloMaths": {
    "repo": "ApolloMaths",
    "url": "https://github.com/stuartokin/ApolloMaths",
-   "updated": "2026-11-16T14:31:20Z",
-   "lastBy": "agent",
-   "lastMessage": "🤖 AI-maintained: exam watch update (#1)",
+   "updated": "2026-11-19T00:07:00Z",
+   "lastBy": "assistant",
+   "lastMessage": "Roadmap: importing generated questions at runtime (to do next)",
    "recent": {
-    "you": 24,
-    "assistant": 5,
+    "you": 23,
+    "assistant": 6,
     "agent": 1,
     "script": 0,
     "of": 30
@@ -298,9 +298,9 @@
   "Starlane": {
    "repo": "Starlane",
    "url": "https://github.com/stuartokin/Starlane",
-   "updated": "2026-11-18T13:01:12Z",
+   "updated": "2026-11-18T23:06:01Z",
    "lastBy": "assistant",
-   "lastMessage": "Tours test: the key-words filter no longer mistakes 'an arrow points to the gate' for arrow keys",
+   "lastMessage": "Lessons: note a one-off cockpit throttle flake",
    "recent": {
     "you": 0,
     "assistant": 30,
