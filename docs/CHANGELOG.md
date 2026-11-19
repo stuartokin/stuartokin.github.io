@@ -2,6 +2,9 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-19a
+- Apollo's Maths Missions card: LinkedIn article added ("I'm a terrible maths teacher, so I vibe-coded my son an 11+ app").
+
 ## 2026-11-17c
 - Card renamed **GB Energy Map** (was Energy Resilience; the board's repo, address and media names are unchanged). The ⓘ Lock line and the request email subject follow the new name.
 

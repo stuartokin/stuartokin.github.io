@@ -24,7 +24,7 @@ Status as of version **2026-11-15a**. Move items between sections as they change
 - **Kill switch test:** set the master `automation.json` to `true`, check the next scheduled run
   in cyber-attack-earth logs "Paused by master switch", then set it back.
 
-- **Articles still missing** for Quantum Observatory, Apollo's Maths Missions and Starlane Trader.
+- **Articles still missing** for Quantum Observatory and Starlane Trader (Apollo's Maths Missions added 2026-11-19).
   Add when written (`"article"` in `tools/boards.json`).
 - **Confirm two article pairings** that were inferred, not confirmed:
   "I Built a Q-Day Clock…" is on **Q-Day Research** (could belong to Quantum Observatory), and

@@ -250,6 +250,10 @@
           "media": "apollo-maths"
         }
       ],
+      "article": {
+        "title": "I'm a terrible maths teacher, so I vibe-coded my son an 11+ app",
+        "url": "https://www.linkedin.com/pulse/im-terrible-maths-teacher-so-i-vibe-coded-my-son-11-app-stuart-okin-t2pge/"
+      },
       "desc": "A football-mad maths game built for my son's 11+ preparation: hundreds of questions, step-by-step hints, mock exams and a kit shop to spend the points in. Any family can set it up for their own child and exam.",
       "automation": [
         {
