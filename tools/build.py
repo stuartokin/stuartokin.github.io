@@ -65,7 +65,8 @@ def card(b, boards, base, status=None):
     rs = b.get("restricted")
     if rs:
         cls += " card--restricted"
-    rattr = f' data-keydb="{e(rs.get("keydb", ""))}"' if rs else ""
+    # Either a sign-in check ("signin": the board's /api/me behind Cloudflare Access) or the older key store ("keydb")
+    rattr = (f' data-signin="{e(rs["signin"])}"' if rs.get("signin") else f' data-keydb="{e(rs.get("keydb", ""))}"') if rs else ""
     about = f' data-about="{e(b["about"])}"' if b.get("about") else ""
     note = f'\n            <span class="note">{e(b["note"])}</span>' if b.get("note") else ""
     agents = " data-agents" if b["sec"] == "live" and not b.get("tag") else ""
@@ -76,7 +77,7 @@ def card(b, boards, base, status=None):
                f'title="Read my LinkedIn article: {e(t)}" aria-label="Read the LinkedIn article: {e(t)}">{LI_ICON}<span>Article</span></a>\n')
     tag = TAG[b["sec"]].replace(">Live<", ">" + b["tag"] + "<") if b.get("tag") else TAG[b["sec"]]
     href = b.get("url") or f"{base}{b['repo']}/"
-    lock = '\n            <span class="lockbadge" aria-hidden="true">🔒 Access by request</span>' if rs else ""
+    lock = (f'\n            <span class="lockbadge" aria-hidden="true">🔒 {"Sign in · by invitation" if rs.get("signin") else "Access by request"}</span>' if rs else "")
     req = ""
     if rs and rs.get("email"):
         subj = urllib.parse.quote(f"Access to {b['title']}")
@@ -93,7 +94,7 @@ def card(b, boards, base, status=None):
             <span class="upd" data-fallback="{b['fallback']}"></span>
             <h3>{e(b['title'])}</h3>
             <span class="desc">{e(b['desc'])}</span>{note}
-            <span class="go" data-open="{b.get('go', 'Open')} ↗">{"Have a key? Open" if rs else b.get('go', 'Open')} ↗</span>
+            <span class="go" data-open="{b.get('go', 'Open')} ↗">{("Invited? Sign in" if rs.get("signin") else "Have a key? Open") if rs else b.get('go', 'Open')} ↗</span>
           </a>
         </article>'''
 

@@ -2,6 +2,8 @@
 // has opened the board with its key. The board (e.g. horizonqltd.com/energy-resilience/) shares this site's
 // address, so its key store (IndexedDB, name in data-keydb) can be read here. The stored key is checked against
 // the board's seal.json, so an old key that no longer fits keeps the card dimmed. Nothing is sent anywhere.
+// Boards behind Cloudflare sign-in ("signin" in boards.json, e.g. energy.horizonqltd.com): the card asks the board's
+// /api/me with this browser's sign-in (same parent domain). Signed in: the card opens and Lock becomes Sign out.
 (() => {
   const cards = () => [...document.querySelectorAll('.card--restricted[data-keydb]')];
   const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
@@ -57,6 +59,32 @@
       if (raw && await fits(raw, repo)) { open(repo); showLock(c.querySelector('h3')?.textContent.trim() || repo, c.dataset.keydb, repo); }
     }
   };
-  window.HQAccess = { run, open };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  // Cloudflare Access: a signed-in browser gets {email,...}; otherwise Access redirects elsewhere and the fetch fails
+  const signedIn = async url => {
+    try {
+      const r = await fetch(url, { credentials: 'include', cache: 'no-store', redirect: 'error' });
+      const j = r.ok ? await r.json() : null;
+      return j && j.email ? j : null;
+    } catch (e) { return null; }
+  };
+  const showSignOut = (title, email, board) => {
+    const box = document.getElementById('accessBox'); if (!box) return;
+    const row = document.createElement('div'); row.className = 'unlock__form';
+    row.innerHTML = '<span class="unlock__on"></span> <a class="unlock__btn"></a>';
+    row.firstChild.textContent = `🔓 ${title}: signed in as ${email}`;
+    const a = row.querySelector('a'); a.textContent = 'Sign out'; a.href = new URL('/cdn-cgi/access/logout', board).href;
+    a.setAttribute('aria-label', `Sign out of ${title}`);
+    box.appendChild(row); box.hidden = false;
+  };
+  const runSignin = async () => {
+    const seen = new Set();
+    for (const c of document.querySelectorAll('.card--restricted[data-signin]')) {
+      const repo = c.dataset.repo; if (seen.has(repo)) continue; seen.add(repo);
+      const me = await signedIn(c.dataset.signin);
+      if (me) { open(repo); showSignOut(c.querySelector('h3')?.textContent.trim() || repo, me.email, c.dataset.signin); }
+    }
+  };
+  const runAll = () => { run(); runSignin(); };
+  window.HQAccess = { run: runAll, open };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', runAll); else runAll();
 })();

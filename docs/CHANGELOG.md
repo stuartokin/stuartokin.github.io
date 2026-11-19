@@ -2,6 +2,13 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-19b
+- GB Energy Map moved to **energy.horizonqltd.com** behind Cloudflare sign-in (email code). Its card now links there and,
+  instead of the old key store, asks the board's `/api/me` with the browser's sign-in (`"restricted": {"signin": …}`,
+  `data-signin`, js/access.js `runSignin`): dimmed with "🔒 Sign in · by invitation" and "Invited? Sign in" until signed
+  in, then clear with Open; the ⓘ panel offers **Sign out** (`/cdn-cgi/access/logout`). The key-store method stays for
+  any board that uses `"keydb"`. Rig: 18 new sign-in checks (laptop, phone; signed in and not).
+
 ## 2026-11-19a
 - Apollo's Maths Missions card: LinkedIn article added ("I'm a terrible maths teacher, so I vibe-coded my son an 11+ app").
 

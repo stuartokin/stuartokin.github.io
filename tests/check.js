@@ -319,7 +319,49 @@ async function check(browser, URL, devName, dev) {
   }
   // Restricted cards ("restricted" in boards.json): dimmed with "Access by request" until this device holds the
   // board's key (its IndexedDB key store, checked against the board's seal.json).
-  for (const rb of BOARDS_JSON.boards.filter(b => b.restricted && !b.hidden)) {
+  // Cards behind Cloudflare sign-in ("signin"): the card asks the board's /api/me with the browser's sign-in.
+  const NodeURL = require('url').URL; // (URL is the page address in this file)
+  for (const rb of BOARDS_JSON.boards.filter(b => b.restricted && b.restricted.signin && !b.hidden)) {
+    if (args.url) break;
+    for (const [dn, dev] of [['laptop', DEVICES.laptop], ['phone', DEVICES.phone]].filter(([, d]) => d)) {
+      for (const signed of [false, true]) {
+        const R = (n, ok, d) => record(`sign-in ${dn}`, `${signed ? 'signed in' : 'not signed in'}: ${n}`, ok, d);
+        const rc = await browser.newContext({ viewport: dev.viewport, deviceScaleFactor: dev.deviceScaleFactor, isMobile: dev.isMobile, hasTouch: dev.hasTouch });
+        await setupRoutes(rc);
+        const host = new NodeURL(rb.restricted.signin).origin;
+        await rc.route(u => u.href.startsWith(host), r => {
+          if (r.request().url() === rb.restricted.signin) return signed
+            ? r.fulfill({ contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': new NodeURL(URL).origin, 'Access-Control-Allow-Credentials': 'true' }, body: JSON.stringify({ email: 'invited@example.com', owner: false, features: true }) })
+            : r.fulfill({ status: 302, headers: { Location: 'https://horizonqltd.cloudflareaccess.com/cdn-cgi/access/login' }, body: '' });
+          return r.fulfill({ contentType: 'text/html', body: '<title>board</title>sign-in' });
+        });
+        await rc.addInitScript(() => { try { localStorage.setItem('obs.view', 'tiles'); } catch (e) {} });
+        const rp = await rc.newPage(); const errs = []; rp.on('pageerror', e => errs.push(e.message));
+        try {
+          await rp.goto(URL); await rp.waitForTimeout(1500);
+          const st = await rp.evaluate(r => {
+            const c = document.querySelector(`.card[data-repo="${r}"]`); if (!c) return null;
+            const req = c.querySelector('.request');
+            return { restricted: c.classList.contains('card--restricted'), href: c.querySelector('a.body').getAttribute('href'), req: !!req && req.offsetParent !== null, go: c.querySelector('.go').textContent.trim(), badge: (c.querySelector('.lockbadge') || {}).textContent || '' };
+          }, rb.repo);
+          R('the card links to the signed-in address', st && st.href === (rb.url || ''), JSON.stringify(st));
+          if (!signed) {
+            R('dimmed, "Sign in · by invitation", Request access', st && st.restricted && /Sign in/.test(st.badge) && st.req && /Sign in/.test(st.go), JSON.stringify(st));
+          } else {
+            R('clear and Open once signed in', st && !st.restricted && /^Open/.test(st.go), JSON.stringify(st));
+            await rp.evaluate(() => document.getElementById('hinfoBtn').click()); await rp.waitForTimeout(300);
+            const so = await rp.evaluate(() => { const a = document.querySelector('#accessBox:not([hidden]) a.unlock__btn'); return a ? { text: a.textContent, href: a.getAttribute('href') } : null; });
+            R('the ⓘ panel offers Sign out', so && so.text === 'Sign out' && /\/cdn-cgi\/access\/logout$/.test(so.href), JSON.stringify(so));
+          }
+          const w = await rp.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - innerWidth);
+          R('not wider than the screen', w <= 1, `${w}px`);
+        } catch (e) { R('run completed', false, e.message.split('\n')[0]); }
+        R('no script errors', errs.length === 0, errs.slice(0, 3).join(' | '));
+        await rc.close();
+      }
+    }
+  }
+  for (const rb of BOARDS_JSON.boards.filter(b => b.restricted && b.restricted.keydb && !b.hidden)) {
     if (args.url) break;
     const crypto = require('crypto');
     const raw = crypto.randomBytes(32), iv = crypto.randomBytes(12), c = crypto.createCipheriv('aes-256-gcm', raw, iv);

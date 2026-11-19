@@ -75,7 +75,10 @@
     },
     {
       "sec": "live",
-      "restricted": { "email": "stuart@horizonqltd.com", "keydb": "er-seal" },
+      "restricted": {
+        "email": "stuart@horizonqltd.com",
+        "signin": "https://energy.horizonqltd.com/api/me"
+      },
       "repo": "energy-resilience",
       "title": "GB Energy Map",
       "media": "energy-resilience",
@@ -99,7 +102,8 @@
           "ai": false,
           "what": "A script refreshes the OpenStreetMap snapshot of power and gas assets, grid supply areas and network operator lines, then republishes the map. No AI is involved."
         }
-      ]
+      ],
+      "url": "https://energy.horizonqltd.com/"
     },
     {
       "sec": "live",

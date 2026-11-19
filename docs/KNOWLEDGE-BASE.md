@@ -433,7 +433,9 @@ into `index.html`, the card count or `status.json`. Instead:
 
 ## 14e. Restricted cards (access by request)
 
-Added 2026-11-17 for Energy Resilience: `"restricted": { "email": "…", "keydb": "er-seal" }` in `boards.json`.
+**Since 2026-11-19 (sign-in):** Energy Resilience uses `"restricted": { "email": "…", "signin": "https://energy.horizonqltd.com/api/me" }` with `"url": "https://energy.horizonqltd.com/"`. The card fetches that address with `credentials: 'include'` (same parent domain, so the Cloudflare Access cookie goes along; the board's Worker allows credentials for horizonqltd.com). An answer with an email opens the card and puts **Sign out** in the ⓘ panel; anything else (Access redirects) leaves it dimmed. Badge "🔒 Sign in · by invitation", link text "Invited? Sign in". The board's own docs: energy-resilience `docs/CLOUDFLARE-MIGRATION.md`.
+
+Earlier (17–19 Nov), and still supported for other boards: `"restricted": { "email": "…", "keydb": "er-seal" }` in `boards.json`.
 The card is on the page and in the counts, but shown dimmed until this device has opened the board itself.
 - **Build** (`tools/build.py`): class `card--restricted`, `data-keydb`, a "🔒 Access by request" badge on the
   picture, a "Request access" mailto button, and "Have a key? Open ↗" (the normal label is in `data-open`).
