@@ -175,3 +175,6 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     ffmpeg. (energy-resilience, 2026-11-19)
 53. **Browser speech: split sentences only at ". " (full stop then space)**, or decimals like 35.6 are
     read as two numbers; say units in words for the voice ("mcm/d" reads badly). (energy-resilience, 2026-11-19)
+12. **Pull every repo fresh before planning.** A plan for Starlane question banks was made from a
+    day-old clone; another session had already built them. Read the latest CHANGELOG entry
+    first. (ApolloMaths/Starlane, 2026-11-19)
