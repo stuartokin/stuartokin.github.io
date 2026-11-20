@@ -38,6 +38,8 @@ Status as of version **2026-11-15a**. Move items between sections as they change
   while he isn't working on it. Set `"paused": false` there when he picks it up again.
 
 ## Next — agreed or obvious
+- **Security follow-ups (review 20 Nov 2026), not urgent:** scope workflow permissions per job and pin actions to
+  commit SHAs; a meta CSP once the inline theme script is a file; allow only https links in `build.py`.
 - **Docs and smoke tests for the repos that have none** (Cyber Attack Earth, Energy Resilience, the five
   single-page boards): each `CLAUDE.md` says to add them on the next change; or do a pass across all at once.
 
@@ -59,6 +61,9 @@ Status as of version **2026-11-15a**. Move items between sections as they change
   refreshed with one command.
 
 ## Decided / done (don't reopen without a reason)
+- 2026-11-20: Hidden cards live only in the `HUB_HIDDEN_CARDS` secret, never in the public `boards.json`
+  (security review; Stuart approved the fixes "without affecting UI, function or features"). Backup branch
+  `backup/2026-11-20-security` (tags can't be pushed from cloud sessions).
 - 2026-11-17: Energy Resilience shown on the hub as **restricted** (dimmed, "Access by request", email stuart@horizonqltd.com), clear on devices that have opened the board with its key. Replaces hiding it (16 Nov).
 
 - 2026-11-16 Custom domain **horizonqltd.com**, bare domain as the main address (www redirects).

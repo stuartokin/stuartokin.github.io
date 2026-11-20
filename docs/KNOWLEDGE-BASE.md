@@ -118,8 +118,8 @@ before first paint, so nothing flashes.
       "desc": "One or two sentences.",
       "note": "…",                          // optional: dashed callout on the card
       "about": "Long description …",        // optional: shown under the video in the player
-      "hidden": true,                       // optional: never written into the page; sealed into
-                                           //   sealed.json and shown only after unlocking (§14d)
+      // NO "hidden": true here: boards.json is public. Hidden cards go in the HUB_HIDDEN_CARDS secret (§14d);
+      // build.py and seal.py refuse a hidden card in this file.
       "automation": [                       // optional: plain-English line per automatic workflow,
         { "workflow": "agents.yml", "ai": true, "what": "AI agents look for …" }
       ]                                     //   shown in the status panel (§15). Written for the
@@ -402,8 +402,20 @@ has WebGL, `gl-wait` (hides the CSS ring; `carousel3d.js` removes it when ready 
 
 ## 14d. Hidden cards (key to unlock)
 
-A card with `"hidden": true` in `boards.json` (none at present; Energy Resilience was hidden 16–17 Nov 2026, now restricted, §14e) is never written
-into `index.html`, the card count or `status.json`. Instead:
+A hidden card (none at present; Energy Resilience was hidden 16–17 Nov 2026, now restricted, §14e) is never
+written into `index.html`, the card count or `status.json`.
+
+- **Where it lives (since 20 Nov 2026).** In the **`HUB_HIDDEN_CARDS`** GitHub secret, never in `boards.json`.
+  `boards.json` is public (on GitHub and at horizonqltd.com/tools/boards.json), so a card kept there could be
+  read without the key; a security review found that, and the git history still holds the old Energy
+  Resilience card text. `build.py` and `seal.py` refuse a `"hidden": true` card in `boards.json`.
+  - The secret is a JSON list of cards written exactly like those in `boards.json`, plus an optional
+    `"after": "<repo>"` naming the visible card it follows (otherwise the end of its section). Example:
+    `[{"sec": "live", "after": "energy-resilience", "repo": "…", "title": "…", "media": "…", "topic": "…",
+    "fallback": "2026-11-20", "videos": [{"label": "Walkthrough", "media": "…"}], "desc": "…"}]`
+  - To add or change one: Stuart pastes the list into Settings → Secrets and variables → Actions →
+    `HUB_HIDDEN_CARDS`, then runs Actions → Seal hidden cards → Run workflow. Claude can't set secrets.
+  - Its media files in `media/` are public too: give them names that don't give the card away.
 
 - **Sealing.** `tools/seal.py` renders it with `build.card()`, adds where it goes (its section and the
   visible card it follows) and encrypts that with AES-256-GCM, under a key derived from the
@@ -422,9 +434,14 @@ into `index.html`, the card count or `status.json`. Instead:
 - **Limits.** This hides the card from the hub only.
   - The board itself is still public at its own address and on GitHub, and its media files are still
     in `media/`.
-  - The sealed file is public, so a short key could be guessed offline: use 10+ characters or a few
-    random words.
-- **Rig.** `tests/check.js` seals the card with a made-up key and checks:
+  - The sealed file is public, so a short key could be guessed offline: use a long random key (a password
+    manager's 20+ characters, or five or more random words).
+  - A `#key=` link stays in the browser history and in wherever it was sent: change the key after sharing one.
+  - Every board shares the horizonqltd.com address, so a fault in one board's page could read another's stored
+    unlock. Keep boards free of third-party scripts.
+- **Rig.** `tests/check.js` seals a made-up card (`tests/lib/hidden-test.json`) with a made-up key, so these
+  checks run every time, not only when a card is hidden. It also checks `boards.json` holds no hidden card and
+  that `build.py` and `seal.py` refuse one. It checks:
   - the card isn't in the page or its source without the key
   - a wrong key shows nothing
   - the link unlocks, wipes the key, places the card and survives a reload

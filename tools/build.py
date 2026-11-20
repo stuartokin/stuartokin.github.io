@@ -138,9 +138,12 @@ def main():
         import subprocess
         subprocess.run([sys.executable, str(TOOLS / "status.py")], check=False)
     base = data.get("base", "https://horizonqltd.com/")
-    # Hidden cards ("hidden": true) are never written into the page: tools/seal.py seals them into
-    # sealed.json and js/unlock.js shows them to whoever has the key.
-    boards = [b for b in data["boards"] if not b.get("hidden")]
+    # Hidden cards are never in boards.json (it is public): they live in the HUB_HIDDEN_CARDS secret, and
+    # tools/seal.py seals them into sealed.json for js/unlock.js (security review, 20 Nov 2026).
+    if any(b.get("hidden") for b in data["boards"]):
+        sys.exit('boards.json has a card marked "hidden": true, but boards.json is public, so it would not stay '
+                 'hidden. Put that card in the HUB_HIDDEN_CARDS secret instead (tools/seal.py). Nothing was built.')
+    boards = data["boards"]
     status = load_status()
     sections = []
     for s in data["sections"]:

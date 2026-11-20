@@ -1,0 +1,13 @@
+[
+  {
+    "sec": "live",
+    "after": "energy-resilience",
+    "repo": "rig-hidden-test",
+    "title": "Rig Hidden Test Card",
+    "media": "quantum-observatory",
+    "topic": "Test only",
+    "fallback": "2026-11-20",
+    "videos": [{ "label": "Walkthrough", "media": "quantum-observatory" }],
+    "desc": "A made-up card used only by the test rig to check sealing and unlocking. Never published."
+  }
+]

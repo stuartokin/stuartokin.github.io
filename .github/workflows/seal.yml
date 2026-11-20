@@ -1,10 +1,10 @@
 name: Seal hidden cards
 
-# Cards marked "hidden": true in tools/boards.json are never written into the page. This workflow
+# Hidden cards live in the HUB_HIDDEN_CARDS secret (never in the public tools/boards.json). This workflow
 # seals them into sealed.json with the HUB_UNLOCK_KEY secret (tools/seal.py); js/unlock.js shows them to
 # whoever enters that key in the ⓘ panel or opens a link ending #key=….
 # Runs when the cards change, and by hand (Actions → Seal hidden cards → Run workflow) — run it by hand
-# after adding or changing the secret, because changing a secret doesn't start workflows on its own.
+# after adding or changing either secret, because changing a secret doesn't start workflows on its own.
 # No AI and no cost. Only sealed.json is ever changed.
 on:
   push:
@@ -86,6 +86,8 @@ jobs:
       - name: Seal the hidden cards
         env:
           HUB_UNLOCK_KEY: ${{ secrets.HUB_UNLOCK_KEY }}
+          # The hidden cards themselves (a JSON list, like boards.json's cards): never in the public repo
+          HUB_HIDDEN_CARDS: ${{ secrets.HUB_HIDDEN_CARDS }}
         run: |
           python3 tools/seal.py | tee -a "$GITHUB_STEP_SUMMARY"
           if [ -z "$HUB_UNLOCK_KEY" ]; then

@@ -178,3 +178,8 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 12. **Pull every repo fresh before planning.** A plan for Starlane question banks was made from a
     day-old clone; another session had already built them. Read the latest CHANGELOG entry
     first. (ApolloMaths/Starlane, 2026-11-19)
+54. **Anything in a public repo is public, including its history.** Encrypting content for the page is pointless if
+    the source file sits beside it; keep it in a GitHub secret. (hub, 2026-11-20)
+55. **`new URL(path, base)` lets a path starting `//` change the host.** It caused an open redirect and could send an
+    API key to another site. Build `ORIGIN + path`, then check `.origin`; list allowed origins exactly, never by
+    pattern on a shared host such as pages.dev. (energy-resilience, 2026-11-20)

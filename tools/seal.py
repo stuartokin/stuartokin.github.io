@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Seal the hidden cards (\"hidden\": true in tools/boards.json) so only someone with the key can see them.
+"""Seal the hidden cards so only someone with the key can see them.
+
+Hidden cards are NOT in tools/boards.json: that file is public (on GitHub and on the site), so anything in it can
+be read without a key (security review, 20 Nov 2026). They live in the HUB_HIDDEN_CARDS GitHub secret: a JSON list
+of cards written exactly like those in boards.json, each with an optional "after": the repo of the visible card it
+follows (otherwise it goes at the end of its section). boards.json may not hold "hidden": true; build.py refuses it.
 
 The page never contains a hidden card. Instead this writes sealed.json: the card's HTML, encrypted with
 AES-256-GCM under a key derived from HUB_UNLOCK_KEY (PBKDF2-SHA256, 600,000 rounds, random salt).
@@ -7,7 +12,8 @@ js/unlock.js asks for the key (ⓘ panel, or a link ending #key=…), decrypts i
 the card back in its place before the rest of the page starts.
 
     HUB_UNLOCK_KEY=… python3 tools/seal.py            (what the seal workflow runs; the key is a GitHub secret)
-    python3 tools/seal.py --key=test --out=tests/out/sealed-test.json   (the test rig, with a made-up key)
+    python3 tools/seal.py --key=test --hidden=tests/lib/hidden-test.json --out=tests/out/sealed-test.json
+                                                       (the test rig, with a made-up key and card)
 
 With no key, sealed.json says nothing is sealed and hidden cards simply stay hidden.
 The file is only rewritten when its contents would change, so the workflow doesn't commit every run.
@@ -25,9 +31,34 @@ ITER = 600_000
 arg = lambda k, d=None: next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith(f"--{k}=")), d)
 
 
-def payload(data):
+def hidden_cards():
+    """The hidden cards: from --hidden=<file> (the rig) or the HUB_HIDDEN_CARDS secret. Never from boards.json."""
+    f = arg("hidden")
+    raw = Path(f).read_text(encoding="utf-8") if f else os.environ.get("HUB_HIDDEN_CARDS", "")
+    if not raw.strip():
+        return []
+    cards = json.loads(raw)
+    if isinstance(cards, dict):
+        cards = cards.get("boards", [])
+    return [dict(c, hidden=True) for c in cards]
+
+
+def merged(data, extra):
+    """boards.json's cards with the hidden ones put in their places ("after" a visible card, or end of section)."""
+    boards = [b for b in data["boards"] if not b.get("hidden")]
+    for c in extra:
+        after = c.get("after")
+        at = next((i + 1 for i, b in enumerate(boards) if after and b["repo"] == after and b["sec"] == c["sec"]), None)
+        if at is None:
+            same = [i for i, b in enumerate(boards) if b["sec"] == c["sec"]]
+            at = same[-1] + 1 if same else len(boards)
+        boards.insert(at, c)
+    return boards
+
+
+def payload(data, extra=()):
     """The hidden cards' HTML, each with where it goes: its section, and the visible card it follows."""
-    boards, base = data["boards"], data.get("base", "https://horizonqltd.com/")
+    boards, base = merged(data, list(extra)), data.get("base", "https://horizonqltd.com/")
     out = []
     for i, b in enumerate(boards):
         if not b.get("hidden"):
@@ -60,9 +91,12 @@ def opened(path, key):
 
 def main():
     data = json.loads((TOOLS / "boards.json").read_text(encoding="utf-8"))
+    if any(b.get("hidden") for b in data["boards"]):
+        sys.exit('boards.json has a card marked "hidden": true. boards.json is public, so move that card into the '
+                 'HUB_HIDDEN_CARDS secret instead (see the top of this file). Nothing was sealed.')
     key = (arg("key") or os.environ.get("HUB_UNLOCK_KEY") or "").strip()
     out = Path(arg("out", str(ROOT / "sealed.json")))
-    p = payload(data)
+    p = payload(data, hidden_cards())
     if not p["cards"] or not key:
         doc = {"v": 1, "sealed": False}
         why = "no hidden cards" if not p["cards"] else "no key set (add the HUB_UNLOCK_KEY secret)"

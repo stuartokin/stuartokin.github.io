@@ -104,6 +104,10 @@ Setting the domain in Settings → Pages commits its own `CNAME` to `main`; merg
 also adds one gives an add/add conflict. Never `commit -a` after a merge without checking
 `git status` — that's how conflict markers reached the live `CNAME` for a minute.
 
+**23. "Hidden" in a public repo isn't hidden.** Encrypting a card into `sealed.json` did nothing while its
+plain text sat in `boards.json`, which GitHub and the site both serve. Secrets go in GitHub secrets; check
+what the published files and the git history show, not just the page. (Security review, 20 Nov 2026.)
+
 ## Small but sticky
 
 - The title's ⓘ panel opened *behind* the sticky toolbar until the header got `z-index: 60`.

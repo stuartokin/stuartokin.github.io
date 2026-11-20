@@ -2,6 +2,14 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-20a
+- Security review fixes; nothing on the page changes. Hidden cards now come from the **`HUB_HIDDEN_CARDS`** GitHub
+  secret, not the public `tools/boards.json` (anyone could read a hidden card's text there). `build.py` and
+  `seal.py` refuse a `"hidden": true` card in `boards.json`; `seal.yml` passes the new secret. Rig: a made-up
+  hidden card (`tests/lib/hidden-test.json`) so the 32 unlock checks run every time, plus 3 leak checks (354 pass).
+  Review notes (no change made): keys in `#key=` links stay in browser history; all boards share one origin; no
+  CSP on the page (GitHub Pages can't send headers; a meta CSP would need the inline theme script moved).
+
 ## 2026-11-19b
 - GB Energy Map moved to **energy.horizonqltd.com** behind Cloudflare sign-in (email code). Its card now links there and,
   instead of the old key store, asks the board's `/api/me` with the browser's sign-in (`"restricted": {"signin": …}`,

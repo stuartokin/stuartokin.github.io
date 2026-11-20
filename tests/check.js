@@ -17,8 +17,11 @@ const args = Object.fromEntries(process.argv.slice(2).map(a => a.replace(/^--/, 
 const OUT = path.join(__dirname, 'out');
 fs.mkdirSync(OUT, { recursive: true });
 const BOARDS_JSON = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'boards.json'), 'utf8'));
-const boards = BOARDS_JSON.boards.filter(b => !b.hidden);   // hidden cards are only on the page after unlocking
-const HIDDEN = BOARDS_JSON.boards.filter(b => b.hidden);
+const boards = BOARDS_JSON.boards;
+// Hidden cards are never in boards.json (it is public); they come from the HUB_HIDDEN_CARDS secret. The rig uses a
+// made-up card instead (security review, 20 Nov 2026).
+const HIDDEN_FILE = path.join(__dirname, 'lib', 'hidden-test.json');
+const HIDDEN = JSON.parse(fs.readFileSync(HIDDEN_FILE, 'utf8'));
 const BASE = BOARDS_JSON.base || 'https://horizonqltd.com/';
 const VERSION = fs.readFileSync(path.join(ROOT, 'tools', 'VERSION'), 'utf8').trim();
 const STATUS = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'status.json'), 'utf8')); } catch (e) { return {}; } })();
@@ -265,12 +268,24 @@ async function check(browser, URL, devName, dev) {
   record('no-webgl', 'falls back to the CSS carousel', !fb.gl && fb.cards > 0 && fb.carousel, JSON.stringify(fb));
   await nogl.close();
 
-  // Hidden cards: sealed with a made-up key for the test, then unlocked by link and by the ⓘ field.
+  // Nothing hidden may sit in the public boards.json, and the build and sealing refuse it (security review, 20 Nov 2026)
+  if (!args.url) {
+    record('hidden cards', 'none in the public boards.json', !BOARDS_JSON.boards.some(b => b.hidden));
+    const tmp = fs.mkdtempSync(path.join(OUT, 'leak-'));
+    fs.mkdirSync(path.join(tmp, 'tools'));
+    for (const f of ['build.py', 'seal.py', 'page.html', 'VERSION']) fs.copyFileSync(path.join(ROOT, 'tools', f), path.join(tmp, 'tools', f));
+    fs.writeFileSync(path.join(tmp, 'tools', 'boards.json'), JSON.stringify({ ...BOARDS_JSON, boards: [...BOARDS_JSON.boards, { ...HIDDEN[0], hidden: true }] }));
+    const refuses = f => { try { require('child_process').execFileSync('python3', [path.join(tmp, 'tools', f), '--key=x', '--no-status'], { stdio: 'pipe', cwd: tmp }); return false; } catch (e) { return /public/.test(String(e.stderr)); } };
+    record('hidden cards', 'build.py refuses a hidden card in boards.json', refuses('build.py'));
+    record('hidden cards', 'seal.py refuses a hidden card in boards.json', refuses('seal.py'));
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+  // Hidden cards: a made-up card sealed with a made-up key for the test, then unlocked by link and by the ⓘ field.
   if (HIDDEN.length && !args.url) {
     const KEY = 'rig-test-key', sealedFile = path.join(OUT, 'sealed-test.json');
-    require('child_process').execFileSync('python3', [path.join(ROOT, 'tools', 'seal.py'), `--key=${KEY}`, `--out=${sealedFile}`]);
-    const h = HIDDEN[0], all = BOARDS_JSON.boards, idx = all.indexOf(h);
-    const prev = all.slice(0, idx).filter(b => b.sec === h.sec && !b.hidden).pop();
+    require('child_process').execFileSync('python3', [path.join(ROOT, 'tools', 'seal.py'), `--key=${KEY}`, `--hidden=${HIDDEN_FILE}`, `--out=${sealedFile}`]);
+    const h = HIDDEN[0];
+    const prev = h.after ? { repo: h.after } : boards.filter(b => b.sec === h.sec).pop();
     for (const [dn, dev] of [['laptop', DEVICES.laptop], ['fold-cover', DEVICES['fold-cover']]].filter(([, d]) => d)) {
       const R = (n, ok, d) => record(`hidden ${dn}`, n, ok, d);
       const hc = await browser.newContext({ viewport: dev.viewport, deviceScaleFactor: dev.deviceScaleFactor, isMobile: dev.isMobile, hasTouch: dev.hasTouch });
