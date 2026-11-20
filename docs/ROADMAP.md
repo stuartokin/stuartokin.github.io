@@ -3,6 +3,8 @@
 Status as of version **2026-11-15a**. Move items between sections as they change; date decisions.
 
 ## Open — needs Stuart
+- **Hidden cards (since 20 Nov 2026):** if you want one again, it goes in the `HUB_HIDDEN_CARDS` GitHub secret
+  (KNOWLEDGE-BASE §14d), not boards.json. Use a long random `HUB_UNLOCK_KEY` and change it after sharing a `#key=` link.
 
 - **Energy Resilience is private (2026-11-16):** the repo is private (Stuart's GitHub Pro) and the board
   is sealed with the `BOARD_UNLOCK_KEY` secret in that repo, so it opens only with the key (see its
@@ -38,8 +40,12 @@ Status as of version **2026-11-15a**. Move items between sections as they change
   while he isn't working on it. Set `"paused": false` there when he picks it up again.
 
 ## Next — agreed or obvious
-- **Security follow-ups (review 20 Nov 2026), not urgent:** scope workflow permissions per job and pin actions to
-  commit SHAs; a meta CSP once the inline theme script is a file; allow only https links in `build.py`.
+- **Security follow-ups (review 20 Nov 2026), not urgent.** Full log of the review (hub and GB Energy Map):
+  `docs/SECURITY-REVIEW.md` in stuartokin/energy-resilience. Hub items for Claude:
+  1. Scope `seal.yml` permissions per job; pin actions to commit SHAs; pin `cryptography`.
+  2. A meta content security policy, once the inline theme script in `tools/page.html` is a file.
+  3. Allow only https links in `build.py` (`article.url`, `go`), and escape the remaining fields.
+  4. Next review with the energy app's (Feb 2027 at the latest).
 - **Docs and smoke tests for the repos that have none** (Cyber Attack Earth, Energy Resilience, the five
   single-page boards): each `CLAUDE.md` says to add them on the next change; or do a pass across all at once.
 
