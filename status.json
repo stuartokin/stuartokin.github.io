@@ -1,102 +1,9 @@
 {
- "generated": "2026-11-19T14:49:20+00:00",
+ "generated": "2026-11-20T13:37:25+00:00",
  "master": {
   "paused": false
  },
  "boards": {
-  "ApolloMaths": {
-   "repo": "ApolloMaths",
-   "url": "https://github.com/stuartokin/ApolloMaths",
-   "updated": "2026-11-19T00:07:00Z",
-   "lastBy": "assistant",
-   "lastMessage": "Roadmap: importing generated questions at runtime (to do next)",
-   "recent": {
-    "you": 23,
-    "assistant": 6,
-    "agent": 1,
-    "script": 0,
-    "of": 30
-   },
-   "version": "2.82",
-   "switch": {
-    "local": false,
-    "master": false
-   },
-   "jobs": [
-    {
-     "file": "exam-watch.yml",
-     "name": "Exam watch",
-     "what": "An AI agent checks the official exam pages and admissions news, updates key dates and drafts new practice questions. Its changes go live only if they load cleanly; otherwise they wait for a person.",
-     "ai": true,
-     "when": "On the 1st of every month at 06:00 UTC; every Monday from June to November at 06:00 UTC; on 15 February and 15 March at 06:00 UTC",
-     "lastRun": {
-      "date": "2026-11-16T14:29:43Z",
-      "outcome": "worked",
-      "event": "schedule",
-      "url": "https://github.com/stuartokin/ApolloMaths/actions/runs/43886306037"
-     },
-     "lastWorked": "2026-11-16T14:29:43Z"
-    }
-   ],
-   "state": "on"
-  },
-  "Starlane": {
-   "repo": "Starlane",
-   "url": "https://github.com/stuartokin/Starlane",
-   "updated": "2026-11-18T23:06:01Z",
-   "lastBy": "assistant",
-   "lastMessage": "Lessons: note a one-off cockpit throttle flake",
-   "recent": {
-    "you": 0,
-    "assistant": 30,
-    "agent": 0,
-    "script": 0,
-    "of": 30
-   },
-   "version": null,
-   "switch": {
-    "local": null,
-    "master": false
-   },
-   "jobs": [],
-   "state": "none"
-  },
-  "RetroArcade": {
-   "repo": "RetroArcade",
-   "url": "https://github.com/stuartokin/RetroArcade",
-   "updated": "2026-11-17T16:03:19Z",
-   "lastBy": "script",
-   "lastMessage": "🤖 AI run 2 — A proper touch controller: a slide-able D-pad and thumb buttons that fit every screen, Fold included (#1)",
-   "recent": {
-    "you": 1,
-    "assistant": 5,
-    "agent": 1,
-    "script": 2,
-    "of": 9
-   },
-   "version": "1.2.1",
-   "switch": {
-    "local": false,
-    "master": false
-   },
-   "jobs": [
-    {
-     "file": "evolve.yml",
-     "name": "Evolve the games",
-     "what": "An AI agent reworks the games each week with no fixed brief. Its changes go live only if every game passes the test rig on phones, the Fold, tablets and laptops; otherwise they wait for a person.",
-     "ai": true,
-     "when": "Every Sunday at 05:17 UTC",
-     "lastRun": {
-      "date": "2026-11-17T15:22:22Z",
-      "outcome": "worked",
-      "event": "workflow_dispatch",
-      "url": "https://github.com/stuartokin/RetroArcade/actions/runs/44113563975"
-     },
-     "lastWorked": "2026-11-17T15:22:22Z"
-    }
-   ],
-   "state": "on"
-  },
   "quantum-observatory": {
    "repo": "quantum-observatory",
    "url": "https://github.com/stuartokin/quantum-observatory",
@@ -117,20 +24,6 @@
    },
    "jobs": [
     {
-     "file": "agents.yml",
-     "name": "Agents",
-     "what": "AI research agents look for new developments in quantum computing and post-quantum cryptography, check the sources and add them to the board. Everything they add is marked “not yet reviewed” until Stuart has read it.",
-     "ai": true,
-     "when": "Every Monday at 06:00 UTC",
-     "lastRun": {
-      "date": "2026-11-16T14:38:46Z",
-      "outcome": "skipped",
-      "event": "schedule",
-      "url": "https://github.com/stuartokin/quantum-observatory/actions/runs/43887907476"
-     },
-     "lastWorked": "2026-11-09T15:01:58Z"
-    },
-    {
      "file": "steward.yml",
      "name": "Steward",
      "what": "An AI steward reads new issues and comments on the board’s GitHub page and acts on them. It only responds to Stuart.",
@@ -150,9 +43,9 @@
   "cyber-attack-earth": {
    "repo": "cyber-attack-earth",
    "url": "https://github.com/stuartokin/cyber-attack-earth",
-   "updated": "2026-11-19T10:27:09Z",
+   "updated": "2026-11-20T10:05:30Z",
    "lastBy": "script",
-   "lastMessage": "Refresh cyber data pack (2026-11-19, nightly)",
+   "lastMessage": "Refresh cyber data pack (2026-11-20, nightly)",
    "recent": {
     "you": 0,
     "assistant": 13,
@@ -173,12 +66,12 @@
      "ai": false,
      "when": "Every day at 02:17 UTC; every Sunday at 03:47 UTC",
      "lastRun": {
-      "date": "2026-11-19T10:25:44Z",
+      "date": "2026-11-20T10:04:28Z",
       "outcome": "worked",
       "event": "schedule",
-      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/44505568658"
+      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/44716074735"
      },
-     "lastWorked": "2026-11-19T10:25:44Z"
+     "lastWorked": "2026-11-20T10:04:28Z"
     }
    ],
    "state": "on"
@@ -351,6 +244,99 @@
    },
    "jobs": [],
    "state": "none"
+  },
+  "ApolloMaths": {
+   "repo": "ApolloMaths",
+   "url": "https://github.com/stuartokin/ApolloMaths",
+   "updated": "2026-11-19T21:38:55Z",
+   "lastBy": "assistant",
+   "lastMessage": "Roadmap: point to Stuart's to-do list in Starlane",
+   "recent": {
+    "you": 21,
+    "assistant": 8,
+    "agent": 1,
+    "script": 0,
+    "of": 30
+   },
+   "version": "2.82",
+   "switch": {
+    "local": false,
+    "master": false
+   },
+   "jobs": [
+    {
+     "file": "exam-watch.yml",
+     "name": "Exam watch",
+     "what": "An AI agent checks the official exam pages and admissions news, updates key dates and drafts new practice questions. Its changes go live only if they load cleanly; otherwise they wait for a person.",
+     "ai": true,
+     "when": "On the 1st of every month at 06:00 UTC; every Monday from June to November at 06:00 UTC; on 15 February and 15 March at 06:00 UTC",
+     "lastRun": {
+      "date": "2026-11-16T14:29:43Z",
+      "outcome": "worked",
+      "event": "schedule",
+      "url": "https://github.com/stuartokin/ApolloMaths/actions/runs/43886306037"
+     },
+     "lastWorked": "2026-11-16T14:29:43Z"
+    }
+   ],
+   "state": "on"
+  },
+  "Starlane": {
+   "repo": "Starlane",
+   "url": "https://github.com/stuartokin/Starlane",
+   "updated": "2026-11-19T21:38:53Z",
+   "lastBy": "assistant",
+   "lastMessage": "Roadmap: Stuart's to-do list (banks, official packs, R6/R7)",
+   "recent": {
+    "you": 0,
+    "assistant": 30,
+    "agent": 0,
+    "script": 0,
+    "of": 30
+   },
+   "version": null,
+   "switch": {
+    "local": null,
+    "master": false
+   },
+   "jobs": [],
+   "state": "none"
+  },
+  "RetroArcade": {
+   "repo": "RetroArcade",
+   "url": "https://github.com/stuartokin/RetroArcade",
+   "updated": "2026-11-17T16:03:19Z",
+   "lastBy": "script",
+   "lastMessage": "🤖 AI run 2 — A proper touch controller: a slide-able D-pad and thumb buttons that fit every screen, Fold included (#1)",
+   "recent": {
+    "you": 1,
+    "assistant": 5,
+    "agent": 1,
+    "script": 2,
+    "of": 9
+   },
+   "version": "1.2.1",
+   "switch": {
+    "local": false,
+    "master": false
+   },
+   "jobs": [
+    {
+     "file": "evolve.yml",
+     "name": "Evolve the games",
+     "what": "An AI agent reworks the games each week with no fixed brief. Its changes go live only if every game passes the test rig on phones, the Fold, tablets and laptops; otherwise they wait for a person.",
+     "ai": true,
+     "when": "Every Sunday at 05:17 UTC",
+     "lastRun": {
+      "date": "2026-11-17T15:22:22Z",
+      "outcome": "worked",
+      "event": "workflow_dispatch",
+      "url": "https://github.com/stuartokin/RetroArcade/actions/runs/44113563975"
+     },
+     "lastWorked": "2026-11-17T15:22:22Z"
+    }
+   ],
+   "state": "on"
   }
  }
 }
