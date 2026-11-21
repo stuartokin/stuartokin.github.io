@@ -205,3 +205,11 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     (energy-resilience, 2026-11-21)
 64. **CSS `zoom` on an absolutely positioned window moves it.** To scale a floating window for 4K, scale its header and
     body (and width), never the positioned box, or saved positions drift. (energy-resilience, 2026-11-21)
+65. **`viewport-fit=cover` needs safe-area padding.** Drawing under the phone's bars without
+    `env(safe-area-inset-*)` padding lets Android's navigation bar cover whatever sits at the bottom (a timeline, a
+    toolbar), especially full screen and on the Fold held sideways. Emulators don't show it. (energy-resilience, 2026-11-21)
+66. **Animate by elapsed time, never per frame.** "Pixels per frame" runs twice as fast on 120 Hz screens and slower on
+    busy devices; multiply by the frame's seconds, capped for a returning hidden tab. (energy-resilience, 2026-11-21)
+67. **Weekly AI agents choose, they don't write the facts.** Let the AI keep, drop or tag items that exist (headlines
+    and links stay the publisher's) and write words only; numbers come from sourced data, and a checker plus the tests
+    decide whether anything publishes. (energy-resilience, 2026-11-21)
