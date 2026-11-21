@@ -2,6 +2,10 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-21b
+- privacy.html: sign-in is by email code or Google only (Microsoft was tried and dropped). Shared lesson 60
+  (Cloudflare Access sign-in providers).
+
 ## 2026-11-21a
 - New **privacy.html** (Privacy and terms), linked from the footer. Needed so the Google sign-in app for Cloudflare
   Access (GB Energy Map) can be published: what sign-in shares (email only), what is kept (invited list, Cloudflare

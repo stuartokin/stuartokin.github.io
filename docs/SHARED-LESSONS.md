@@ -192,3 +192,6 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     `exact: true` when one control's name starts another's. (energy-resilience, 2026-11-20)
 59. **Read the deploy before telling the owner to do something by hand.** An old instruction said to paste a
     Worker that the deploy already publishes. (energy-resilience, 2026-11-21)
+60. **Cloudflare Access sign-in providers:** register the callback on every team name (the sign-in page kept the old
+    name after a rename); Google won't publish without a privacy link (horizonqltd.com/privacy.html); Microsoft works
+    only for one company directory, not Hotmail or other organisations. (energy-resilience, 2026-11-21)
