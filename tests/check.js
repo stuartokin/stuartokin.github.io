@@ -434,6 +434,20 @@ async function check(browser, URL, devName, dev) {
       await rc.close();
     }
   }
+  // Privacy and terms page (the Google sign-in consent screen links to it, 21 Nov 2026)
+  for (const [dn, vp] of [['phone', { width: 390, height: 844 }], ['laptop', { width: 1440, height: 900 }]]) {
+    const pc = await browser.newContext({ viewport: vp }); const pp = await pc.newPage();
+    const perrs = []; pp.on('pageerror', e => perrs.push(e.message));
+    try {
+      const res = await pp.goto(URL + 'privacy.html');
+      const pg = await pp.evaluate(() => ({ h1: (document.querySelector('h1') || {}).textContent, mail: !!document.querySelector('a[href="mailto:stuart@horizonqltd.com"]'), foot: document.body.textContent.includes('Written in a personal capacity and do not represent the position of any organisation I am engaged with.'), side: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - innerWidth }));
+      record(dn, 'privacy page loads with its heading, contact and footer', res && res.ok() && pg.h1 === 'Privacy and terms' && pg.mail && pg.foot, JSON.stringify(pg));
+      record(dn, 'privacy page not wider than the screen', pg.side <= 1, `${pg.side}px`);
+    } catch (e) { record(dn, 'privacy page loads', false, e.message.split('\n')[0]); }
+    record(dn, 'privacy page has no script errors', perrs.length === 0, perrs.join(' | '));
+    await pc.close();
+  }
+
   await browser.close();
   if (server) server.close();
 

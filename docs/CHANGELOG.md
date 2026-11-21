@@ -2,6 +2,12 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-21a
+- New **privacy.html** (Privacy and terms), linked from the footer. Needed so the Google sign-in app for Cloudflare
+  Access (GB Energy Map) can be published: what sign-in shares (email only), what is kept (invited list, Cloudflare
+  sign-in logs, an hourly AI-use count deleted after two hours), contact stuart@horizonqltd.com, and terms of use.
+  Rig: 6 new checks (phone, laptop) — 360 pass.
+
 ## 2026-11-20a
 - Security review fixes; nothing on the page changes. Hidden cards now come from the **`HUB_HIDDEN_CARDS`** GitHub
   secret, not the public `tools/boards.json` (anyone could read a hidden card's text there). `build.py` and

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy and terms — HorizonQ Observatories</title>
+    <meta name="description" content="What signing in to Stuart Okin's invited-only boards shares, what is kept, and the terms of use." />
+    <script>
+      try { var t = localStorage.getItem('obs.theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet" />
+    <style>
+      :root { --ground: #070b14; --panel: #131c2c; --hairline: #1e2a3e; --ink: #e6edf7; --muted: #8697b0; --accent: #3de0c0; color-scheme: dark; }
+      :root[data-theme="light"] { --ground: #ebe6dc; --panel: #f8f5ef; --hairline: #cfc5b3; --ink: #1d1a16; --muted: #4f4840; --accent: #0b6e60; color-scheme: light; }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--ground); color: var(--ink); font: 1.08rem/1.6 'Newsreader', Georgia, serif; }
+      main { max-width: 44rem; margin: 0 auto; padding: 2rem 16px 3rem; }
+      h1, h2 { font-family: 'Archivo', 'Helvetica Neue', sans-serif; line-height: 1.2; }
+      h1 { font-size: 1.8rem; margin: 1rem 0 0.3rem; }
+      h2 { font-size: 1.15rem; margin: 2rem 0 0.4rem; }
+      a { color: var(--accent); overflow-wrap: anywhere; }
+      .muted { color: var(--muted); }
+      ul { padding-left: 1.2rem; }
+      li { margin: 0.3rem 0; }
+      footer { border-top: 1px solid var(--hairline); margin-top: 2.5rem; padding-top: 1rem; color: var(--muted); font-size: 0.95rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p><a href="./">← HorizonQ Observatories</a></p>
+      <h1>Privacy and terms</h1>
+      <p class="muted">Stuart Okin · last updated 21 November 2026</p>
+
+      <p>This page covers horizonqltd.com and the boards linked from it that need you to sign in, such as the GB Energy Map at energy.horizonqltd.com. They are personal, non-commercial projects. Access to signed-in boards is by invitation.</p>
+
+      <h2>Signing in</h2>
+      <p>Sign-in is handled by Cloudflare Access. You can use a one-time code sent to your email, or your Google or Microsoft account. Whichever you choose, the board receives only your <strong>email address</strong> (Google and Microsoft may also pass your name, which the board does not use). It never sees a password.</p>
+      <p>Your email address is used only to:</p>
+      <ul>
+        <li>check it is on the invited list, and which parts of the board you may use;</li>
+        <li>show you who you are signed in as;</li>
+        <li>count your use of a few AI features each hour, so they are not overused. That count is deleted after two hours.</li>
+      </ul>
+
+      <h2>What is kept</h2>
+      <ul>
+        <li><strong>The invited list:</strong> your email address, kept until you ask to be removed or access ends.</li>
+        <li><strong>Sign-in records:</strong> Cloudflare logs each sign-in (email, time, sign-in method, IP address and browser) under its own retention. Stuart can see these to manage access.</li>
+        <li><strong>In your browser:</strong> a Cloudflare sign-in cookie (up to a week), and settings such as theme and text size. If you enter your own AI key on a board, it stays in your browser and goes only to that AI service.</li>
+      </ul>
+      <p>There are no adverts, no tracking or analytics scripts, and nothing is sold or shared with anyone else. The boards are hosted by GitHub Pages and Cloudflare, which see normal web traffic to serve them.</p>
+
+      <h2>Your choices</h2>
+      <p>To be removed, or to ask what is held about you, email <a href="mailto:stuart@horizonqltd.com">stuart@horizonqltd.com</a>.</p>
+
+      <h2>Terms of use</h2>
+      <ul>
+        <li>The boards are provided as they are, free, for information and discussion. They can change or stop at any time.</li>
+        <li>They use public open data and modelled scenarios that are labelled as such. They may be wrong or out of date. Do not rely on them for operational, safety or investment decisions.</li>
+        <li>AI output is marked as unverified.</li>
+        <li>Please don't share your access, try to get around the sign-in, or overload the services. Access may be removed at any time.</li>
+        <li>Data sources keep their own licences, which are credited on each board.</li>
+      </ul>
+
+      <footer>
+        <p>Written in a personal capacity and do not represent the position of any organisation I am engaged with.</p>
+      </footer>
+    </main>
+  </body>
+</html>
