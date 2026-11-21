@@ -183,3 +183,12 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 55. **`new URL(path, base)` lets a path starting `//` change the host.** It caused an open redirect and could send an
     API key to another site. Build `ORIGIN + path`, then check `.origin`; list allowed origins exactly, never by
     pattern on a shared host such as pages.dev. (energy-resilience, 2026-11-20)
+56. **"Open licence" doesn't mean "no key".** A CC BY data portal (ENWL's) still answered 403, or an empty export,
+    without an API key. When probing a source, check access as well as the licence, and fetch real sample rows
+    before writing a build. (energy-resilience, 2026-11-20)
+57. **Look beside a PDF for its data.** Ofgem's reports draw figures as charts only; the report page links a
+    supplementary .xlsm with every number. Search the page's links before parsing a PDF. (energy-resilience, 2026-11-20)
+58. **Playwright role names match substrings.** `name: 'Pause reading'` also matched "Pause reading Overview". Use
+    `exact: true` when one control's name starts another's. (energy-resilience, 2026-11-20)
+59. **Read the deploy before telling the owner to do something by hand.** An old instruction said to paste a
+    Worker that the deploy already publishes. (energy-resilience, 2026-11-21)
