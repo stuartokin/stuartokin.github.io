@@ -40,6 +40,10 @@ Status as of version **2026-11-15a**. Move items between sections as they change
   while he isn't working on it. Set `"paused": false` there when he picks it up again.
 
 ## Next — agreed or obvious
+- **Privacy page wording (security review 21 Nov 2026):** name the other services that see visitors' requests (Google
+  Fonts; the GB Energy Map's public data services; AI providers when a visitor uses their own key); say the board
+  reads only the email (Cloudflare also passes country and IP); sign-in attempts are logged too; add controller,
+  lawful basis and the right to complain to the ICO. Log: `docs/SECURITY-REVIEW.md` in energy-resilience.
 - **Security follow-ups (review 20 Nov 2026), not urgent.** Full log of the review (hub and GB Energy Map):
   `docs/SECURITY-REVIEW.md` in stuartokin/energy-resilience. Hub items for Claude:
   1. Scope `seal.yml` permissions per job; pin actions to commit SHAs; pin `cryptography`.
