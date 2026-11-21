@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-20T13:37:25+00:00",
+ "generated": "2026-11-21T13:00:34+00:00",
  "master": {
   "paused": false
  },
@@ -24,6 +24,20 @@
    },
    "jobs": [
     {
+     "file": "agents.yml",
+     "name": "Agents",
+     "what": "AI research agents look for new developments in quantum computing and post-quantum cryptography, check the sources and add them to the board. Everything they add is marked “not yet reviewed” until Stuart has read it.",
+     "ai": true,
+     "when": "Every Monday at 06:00 UTC",
+     "lastRun": {
+      "date": "2026-11-16T14:38:46Z",
+      "outcome": "skipped",
+      "event": "schedule",
+      "url": "https://github.com/stuartokin/quantum-observatory/actions/runs/43887907476"
+     },
+     "lastWorked": "2026-11-09T15:01:58Z"
+    },
+    {
      "file": "steward.yml",
      "name": "Steward",
      "what": "An AI steward reads new issues and comments on the board’s GitHub page and acts on them. It only responds to Stuart.",
@@ -43,9 +57,9 @@
   "cyber-attack-earth": {
    "repo": "cyber-attack-earth",
    "url": "https://github.com/stuartokin/cyber-attack-earth",
-   "updated": "2026-11-20T10:05:30Z",
+   "updated": "2026-11-21T09:54:33Z",
    "lastBy": "script",
-   "lastMessage": "Refresh cyber data pack (2026-11-20, nightly)",
+   "lastMessage": "Refresh cyber data pack (2026-11-21, nightly)",
    "recent": {
     "you": 0,
     "assistant": 13,
@@ -66,12 +80,12 @@
      "ai": false,
      "when": "Every day at 02:17 UTC; every Sunday at 03:47 UTC",
      "lastRun": {
-      "date": "2026-11-20T10:04:28Z",
+      "date": "2026-11-21T09:53:28Z",
       "outcome": "worked",
       "event": "schedule",
-      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/44716074735"
+      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/44891703957"
      },
-     "lastWorked": "2026-11-20T10:04:28Z"
+     "lastWorked": "2026-11-21T09:53:28Z"
     }
    ],
    "state": "on"
