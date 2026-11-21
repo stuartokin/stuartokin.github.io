@@ -195,13 +195,13 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 60. **Cloudflare Access sign-in providers:** register the callback on every team name (the sign-in page kept the old
     name after a rename); Google won't publish without a privacy link (horizonqltd.com/privacy.html); Microsoft works
     only for one company directory, not Hotmail or other organisations. (energy-resilience, 2026-11-21)
-60. **Tag pushes can be refused from a cloud session.** The proxy answered 403 to `git push origin <tag>`; pushing the
+61. **Tag pushes can be refused from a cloud session.** The proxy answered 403 to `git push origin <tag>`; pushing the
     same commit as a `backup/<date>-<what>` branch worked. Name the branch in the handover. (energy-resilience, 2026-11-21)
-61. **Check pages at every screen on each publish, not just once.** A nine-screen rig (phone, Fold folded/open/sideways,
+62. **Check pages at every screen on each publish, not just once.** A nine-screen rig (phone, Fold folded/open/sideways,
     iPad, laptop, 1908×950, QHD, 4K) in the deploy catches sideways scroll, missing bars and boxes over the map before
     anyone sees them. (energy-resilience, 2026-11-21)
-62. **An offline cache must never hold access-controlled files.** A service worker that caches everything would keep
+63. **An offline cache must never hold access-controlled files.** A service worker that caches everything would keep
     serving a locked area after access is withdrawn; exclude locked paths, API calls, other origins and range requests.
     (energy-resilience, 2026-11-21)
-63. **CSS `zoom` on an absolutely positioned window moves it.** To scale a floating window for 4K, scale its header and
+64. **CSS `zoom` on an absolutely positioned window moves it.** To scale a floating window for 4K, scale its header and
     body (and width), never the positioned box, or saved positions drift. (energy-resilience, 2026-11-21)
