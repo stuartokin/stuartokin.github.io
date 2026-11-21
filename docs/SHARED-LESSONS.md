@@ -213,3 +213,8 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 67. **Weekly AI agents choose, they don't write the facts.** Let the AI keep, drop or tag items that exist (headlines
     and links stay the publisher's) and write words only; numbers come from sourced data, and a checker plus the tests
     decide whether anything publishes. (energy-resilience, 2026-11-21)
+68. **Model sites by their type, never claim a site's own resilience.** Give each type a sourced (or labelled) curve and
+    place each site on it with a stable hash of its position: the map can show sites failing in a scenario without
+    pretending to know any real site's back-up, and without random numbers. (energy-resilience, 2026-11-21)
+69. **Find buttons by name in device checks.** A check that clicked "the second rail button" broke when a new window was
+    added to the rail. (energy-resilience, 2026-11-21)
