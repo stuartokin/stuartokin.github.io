@@ -218,3 +218,10 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     pretending to know any real site's back-up, and without random numbers. (energy-resilience, 2026-11-21)
 69. **Find buttons by name in device checks.** A check that clicked "the second rail button" broke when a new window was
     added to the rail. (energy-resilience, 2026-11-21)
+70. **Batch pushes when the deploy is slow.** A push to `main` cancels the deploy still running; with a 30-minute deploy,
+    several small pushes in a row can keep anything from reaching the live site. Push once a release is ready.
+    (energy-resilience, 2026-11-22)
+71. **Official CSVs quote names with commas.** "Bristol, City Of" shifted every column of that row with a plain split.
+    Use a quote-aware reader and test totals (shares add to 100%), not just row counts. (energy-resilience, 2026-11-22)
+72. **If a backup tag push is refused, push a backup branch.** Same rollback, same name pattern. (energy-resilience,
+    2026-11-22)
