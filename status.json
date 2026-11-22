@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-21T13:00:34+00:00",
+ "generated": "2026-11-22T12:52:03+00:00",
  "master": {
   "paused": false
  },
@@ -57,9 +57,9 @@
   "cyber-attack-earth": {
    "repo": "cyber-attack-earth",
    "url": "https://github.com/stuartokin/cyber-attack-earth",
-   "updated": "2026-11-21T09:54:33Z",
+   "updated": "2026-11-22T12:04:51Z",
    "lastBy": "script",
-   "lastMessage": "Refresh cyber data pack (2026-11-21, nightly)",
+   "lastMessage": "Refresh cyber data pack (2026-11-22, weekly)",
    "recent": {
     "you": 0,
     "assistant": 13,
@@ -80,12 +80,12 @@
      "ai": false,
      "when": "Every day at 02:17 UTC; every Sunday at 03:47 UTC",
      "lastRun": {
-      "date": "2026-11-21T09:53:28Z",
+      "date": "2026-11-22T12:00:23Z",
       "outcome": "worked",
       "event": "schedule",
-      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/44891703957"
+      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/45020052778"
      },
-     "lastWorked": "2026-11-21T09:53:28Z"
+     "lastWorked": "2026-11-22T12:00:23Z"
     }
    ],
    "state": "on"
