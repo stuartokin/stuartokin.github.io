@@ -225,3 +225,8 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     Use a quote-aware reader and test totals (shares add to 100%), not just row counts. (energy-resilience, 2026-11-22)
 72. **If a backup tag push is refused, push a backup branch.** Same rollback, same name pattern. (energy-resilience,
     2026-11-22)
+73. **Find official files through the GOV.UK content API.** `https://www.gov.uk/api/content/<page path>` lists each
+    publication's attachments with their current addresses, so a quarterly file is picked up without editing code.
+    (energy-resilience, 2026-11-22)
+74. **Check new overlays against every layer above them.** A required notice at z-index 300 sat under a z 600 intro and
+    could not be ticked; keep a short list of overlay layers in the docs. (energy-resilience, 2026-11-22)
