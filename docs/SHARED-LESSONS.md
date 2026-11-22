@@ -230,3 +230,12 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     (energy-resilience, 2026-11-22)
 74. **Check new overlays against every layer above them.** A required notice at z-index 300 sat under a z 600 intro and
     could not be ticked; keep a short list of overlay layers in the docs. (energy-resilience, 2026-11-22)
+75. **Never let an AI's own words report an action.** An assistant that says "Done." while its instruction was missing
+    or slightly misformatted misleads the user, and later insists it already did it. Parse instructions leniently, count
+    what can't be read, let the app alone report what happened, check the AI's claims against that, and put the app's
+    record back into the AI's memory. (energy-resilience, 2026-11-22)
+76. **Guided modes put people back where they were.** A tour, teaser or presentation should snapshot the layout (and any
+    running work) before it starts and restore it at the end; tests that chain such modes should start each from a
+    clean state, or one can hide another's bug. (energy-resilience, 2026-11-22)
+77. **Flicker and static effects stay under three flashes a second** and fall back to a plain fade with "reduce
+    motion" (photosensitive epilepsy). (energy-resilience, 2026-11-22)
