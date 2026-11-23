@@ -239,3 +239,18 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     clean state, or one can hide another's bug. (energy-resilience, 2026-11-22)
 77. **Flicker and static effects stay under three flashes a second** and fall back to a plain fade with "reduce
     motion" (photosensitive epilepsy). (energy-resilience, 2026-11-22)
+78. **Keep slow weekly work out of the deploy.** A deploy that also rebuilt weekly map data took up to two hours,
+    each push cancelled the one before, and a failed download made every later push try again. Build weekly data in
+    its own scheduled workflow (with retries and later tries), save it, and have the deploy only restore the newest
+    copy with a fallback to last week's. (energy-resilience, 2026-11-23)
+79. **Watch GitHub Actions minutes on private repos.** Long deploys used the month's free minutes in a day and GitHub
+    stopped every workflow ("recent account payments have failed or your spending limit needs to be increased"). Set
+    an Actions budget with "stop at limit", batch changes into fewer pushes, and keep deploys short.
+    (energy-resilience, 2026-11-23)
+80. **Big screens run out of graphics memory before JavaScript memory.** A map with `preserveDrawingBuffer`, film clips
+    and dense layers went white, then the tab restarted. Drop `preserveDrawingBuffer`, free `<video>` elements
+    explicitly, thin dense layers when presenting, and handle `webglcontextlost` by redrawing. (energy-resilience,
+    2026-11-23)
+81. **Measure a toolbar with the real fonts.** A bar that just fitted in a sandbox without web fonts overflowed in CI and
+    on a laptop. Test at 1,280, 1,366 and 1,400 px, and add a check that the bar never scrolls. (energy-resilience,
+    2026-11-23)
