@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-22T12:52:03+00:00",
+ "generated": "2026-11-23T15:23:17+00:00",
  "master": {
   "paused": false
  },
@@ -57,9 +57,9 @@
   "cyber-attack-earth": {
    "repo": "cyber-attack-earth",
    "url": "https://github.com/stuartokin/cyber-attack-earth",
-   "updated": "2026-11-22T12:04:51Z",
+   "updated": "2026-11-23T10:51:00Z",
    "lastBy": "script",
-   "lastMessage": "Refresh cyber data pack (2026-11-22, weekly)",
+   "lastMessage": "Refresh cyber data pack (2026-11-23, nightly)",
    "recent": {
     "you": 0,
     "assistant": 13,
@@ -80,12 +80,12 @@
      "ai": false,
      "when": "Every day at 02:17 UTC; every Sunday at 03:47 UTC",
      "lastRun": {
-      "date": "2026-11-22T12:00:23Z",
+      "date": "2026-11-23T10:49:52Z",
       "outcome": "worked",
       "event": "schedule",
-      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/45020052778"
+      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/45159639862"
      },
-     "lastWorked": "2026-11-22T12:00:23Z"
+     "lastWorked": "2026-11-23T10:49:52Z"
     }
    ],
    "state": "on"
@@ -342,15 +342,15 @@
      "ai": true,
      "when": "Every Sunday at 05:17 UTC",
      "lastRun": {
-      "date": "2026-11-17T15:22:22Z",
-      "outcome": "worked",
-      "event": "workflow_dispatch",
-      "url": "https://github.com/stuartokin/RetroArcade/actions/runs/44113563975"
+      "date": "2026-11-22T13:21:33Z",
+      "outcome": "failed",
+      "event": "schedule",
+      "url": "https://github.com/stuartokin/RetroArcade/actions/runs/45027060467"
      },
      "lastWorked": "2026-11-17T15:22:22Z"
     }
    ],
-   "state": "on"
+   "state": "failed"
   }
  }
 }
