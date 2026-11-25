@@ -263,3 +263,12 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 84. **Don't make a common request depend on the AI writing a perfect instruction.** If the app can recognise the request
     itself (a known name in its own data), let the app act first and the AI explain afterwards; keep a log of anything
     the AI wrote that couldn't be read. (energy-resilience, 2026-11-25)
+85. **An offline cache that serves "saved copy first" hides every update.** After a deploy, people saw last week's data
+    until their next visit. Publish a small version file (with a content fingerprint per data file, ignoring build
+    times) and have the service worker drop changed files before the page loads them; then a "new version / new data"
+    notice can work. (energy-resilience, 2026-11-25)
+86. **To spot new pages on a site whose search is built by script, compare its sitemap week to week.** Record the first
+    run as a baseline so nothing floods in as "new". (energy-resilience, 2026-11-25)
+87. **A "what changed" log needs to know the difference between real change and plumbing.** A newly added source, a
+    failed download and a renumbered record otherwise appear as hundreds of "new" or "gone" items. Never restart a
+    long-term history silently when its saved copy fails to load. (energy-resilience, 2026-11-25)
