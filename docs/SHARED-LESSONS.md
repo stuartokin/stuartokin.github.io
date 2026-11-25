@@ -260,3 +260,6 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 83. **Money from different sources is in different years' prices.** Show each figure with its price base and date, and
     never add them as like-for-like; label anything the app estimated as an estimate, next to the number.
     (energy-resilience, 2026-11-25)
+84. **Don't make a common request depend on the AI writing a perfect instruction.** If the app can recognise the request
+    itself (a known name in its own data), let the app act first and the AI explain afterwards; keep a log of anything
+    the AI wrote that couldn't be read. (energy-resilience, 2026-11-25)
