@@ -254,3 +254,9 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 81. **Measure a toolbar with the real fonts.** A bar that just fitted in a sandbox without web fonts overflowed in CI and
     on a laptop. Test at 1,280, 1,366 and 1,400 px, and add a check that the bar never scrolls. (energy-resilience,
     2026-11-23)
+82. **When an AI writes about your numbers, check its numbers.** Give it the facts, then drop any sentence that carries a
+    number you didn't give it, and say how many were dropped. Cheap, and it stops invented figures reaching the page.
+    (energy-resilience, 2026-11-25)
+83. **Money from different sources is in different years' prices.** Show each figure with its price base and date, and
+    never add them as like-for-like; label anything the app estimated as an estimate, next to the number.
+    (energy-resilience, 2026-11-25)
