@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-25T14:57:41+00:00",
+ "generated": "2026-11-26T14:28:31+00:00",
  "master": {
   "paused": false
  },
@@ -57,9 +57,9 @@
   "cyber-attack-earth": {
    "repo": "cyber-attack-earth",
    "url": "https://github.com/stuartokin/cyber-attack-earth",
-   "updated": "2026-11-25T11:23:07Z",
+   "updated": "2026-11-26T10:58:52Z",
    "lastBy": "script",
-   "lastMessage": "Refresh cyber data pack (2026-11-25, nightly)",
+   "lastMessage": "Refresh cyber data pack (2026-11-26, nightly)",
    "recent": {
     "you": 0,
     "assistant": 13,
@@ -80,12 +80,12 @@
      "ai": false,
      "when": "Every day at 02:17 UTC; every Sunday at 03:47 UTC",
      "lastRun": {
-      "date": "2026-11-25T11:22:02Z",
+      "date": "2026-11-26T10:57:42Z",
       "outcome": "worked",
       "event": "schedule",
-      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/45603763911"
+      "url": "https://github.com/stuartokin/cyber-attack-earth/actions/runs/45806141071"
      },
-     "lastWorked": "2026-11-25T11:22:02Z"
+     "lastWorked": "2026-11-26T10:57:42Z"
     }
    ],
    "state": "on"
@@ -93,14 +93,14 @@
   "ResearchGap": {
    "repo": "ResearchGap",
    "url": "https://github.com/stuartokin/ResearchGap",
-   "updated": "2026-11-23T16:42:42Z",
-   "lastBy": "script",
-   "lastMessage": "Build index.html from src",
+   "updated": "2026-11-25T16:04:21Z",
+   "lastBy": "agent",
+   "lastMessage": "Publish the AI-enhanced version",
    "recent": {
     "you": 13,
     "assistant": 2,
-    "agent": 8,
-    "script": 7,
+    "agent": 9,
+    "script": 6,
     "of": 30
    },
    "version": "13.4 · data revision 39",
@@ -144,12 +144,12 @@
      "ai": true,
      "when": "Every Wednesday at 05:23 UTC (with a back-up slot later the same day, in case GitHub drops the first)",
      "lastRun": {
-      "date": "2026-11-18T18:26:33Z",
+      "date": "2026-11-25T19:37:52Z",
       "outcome": "skipped",
       "event": "schedule",
-      "url": "https://github.com/stuartokin/ResearchGap/actions/runs/44369747821"
+      "url": "https://github.com/stuartokin/ResearchGap/actions/runs/45687090999"
      },
-     "lastWorked": "2026-11-18T14:20:08Z"
+     "lastWorked": "2026-11-25T15:48:36Z"
     }
    ],
    "state": "on"
