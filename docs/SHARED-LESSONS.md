@@ -272,3 +272,9 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 87. **A "what changed" log needs to know the difference between real change and plumbing.** A newly added source, a
     failed download and a renumbered record otherwise appear as hundreds of "new" or "gone" items. Never restart a
     long-term history silently when its saved copy fails to load. (energy-resilience, 2026-11-25)
+88. **In a Claude cloud session, pushing a git tag can be refused** (the remote hangs up while `main` pushes fine). Make
+    the pre-change backup as a branch `backup/YYYY-MM-DD-<what>` through the GitHub tools instead, and say so in the reply.
+    (ApolloMaths, 2026-11-27)
+89. **Saved-data cleaners can silently cap values.** A limit written for the old maximum (40 questions) quietly cut
+    newer data (50-question mocks) on reload. When adding a bigger size, check every cleaner's limits.
+    (ApolloMaths, 2026-11-27)
