@@ -278,3 +278,8 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 89. **Saved-data cleaners can silently cap values.** A limit written for the old maximum (40 questions) quietly cut
     newer data (50-question mocks) on reload. When adding a bigger size, check every cleaner's limits.
     (ApolloMaths, 2026-11-27)
+90. **Every push to `main` restarts the deploy.** Where the deploy workflow cancels a running deploy on a new push,
+    small doc pushes during a long deploy keep cancelling the real release. Batch doc edits, or push them to the
+    working branch until the deploy has finished. (energy-resilience, 2026-11-27)
+91. **In Claude's cloud sandbox, Node's `fetch` ignores the proxy.** Hosts only the proxy can reach fail with
+    `ENOTFOUND`; run scripts with `NODE_USE_ENV_PROXY=1`. GitHub's runners need nothing. (energy-resilience, 2026-11-27)
