@@ -283,3 +283,9 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
     working branch until the deploy has finished. (energy-resilience, 2026-11-27)
 91. **In Claude's cloud sandbox, Node's `fetch` ignores the proxy.** Hosts only the proxy can reach fail with
     `ENOTFOUND`; run scripts with `NODE_USE_ENV_PROXY=1`. GitHub's runners need nothing. (energy-resilience, 2026-11-27)
+92. **A test rig that is flaky on GitHub's slower runners can hold back an automated AI run.** Wait for a state
+    change (e.g. the game has left its intro) rather than a fixed pause, and ignore only the exact harmless error
+    (Chrome's `net::ERR_ABORTED` on video), not whole classes. (RetroArcade, 2026-11-27)
+93. **"Run workflow" inputs must accept what a person types.** A box expecting an id (`guardian`) got the name
+    ("Planet Guardian") and the run died with a developer error. Match names case-insensitively and fail with a
+    plain list of choices. (RetroArcade, 2026-11-27)
