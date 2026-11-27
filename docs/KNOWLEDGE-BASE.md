@@ -351,7 +351,7 @@ for a screen recording instead.
 | AI Model Cortex | AI-Model-Cortex | studies | `Aimodelcortexdemo.mp4` from its repo | AI models — learn the basics, decide the ecosystem you need |
 | UK AI Landscape | uk-ai-landscape | studies | scripted recording | Mapping AI governance & standards |
 | Zero-Day AI-Assisted Observatory | AI-vulnerability-research | studies | scripted recording | AI is finding zero-day bugs fast |
-| Apollo's Maths Missions | ApolloMaths | fun, "Play" | Stuart's square LinkedIn trailer (`Starlane-ApolloMaths-LinkedIn.mp4`, 90 s, with sound); still and hover preview still from the earlier scripted recording | — |
+| Apollo's Maths Missions | ApolloMaths | fun, "Play" | **What's new** (first): scripted, captioned Playwright recording of ApolloMaths 2.89 (`apollo-maths-new`, 57 s, silent: Year 1 picture question, SATs papers, times-tables check, GCSE in the senior look, light theme, Customise, closing “not yet tested — testers wanted” card; still and hover preview from it). **Trailer**: Stuart's square LinkedIn video (`apollo-maths.mp4`, 90 s, with sound). The recording script was a one-off in a session scratchpad: rebuild it the same way (four test children set up first, one page per scene, trimmed and joined with ffmpeg, then `tools/make_media.sh apollo-maths-new <file> all 25 33`) | I'm a terrible maths teacher, so I vibe-coded my son an 11+ app |
 | Starlane Trader | Starlane | fun, "Play", long "about" text | Stuart's trailer (`Starlane Trailer.mp4`) | — |
 | Retro Arcade | RetroArcade | fun, "Play" | scripted Playwright recording of the RetroArcade site (home, search, carousel, Snake original vs AI, log), pause cut | — |
 

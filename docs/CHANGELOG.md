@@ -2,6 +2,13 @@
 
 Newest first. The version is in `tools/VERSION`, the ⓘ panel and the css/js URLs.
 
+## 2026-11-27 — Apollo's Maths Missions card refreshed
+- New silent, captioned **What's new** demo of ApolloMaths 2.89 (Year 1 to GCSE, SATs, times-tables check, the
+  senior look, Customise) as the card's first video, with Stuart's trailer kept second. New still and hover preview
+  from it; the old still and preview removed.
+- Description updated: Year 1 to GCSE, and that the newest parts haven't been tried with children yet (testers wanted).
+- Rig: 360 passed.
+
 ## 2026-11-21b
 - privacy.html: sign-in is by email code or Google only (Microsoft was tried and dropped). Shared lesson 60
   (Cloudflare Access sign-in providers).

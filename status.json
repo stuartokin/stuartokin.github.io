@@ -1,9 +1,66 @@
 {
- "generated": "2026-11-27T14:21:31+00:00",
+ "generated": "2026-11-27T19:46:10+00:00",
  "master": {
   "paused": false
  },
  "boards": {
+  "ApolloMaths": {
+   "repo": "ApolloMaths",
+   "url": "https://github.com/stuartokin/ApolloMaths",
+   "updated": "2026-11-27T19:20:10Z",
+   "lastBy": "assistant",
+   "lastMessage": "2.89: GCSE complete - Higher content and every board",
+   "recent": {
+    "you": 10,
+    "assistant": 18,
+    "agent": 2,
+    "script": 0,
+    "of": 30
+   },
+   "version": "2.89",
+   "switch": {
+    "local": false,
+    "master": false
+   },
+   "jobs": [
+    {
+     "file": "exam-watch.yml",
+     "name": "Exam watch",
+     "what": "An AI agent checks the official exam pages and admissions news, updates key dates and drafts new practice questions. Its changes go live only if they load cleanly; otherwise they wait for a person.",
+     "ai": true,
+     "when": "On the 1st of every month at 06:00 UTC; every Monday from June to November at 06:00 UTC; on 15 February and 15 March at 06:00 UTC",
+     "lastRun": {
+      "date": "2026-11-23T17:03:12Z",
+      "outcome": "worked",
+      "event": "schedule",
+      "url": "https://github.com/stuartokin/ApolloMaths/actions/runs/45223355379"
+     },
+     "lastWorked": "2026-11-23T17:03:12Z"
+    }
+   ],
+   "state": "on"
+  },
+  "Starlane": {
+   "repo": "Starlane",
+   "url": "https://github.com/stuartokin/Starlane",
+   "updated": "2026-11-19T21:38:53Z",
+   "lastBy": "assistant",
+   "lastMessage": "Roadmap: Stuart's to-do list (banks, official packs, R6/R7)",
+   "recent": {
+    "you": 0,
+    "assistant": 30,
+    "agent": 0,
+    "script": 0,
+    "of": 30
+   },
+   "version": null,
+   "switch": {
+    "local": null,
+    "master": false
+   },
+   "jobs": [],
+   "state": "none"
+  },
   "quantum-observatory": {
    "repo": "quantum-observatory",
    "url": "https://github.com/stuartokin/quantum-observatory",
@@ -250,63 +307,6 @@
     "agent": 0,
     "script": 0,
     "of": 8
-   },
-   "version": null,
-   "switch": {
-    "local": null,
-    "master": false
-   },
-   "jobs": [],
-   "state": "none"
-  },
-  "ApolloMaths": {
-   "repo": "ApolloMaths",
-   "url": "https://github.com/stuartokin/ApolloMaths",
-   "updated": "2026-11-23T17:04:53Z",
-   "lastBy": "agent",
-   "lastMessage": "🤖 AI-maintained: exam watch update (#3)",
-   "recent": {
-    "you": 20,
-    "assistant": 8,
-    "agent": 2,
-    "script": 0,
-    "of": 30
-   },
-   "version": "2.82",
-   "switch": {
-    "local": false,
-    "master": false
-   },
-   "jobs": [
-    {
-     "file": "exam-watch.yml",
-     "name": "Exam watch",
-     "what": "An AI agent checks the official exam pages and admissions news, updates key dates and drafts new practice questions. Its changes go live only if they load cleanly; otherwise they wait for a person.",
-     "ai": true,
-     "when": "On the 1st of every month at 06:00 UTC; every Monday from June to November at 06:00 UTC; on 15 February and 15 March at 06:00 UTC",
-     "lastRun": {
-      "date": "2026-11-23T17:03:12Z",
-      "outcome": "worked",
-      "event": "schedule",
-      "url": "https://github.com/stuartokin/ApolloMaths/actions/runs/45223355379"
-     },
-     "lastWorked": "2026-11-23T17:03:12Z"
-    }
-   ],
-   "state": "on"
-  },
-  "Starlane": {
-   "repo": "Starlane",
-   "url": "https://github.com/stuartokin/Starlane",
-   "updated": "2026-11-19T21:38:53Z",
-   "lastBy": "assistant",
-   "lastMessage": "Roadmap: Stuart's to-do list (banks, official packs, R6/R7)",
-   "recent": {
-    "you": 0,
-    "assistant": 30,
-    "agent": 0,
-    "script": 0,
-    "of": 30
    },
    "version": null,
    "switch": {

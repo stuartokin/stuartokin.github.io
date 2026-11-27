@@ -244,11 +244,15 @@
       "sec": "fun",
       "repo": "ApolloMaths",
       "title": "Apollo's Maths Missions",
-      "media": "apollo-maths",
+      "media": "apollo-maths-new",
       "topic": "Maths · learning",
       "go": "Play",
       "fallback": "2026-11-08",
       "videos": [
+        {
+          "label": "What's new",
+          "media": "apollo-maths-new"
+        },
         {
           "label": "Trailer",
           "media": "apollo-maths"
@@ -258,7 +262,7 @@
         "title": "I'm a terrible maths teacher, so I vibe-coded my son an 11+ app",
         "url": "https://www.linkedin.com/pulse/im-terrible-maths-teacher-so-i-vibe-coded-my-son-11-app-stuart-okin-t2pge/"
       },
-      "desc": "A football-mad maths game built for my son's 11+ preparation: hundreds of questions, step-by-step hints, mock exams and a kit shop to spend the points in. Any family can set it up for their own child and exam.",
+      "desc": "A maths game I built for my son's 11+, now for any family: Year 1 to GCSE (every board), SATs and times-tables checks, mock exams, step-by-step hints and a more grown-up look for teenagers. The newest parts haven't been tried with children yet, so testers are very welcome.",
       "automation": [
         {
           "workflow": "exam-watch.yml",
