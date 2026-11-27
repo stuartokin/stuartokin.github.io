@@ -289,3 +289,9 @@ another repo would benefit from. Newest at the bottom. Say which repo it came fr
 93. **"Run workflow" inputs must accept what a person types.** A box expecting an id (`guardian`) got the name
     ("Planet Guardian") and the run died with a developer error. Match names case-insensitively and fail with a
     plain list of choices. (RetroArcade, 2026-11-27)
+94. **Number keypads on phones and tablets often have no minus key.** `inputmode="decimal"` / `"numeric"` on Samsung
+    and iPad keyboards gives digits and a point only, so negative answers can't be typed. Add an on-screen − key for
+    touch screens, or use `inputmode="text"` where negatives are likely. (ApolloMaths 2.90, 2026-11-27)
+95. **Wrapping a module's public function misses its internal calls.** A wrapper on `Locker.open` didn't stop the
+    module's own private `open()` on first run. Test the real first-run path, or watch the outcome (e.g. a
+    MutationObserver on the dialog). (ApolloMaths 2.90, 2026-11-27)
